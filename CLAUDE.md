@@ -49,7 +49,6 @@ Text("todayWidgetTitle")
 
 // Bad
 Text("today_widget_title")
-Text("오늘의 에그타임!")
 ```
 
 ## 작업 검증 방침
