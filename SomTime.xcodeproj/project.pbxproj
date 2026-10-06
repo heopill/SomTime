@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5B7A00022F00000200000002 /* SomTimeWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5B7A00022F00000200000001 /* SomTimeWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5B7A00012F00000100000003 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 5B7A00012F00000100000002 /* ComposableArchitecture */; };
+		5B7A00022F00000200000002 /* SomTimeWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5B7A00022F00000200000001 /* SomTimeWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,17 +58,17 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		5B7A00022F00000200000007 /* Shared */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Shared;
-			sourceTree = "<group>";
-		};
 		5B7A00022F00000200000006 /* SomTimeWidget */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				5B7A00022F00000200000005 /* Exceptions for "SomTimeWidget" folder in "SomTimeWidgetExtension" target */,
 			);
 			path = SomTimeWidget;
+			sourceTree = "<group>";
+		};
+		5B7A00022F00000200000007 /* Shared */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		BBAA050E3073CA47008CD219 /* SomTime */ = {
@@ -160,8 +160,8 @@
 				5B7A00022F00000200000012 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				BBAA050E3073CA47008CD219 /* SomTime */,
 				5B7A00022F00000200000007 /* Shared */,
+				BBAA050E3073CA47008CD219 /* SomTime */,
 			);
 			name = SomTime;
 			packageProductDependencies = (
@@ -179,13 +179,13 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2640;
-				LastUpgradeCheck = 2640;
+				LastUpgradeCheck = 2700;
 				TargetAttributes = {
-					BBAA050B3073CA47008CD219 = {
-						CreatedOnToolsVersion = 26.4;
-					};
 					5B7A00022F00000200000011 = {
 						CreatedOnToolsVersion = 27.0;
+					};
+					BBAA050B3073CA47008CD219 = {
+						CreatedOnToolsVersion = 26.4;
 					};
 				};
 			};
@@ -372,6 +372,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -429,6 +430,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
