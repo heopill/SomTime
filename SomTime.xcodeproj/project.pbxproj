@@ -48,6 +48,13 @@
 			);
 			target = 5B7A00022F00000200000011 /* SomTimeWidgetExtension */;
 		};
+		5B7A00042F00000400000001 /* Exceptions for "SomTime" folder in "SomTime" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = BBAA050B3073CA47008CD219 /* SomTime */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -66,6 +73,9 @@
 		};
 		BBAA050E3073CA47008CD219 /* SomTime */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				5B7A00042F00000400000001 /* Exceptions for "SomTime" folder in "SomTime" target */,
+			);
 			path = SomTime;
 			sourceTree = "<group>";
 		};
@@ -435,6 +445,7 @@
 				DEVELOPMENT_TEAM = U73C5KBSMA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SomTime/Info.plist;
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -469,6 +480,7 @@
 				DEVELOPMENT_TEAM = U73C5KBSMA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SomTime/Info.plist;
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
