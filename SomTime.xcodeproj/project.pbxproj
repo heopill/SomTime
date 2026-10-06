@@ -7,14 +7,63 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B7A00022F00000200000002 /* SomTimeWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5B7A00022F00000200000001 /* SomTimeWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5B7A00012F00000100000003 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 5B7A00012F00000100000002 /* ComposableArchitecture */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		5B7A00022F00000200000003 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BBAA05043073CA47008CD219 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5B7A00022F00000200000011;
+			remoteInfo = SomTimeWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5B7A00022F00000200000004 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				5B7A00022F00000200000002 /* SomTimeWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		5B7A00022F00000200000001 /* SomTimeWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SomTimeWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBAA050C3073CA47008CD219 /* SomTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SomTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		5B7A00022F00000200000005 /* Exceptions for "SomTimeWidget" folder in "SomTimeWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 5B7A00022F00000200000011 /* SomTimeWidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		5B7A00022F00000200000007 /* Shared */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		5B7A00022F00000200000006 /* SomTimeWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				5B7A00022F00000200000005 /* Exceptions for "SomTimeWidget" folder in "SomTimeWidgetExtension" target */,
+			);
+			path = SomTimeWidget;
+			sourceTree = "<group>";
+		};
 		BBAA050E3073CA47008CD219 /* SomTime */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = SomTime;
@@ -23,6 +72,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5B7A00022F00000200000009 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BBAA05093073CA47008CD219 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -38,6 +94,8 @@
 			isa = PBXGroup;
 			children = (
 				BBAA050E3073CA47008CD219 /* SomTime */,
+				5B7A00022F00000200000006 /* SomTimeWidget */,
+				5B7A00022F00000200000007 /* Shared */,
 				BBAA050D3073CA47008CD219 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -46,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				BBAA050C3073CA47008CD219 /* SomTime.app */,
+				5B7A00022F00000200000001 /* SomTimeWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -53,6 +112,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		5B7A00022F00000200000011 /* SomTimeWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5B7A00022F00000200000015 /* Build configuration list for PBXNativeTarget "SomTimeWidgetExtension" */;
+			buildPhases = (
+				5B7A00022F00000200000008 /* Sources */,
+				5B7A00022F00000200000009 /* Frameworks */,
+				5B7A00022F00000200000010 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				5B7A00022F00000200000006 /* SomTimeWidget */,
+				5B7A00022F00000200000007 /* Shared */,
+			);
+			name = SomTimeWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = SomTimeWidgetExtension;
+			productReference = 5B7A00022F00000200000001 /* SomTimeWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		BBAA050B3073CA47008CD219 /* SomTime */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = BBAA05173073CA49008CD219 /* Build configuration list for PBXNativeTarget "SomTime" */;
@@ -60,13 +142,16 @@
 				BBAA05083073CA47008CD219 /* Sources */,
 				BBAA05093073CA47008CD219 /* Frameworks */,
 				BBAA050A3073CA47008CD219 /* Resources */,
+				5B7A00022F00000200000004 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				5B7A00022F00000200000012 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				BBAA050E3073CA47008CD219 /* SomTime */,
+				5B7A00022F00000200000007 /* Shared */,
 			);
 			name = SomTime;
 			packageProductDependencies = (
@@ -89,6 +174,9 @@
 					BBAA050B3073CA47008CD219 = {
 						CreatedOnToolsVersion = 26.4;
 					};
+					5B7A00022F00000200000011 = {
+						CreatedOnToolsVersion = 27.0;
+					};
 				};
 			};
 			buildConfigurationList = BBAA05073073CA47008CD219 /* Build configuration list for PBXProject "SomTime" */;
@@ -109,11 +197,19 @@
 			projectRoot = "";
 			targets = (
 				BBAA050B3073CA47008CD219 /* SomTime */,
+				5B7A00022F00000200000011 /* SomTimeWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5B7A00022F00000200000010 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BBAA050A3073CA47008CD219 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,6 +220,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5B7A00022F00000200000008 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BBAA05083073CA47008CD219 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -133,7 +236,71 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		5B7A00022F00000200000012 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5B7A00022F00000200000011 /* SomTimeWidgetExtension */;
+			targetProxy = 5B7A00022F00000200000003 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		5B7A00022F00000200000013 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = U73C5KBSMA;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SomTimeWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SomTimeWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.seongpil.SomTime.SomTimeWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5B7A00022F00000200000014 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = U73C5KBSMA;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SomTimeWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SomTimeWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.seongpil.SomTime.SomTimeWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		BBAA05153073CA49008CD219 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -265,6 +432,7 @@
 				DEVELOPMENT_TEAM = U73C5KBSMA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -297,6 +465,7 @@
 				DEVELOPMENT_TEAM = U73C5KBSMA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -322,6 +491,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5B7A00022F00000200000015 /* Build configuration list for PBXNativeTarget "SomTimeWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5B7A00022F00000200000013 /* Debug */,
+				5B7A00022F00000200000014 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		BBAA05073073CA47008CD219 /* Build configuration list for PBXProject "SomTime" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
