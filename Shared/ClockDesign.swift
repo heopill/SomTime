@@ -3,7 +3,7 @@
 //  SomTime
 //
 
-import Foundation
+import SwiftUI
 
 /// 설정에서 고르는 시계 디자인
 enum ClockDesign: String, CaseIterable, Codable {
@@ -15,4 +15,13 @@ enum ClockDesign: String, CaseIterable, Codable {
     case bold
     /// 도트 (Doto Black)
     case dot
+
+    var nameKey: LocalizedStringKey {
+        switch self {
+        case .classic: return "clockDesignClassic"
+        case .mono: return "clockDesignMono"
+        case .bold: return "clockDesignBold"
+        case .dot: return "clockDesignDot"
+        }
+    }
 }

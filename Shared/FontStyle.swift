@@ -73,6 +73,7 @@ extension FontStyle {
 
     // MARK: Pretendard-Regular (Body)
     static let rowLabel = FontStyle(fontName: FontName.pretendardRegular, fontSize: 15, lineHeightMultiple: 1.5) // 리스트 행 레이블, 입력창
+    static let summary = FontStyle(fontName: FontName.pretendardRegular, fontSize: 14, lineHeightMultiple: 1.5) // 홈 하단 설정 요약 행
     static let detail = FontStyle(fontName: FontName.pretendardRegular, fontSize: 13, lineHeightMultiple: 1.5) // 보조 설명, 카드 상태 문구
     static let caption = FontStyle(fontName: FontName.pretendardRegular, fontSize: 12, lineHeightMultiple: 1.5) // 캡션, 디자인 카드 이름
 }
@@ -87,6 +88,7 @@ extension FontStyle {
         case expanded // 다이나믹 아일랜드 Expanded
         case lockScreen // 잠금 화면, StandBy
         case pip // PiP 플로팅 시계
+        case pipMilliseconds // PiP 플로팅 시계의 밀리초 (약 2/3 크기)
         case serverTime // 서버 시간 결과
         case serverTimeMilliseconds // 서버 시간 결과의 밀리초
         case designCard // 설정의 디자인 카드 미리보기
@@ -98,6 +100,7 @@ extension FontStyle {
             case .expanded: return 44
             case .lockScreen: return 30
             case .pip: return 28
+            case .pipMilliseconds: return 19
             case .serverTime: return 38
             case .serverTimeMilliseconds: return 24
             case .designCard: return 26
