@@ -1,0 +1,18 @@
+//
+//  ClockDesign.swift
+//  SomTime
+//
+
+import Foundation
+
+/// 설정에서 고르는 시계 디자인
+enum ClockDesign: String, CaseIterable, Codable {
+    /// 기본 (Pretendard Medium)
+    case classic
+    /// 모노 (SF Mono)
+    case mono
+    /// 굵게 (Pretendard Bold, 자간 -4%)
+    case bold
+    /// 도트 (Doto Black)
+    case dot
+}
