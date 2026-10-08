@@ -82,7 +82,7 @@ struct HomeView: View {
     private var header: some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
-                Text(verbatim: "SomTime")
+                Text("homeSubtitle")
                     .fontStyle(.detail)
                     .foregroundStyle(Color(.textSecondary))
                 Text("homeTitle")

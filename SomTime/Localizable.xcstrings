@@ -402,6 +402,23 @@
         }
       }
     },
+    "homeSubtitle" : {
+      "comment" : "Small label above the home title. Shows the app name in the other language (ko: SomTime, en: 섬타임).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "섬타임"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SomTime"
+          }
+        }
+      }
+    },
     "homeTitle" : {
       "localizations" : {
         "en" : {
