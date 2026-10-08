@@ -55,7 +55,7 @@ private struct LandscapeAwareCompactLeading: View {
     @Environment(\.isDynamicIslandLimitedInWidth) private var isLimitedInWidth
 
     var body: some View {
-        if isLimitedInWidth, state.usesSystemCurrentDate {
+        if isLimitedInWidth {
             ViewThatFits(in: .vertical) {
                 hourAndMinute(size: 12)
                 hourAndMinute(size: 11)
@@ -85,7 +85,7 @@ private struct LandscapeAwareCompactTrailing: View {
     @Environment(\.isDynamicIslandLimitedInWidth) private var isLimitedInWidth
 
     var body: some View {
-        if isLimitedInWidth, state.usesSystemCurrentDate {
+        if isLimitedInWidth {
             ViewThatFits(in: .vertical) {
                 secondSlot(size: 12)
                 secondSlot(size: 11)
@@ -110,7 +110,6 @@ private struct LandscapeAwareCompactTrailing: View {
 }
 
 /// 위 칸의 "시 / 분" 두 줄과 같은 크기를 차지하고, 그 가운데에 내용을 그린다 (위 · 아래 칸이 같은 레이아웃을 고르게 하기 위함)
-@available(iOS 18.0, *)
 private struct TwoLineSlot<Content: View>: View {
     let settings: ClockDisplaySettings
     let size: CGFloat
@@ -136,24 +135,19 @@ private struct TwoLineSlot<Content: View>: View {
     }
 }
 
-/// Minimal: 시 / 분 두 줄 (iOS 18+). iOS 17은 시계 아이콘
+/// Minimal: 시 / 분 두 줄
 struct IslandMinimalClock: View {
     let state: ClockActivityAttributes.ContentState
 
     var body: some View {
-        if #available(iOS 18.0, *), state.usesSystemCurrentDate {
-            VStack(spacing: 0) {
-                ClockComponentLabel(component: .hour, settings: state.settings, size: FontStyle.ClockPlacement.minimal.fontSize)
-                ClockComponentLabel(component: .minute, settings: state.settings, size: FontStyle.ClockPlacement.minimal.fontSize)
-            }
-        } else {
-            IslandClockIcon(settings: state.settings)
+        VStack(spacing: 0) {
+            ClockComponentLabel(component: .hour, settings: state.settings, size: FontStyle.ClockPlacement.minimal.fontSize)
+            ClockComponentLabel(component: .minute, settings: state.settings, size: FontStyle.ClockPlacement.minimal.fontSize)
         }
     }
 }
 
 /// 시 · 분 · 초 중 하나를 ":" 없이 그린 라벨 (시 Bold 100%, 분 Medium 85%, 초 Medium 50%)
-@available(iOS 18.0, *)
 private struct ClockComponentLabel: View {
     let component: ClockTimeFormatter.Component
     let settings: ClockDisplaySettings

@@ -9,8 +9,6 @@ import SwiftUI
 struct HomeView: View {
     @Bindable var store: StoreOf<HomeFeature>
 
-    @Environment(\.scenePhase) private var scenePhase
-
     var body: some View {
         NavigationStack {
             TimelineView(.periodic(from: .now, by: 1)) { context in
@@ -41,11 +39,6 @@ struct HomeView: View {
         .alert($store.scope(state: \.alert, action: \.alert))
         .onAppear {
             store.send(.onAppear)
-        }
-        .onChange(of: scenePhase) { _, newPhase in
-            if newPhase == .active {
-                store.send(.sceneBecameActive)
-            }
         }
         .onChange(of: store.displaySettings) {
             store.send(.clockSettingsChanged)

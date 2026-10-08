@@ -46,7 +46,7 @@ extension LiveActivityClient: DependencyKey {
             do {
                 let activity = try Activity.request(
                     attributes: ClockActivityAttributes(startedAt: Date()),
-                    content: ActivityContent(state: state, staleDate: state.staleDate),
+                    content: ActivityContent(state: state, staleDate: nil),
                     pushType: nil
                 )
                 logger.notice("start: requested \(activity.id, privacy: .public), state \(String(describing: activity.activityState), privacy: .public)")
@@ -59,7 +59,7 @@ extension LiveActivityClient: DependencyKey {
         },
         update: { state in
             for activity in runningActivities() {
-                await activity.update(ActivityContent(state: state, staleDate: state.staleDate))
+                await activity.update(ActivityContent(state: state, staleDate: nil))
             }
         },
         end: {

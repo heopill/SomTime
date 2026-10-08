@@ -11,7 +11,7 @@ import WidgetKit
 struct ClockLiveActivity: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: ClockActivityAttributes.self) { context in
-            LockScreenClockView(attributes: context.attributes, state: context.state.resolved(isStale: context.isStale))
+            LockScreenClockView(attributes: context.attributes, state: context.state)
                 .activityBackgroundTint(Color(.background))
                 .activitySystemActionForegroundColor(Color(.textPrimary))
         } dynamicIsland: { context in
@@ -26,14 +26,14 @@ struct ClockLiveActivity: Widget {
                     .padding(.leading, 6)
                 }
                 DynamicIslandExpandedRegion(.bottom) {
-                    ExpandedClockView(attributes: context.attributes, state: context.state.resolved(isStale: context.isStale))
+                    ExpandedClockView(attributes: context.attributes, state: context.state)
                 }
             } compactLeading: {
-                IslandCompactLeading(state: context.state.resolved(isStale: context.isStale))
+                IslandCompactLeading(state: context.state)
             } compactTrailing: {
-                IslandCompactClock(state: context.state.resolved(isStale: context.isStale))
+                IslandCompactClock(state: context.state)
             } minimal: {
-                IslandMinimalClock(state: context.state.resolved(isStale: context.isStale))
+                IslandMinimalClock(state: context.state)
             }
             .keylineTint(context.state.settings.color.color)
         }
@@ -49,7 +49,7 @@ private struct ExpandedClockView: View {
         VStack(alignment: .leading, spacing: 8) {
             LiveClockText(state: state, placement: .expanded, alignment: .leading)
             HStack {
-                LiveDateText(state: state)
+                LiveDateText()
                 Spacer(minLength: 8)
                 HStack(spacing: 4) {
                     Text("liveActivityAutoEnd")
@@ -91,16 +91,10 @@ private struct LockScreenClockView: View {
     }
 }
 
-/// 오늘 날짜 (예: 10월 8일 목요일). iOS 18+는 자정이 지나면 시스템이 갱신한다
+/// 오늘 날짜 (예: 10월 8일 목요일). 자정이 지나면 시스템이 갱신한다
 private struct LiveDateText: View {
-    let state: ClockActivityAttributes.ContentState
-
     var body: some View {
-        if #available(iOS 18.0, *) {
-            Text(.currentDate, format: Self.style)
-        } else {
-            Text(state.referenceMidnight, format: Self.style)
-        }
+        Text(.currentDate, format: Self.style)
     }
 
     private static var style: Date.FormatStyle {
@@ -141,8 +135,7 @@ private extension ClockActivityAttributes {
 private extension ClockActivityAttributes.ContentState {
     static var preview: Self {
         return Self(
-            settings: ClockDisplaySettings(design: .classic, color: .amber, isTwentyFourHour: true, showsSeconds: true),
-            referenceMidnight: Calendar.current.startOfDay(for: .now)
+            settings: ClockDisplaySettings(design: .classic, color: .amber, isTwentyFourHour: true, showsSeconds: true)
         )
     }
 }

@@ -33,7 +33,6 @@ struct HomeFeature {
 
     enum Action {
         case onAppear
-        case sceneBecameActive
         case clockSettingsChanged
         case islandToggled(Bool)
         case islandStarted(Date)
@@ -57,8 +56,6 @@ struct HomeFeature {
 
     @Dependency(\.liveActivityClient) var liveActivityClient
     @Dependency(\.openURL) var openURL
-    @Dependency(\.date.now) var now
-    @Dependency(\.calendar) var calendar
 
     var body: some Reducer<State, Action> {
         Reduce { state, action in
@@ -71,8 +68,8 @@ struct HomeFeature {
                     }
                 }
 
-            case .sceneBecameActive, .clockSettingsChanged:
-                // 설정 변경을 반영하고, iOS 17 타이머의 기준 자정을 오늘로 갱신한다
+            case .clockSettingsChanged:
+                // 실행 중인 Live Activity에 바뀐 설정을 반영한다
                 guard state.isIslandOn, state.islandStartedAt != nil else { return .none }
 
                 let contentState = activityContentState(state)
@@ -158,12 +155,9 @@ struct HomeFeature {
         .ifLet(\.$alert, action: \.alert)
     }
 
-    /// 지금 설정과 오늘 자정으로 Live Activity 표시 상태를 만든다
+    /// 지금 설정으로 Live Activity 표시 상태를 만든다
     private func activityContentState(_ state: State) -> ClockActivityAttributes.ContentState {
-        return ClockActivityAttributes.ContentState(
-            settings: state.displaySettings,
-            referenceMidnight: calendar.startOfDay(for: now)
-        )
+        return ClockActivityAttributes.ContentState(settings: state.displaySettings)
     }
 
     /// 실행 중인 Live Activity가 시스템이나 사용자에 의해 끝나는지 지켜본다
