@@ -210,6 +210,7 @@
       }
     },
     "dynamicIsland" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -257,7 +258,104 @@
         }
       }
     },
+    "dynamicIslandClockOnStatus %lld %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On · Ends automatically in about %1$lld h %2$lld min"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "켜짐 · 약 %1$lld시간 %2$lld분 후 자동 종료"
+          }
+        }
+      }
+    },
+    "homePreviewIsland" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Showing on the Dynamic Island"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다이나믹 아일랜드에 표시 중"
+          }
+        }
+      }
+    },
+    "homePreviewIslandAndPip" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Showing on the Island + PiP"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아일랜드 + PiP 표시 중"
+          }
+        }
+      }
+    },
+    "homePreviewOff" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The clock is off"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시계가 꺼져 있어요"
+          }
+        }
+      }
+    },
+    "homePreviewPip" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Showing in a PiP window"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PiP 창으로 표시 중"
+          }
+        }
+      }
+    },
+    "homeTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SomTime"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "섬타임"
+          }
+        }
+      }
+    },
     "measure" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -305,6 +403,22 @@
         }
       }
     },
+    "pipClockOnStatus" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On · Showing in a small window over videos"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "켜짐 · 영상 위 작은 창으로 표시 중"
+          }
+        }
+      }
+    },
     "serverTime" : {
       "localizations" : {
         "en" : {
@@ -338,6 +452,7 @@
       }
     },
     "serverURLPlaceholder" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -402,6 +517,7 @@
       }
     },
     "showSeconds" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -418,6 +534,7 @@
       }
     },
     "startServerTimePip" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -434,6 +551,7 @@
       }
     },
     "timeFormat12Hour" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -450,6 +568,7 @@
       }
     },
     "timeFormat24Hour" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -466,6 +585,7 @@
       }
     },
     "turnOffClock" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
