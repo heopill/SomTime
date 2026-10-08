@@ -17,9 +17,10 @@ struct HomeFeature {
         // TODO: Live Activity 이슈에서 실제 Activity 시작 시각으로 교체
         var islandStartedAt: Date?
         var isPipOn = false
-        // TODO: 설정 화면 이슈에서 App Group UserDefaults 값으로 교체
-        var clockDesign: ClockDesign = .classic
-        var clockColor: ClockColor = .amber
+        @SharedReader(.clockDesign) var clockDesign
+        @SharedReader(.clockColor) var clockColor
+        @SharedReader(.isTwentyFourHour) var isTwentyFourHour
+        @SharedReader(.showsSeconds) var showsSeconds
         @Presents var destination: Destination.State?
     }
 

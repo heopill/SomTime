@@ -33,6 +33,22 @@
         }
       }
     },
+    "appSection" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱"
+          }
+        }
+      }
+    },
     "back" : {
       "localizations" : {
         "en" : {
@@ -109,6 +125,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "민트"
+          }
+        }
+      }
+    },
+    "clockColorSection" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Color"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "색상"
           }
         }
       }
@@ -205,6 +237,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "모노"
+          }
+        }
+      }
+    },
+    "clockDesignSection" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clock Design"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시계 디자인"
+          }
+        }
+      }
+    },
+    "displayOptionsSection" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Display Options"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "표시 옵션"
           }
         }
       }
@@ -338,6 +402,23 @@
         }
       }
     },
+    "homeSubtitle" : {
+      "comment" : "Small label above the home title. Shows the app name in the other language (ko: SomTime, en: 섬타임).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "섬타임"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SomTime"
+          }
+        }
+      }
+    },
     "homeTitle" : {
       "localizations" : {
         "en" : {
@@ -350,6 +431,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "섬타임"
+          }
+        }
+      }
+    },
+    "language" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Language"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "언어"
           }
         }
       }
@@ -517,7 +614,6 @@
       }
     },
     "showSeconds" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -550,8 +646,23 @@
         }
       }
     },
+    "timeFormat" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time Format"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시간 형식"
+          }
+        }
+      }
+    },
     "timeFormat12Hour" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -568,7 +679,6 @@
       }
     },
     "timeFormat24Hour" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

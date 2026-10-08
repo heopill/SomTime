@@ -43,7 +43,11 @@ struct HomeView: View {
         VStack(spacing: Spacing.section) {
             header
             HomePreviewArea(
-                time: ClockTimeFormatter.string(from: now),
+                time: ClockTimeFormatter.string(
+                    from: now,
+                    isTwentyFourHour: store.isTwentyFourHour,
+                    showsSeconds: store.showsSeconds
+                ),
                 design: store.clockDesign,
                 isIslandOn: store.isIslandOn,
                 isPipOn: store.isPipOn
@@ -78,7 +82,7 @@ struct HomeView: View {
     private var header: some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
-                Text(verbatim: "SomTime")
+                Text("homeSubtitle")
                     .fontStyle(.detail)
                     .foregroundStyle(Color(.textSecondary))
                 Text("homeTitle")

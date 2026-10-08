@@ -12,14 +12,8 @@ struct ServerTimeView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.section) {
-            HStack(spacing: 8) {
-                IconButton(systemImage: "chevron.left", accessibilityLabel: "back") {
-                    store.send(.backButtonTapped)
-                }
-                Text("serverTime")
-                    .fontStyle(.screenTitle)
-                    .foregroundStyle(Color(.textPrimary))
-                    .accessibilityAddTraits(.isHeader)
+            ScreenHeader(title: "serverTime") {
+                store.send(.backButtonTapped)
             }
             Spacer()
         }
