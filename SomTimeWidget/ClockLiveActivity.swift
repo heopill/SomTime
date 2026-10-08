@@ -29,7 +29,7 @@ struct ClockLiveActivity: Widget {
                     ExpandedClockView(attributes: context.attributes, state: context.state.resolved(isStale: context.isStale))
                 }
             } compactLeading: {
-                IslandClockIcon(settings: context.state.settings)
+                IslandCompactLeading(state: context.state.resolved(isStale: context.isStale))
             } compactTrailing: {
                 IslandCompactClock(state: context.state.resolved(isStale: context.isStale))
             } minimal: {
