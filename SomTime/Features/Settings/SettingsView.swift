@@ -10,7 +10,7 @@ struct SettingsView: View {
     let store: StoreOf<SettingsFeature>
 
     var body: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: 22) {
                 ScreenHeader(title: "settings") {
                     store.send(.backButtonTapped)

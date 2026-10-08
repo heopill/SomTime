@@ -5,14 +5,14 @@
 
 import Foundation
 
-/// 설정에서 고르는 시계 디자인
+/// 설정에서 고르는 시계 디자인 (선언 순서 = 설정 화면의 카드 순서)
 nonisolated enum ClockDesign: String, CaseIterable, Codable {
     /// 기본 (Pretendard Medium)
     case classic
-    /// 모노 (SF Mono)
-    case mono
     /// 굵게 (Pretendard Bold, 자간 -4%)
     case bold
+    /// 모노 (SF Mono)
+    case mono
     /// 도트 (Doto Black)
     case dot
 
