@@ -18,6 +18,7 @@ struct HomeFeature {
         @SharedReader(.clockColor) var clockColor
         @SharedReader(.isTwentyFourHour) var isTwentyFourHour
         @SharedReader(.showsSeconds) var showsSeconds
+        @SharedReader(.pipAspectRatio) var pipAspectRatio
         @Presents var destination: Destination.State?
         @Presents var alert: AlertState<Action.Alert>?
 
@@ -34,6 +35,7 @@ struct HomeFeature {
     enum Action {
         case onAppear
         case clockSettingsChanged
+        case pipAspectRatioChanged
         case islandToggled(Bool)
         case islandStarted(Date)
         case islandStartFailed
@@ -84,11 +86,16 @@ struct HomeFeature {
                     effects.append(.run { _ in await liveActivityClient.update(contentState) })
                 }
                 if state.isPipOn {
-                    let settings = state.displaySettings
-                    effects.append(.run { _ in await pipClockClient.update(settings) })
+                    effects.append(updatePip(state))
                 }
 
                 return .merge(effects)
+
+            case .pipAspectRatioChanged:
+                // 떠 있는 PiP 시계에 바뀐 창 비율을 반영한다
+                guard state.isPipOn else { return .none }
+
+                return updatePip(state)
 
             case let .islandToggled(isOn):
                 state.isIslandOn = isOn
@@ -158,10 +165,11 @@ struct HomeFeature {
 
                 state.isPipOn = true
                 let settings = state.displaySettings
+                let aspectRatio = state.pipAspectRatio
 
                 return .run { send in
                     do {
-                        try await pipClockClient.start(settings)
+                        try await pipClockClient.start(settings, aspectRatio)
                     } catch is CancellationError {
                         // 시작을 기다리는 중에 토글을 끈 경우
                     } catch {
@@ -216,6 +224,14 @@ struct HomeFeature {
             await send(.islandEnded)
         }
         .cancellable(id: CancelID.islandEndObservation, cancelInFlight: true)
+    }
+
+    /// 떠 있는 PiP 시계에 지금 설정과 창 비율을 반영한다
+    private func updatePip(_ state: State) -> Effect<Action> {
+        let settings = state.displaySettings
+        let aspectRatio = state.pipAspectRatio
+
+        return .run { _ in await pipClockClient.update(settings, aspectRatio) }
     }
 
     /// 사용자나 시스템이 PiP 창을 닫는지 지켜본다

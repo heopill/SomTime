@@ -9,16 +9,16 @@ import SwiftUI
 
 /// 시계 화면(SwiftUI)을 PiP에 넣을 영상 프레임(CMSampleBuffer)으로 만든다
 final class PipClockFrameRenderer {
-    /// PiP 창을 크게 키워도 선명하도록 6배로 그린다 (120×60pt → 720×360px)
+    /// PiP 창을 크게 키워도 선명하도록 6배로 그린다 (10:1은 1320×132px, 2:1은 720×360px)
     private static let renderScale: CGFloat = 6
 
     private var pixelBufferPool: CVPixelBufferPool?
     private var poolSize: (width: Int, height: Int) = (0, 0)
 
     /// 지금 설정으로 시계 프레임 하나를 만든다
-    func sampleBuffer(time: String, settings: ClockDisplaySettings) -> CMSampleBuffer? {
+    func sampleBuffer(time: String, settings: ClockDisplaySettings, aspectRatio: PipAspectRatio) -> CMSampleBuffer? {
         let renderer = ImageRenderer(
-            content: PipClockFrame(time: time, design: settings.design)
+            content: PipClockFrame(time: time, design: settings.design, aspectRatio: aspectRatio)
                 .environment(\.clockAccent, settings.color.color)
         )
         renderer.scale = Self.renderScale

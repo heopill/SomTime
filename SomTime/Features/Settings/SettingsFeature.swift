@@ -14,6 +14,7 @@ struct SettingsFeature {
         @Shared(.clockColor) var clockColor
         @Shared(.isTwentyFourHour) var isTwentyFourHour
         @Shared(.showsSeconds) var showsSeconds
+        @Shared(.pipAspectRatio) var pipAspectRatio
     }
 
     enum Action {
@@ -22,6 +23,7 @@ struct SettingsFeature {
         case colorSelected(ClockColor)
         case timeFormatChanged(isTwentyFourHour: Bool)
         case showsSecondsChanged(Bool)
+        case pipAspectRatioChanged(PipAspectRatio)
         case languageRowTapped
     }
 
@@ -51,6 +53,11 @@ struct SettingsFeature {
 
             case let .showsSecondsChanged(showsSeconds):
                 state.$showsSeconds.withLock { $0 = showsSeconds }
+
+                return .none
+
+            case let .pipAspectRatioChanged(aspectRatio):
+                state.$pipAspectRatio.withLock { $0 = aspectRatio }
 
                 return .none
 

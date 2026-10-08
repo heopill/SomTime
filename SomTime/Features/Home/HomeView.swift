@@ -43,6 +43,9 @@ struct HomeView: View {
         .onChange(of: store.displaySettings) {
             store.send(.clockSettingsChanged)
         }
+        .onChange(of: store.pipAspectRatio) {
+            store.send(.pipAspectRatioChanged)
+        }
     }
 
     /// 홈 화면 본문 (헤더, 미리보기, 기능 카드, 설정 요약)
@@ -58,7 +61,8 @@ struct HomeView: View {
                 ),
                 design: store.clockDesign,
                 isIslandOn: store.isIslandOn,
-                isPipOn: store.isPipOn
+                isPipOn: store.isPipOn,
+                pipAspectRatio: store.pipAspectRatio
             )
             VStack(spacing: Spacing.card) {
                 FeatureCard(

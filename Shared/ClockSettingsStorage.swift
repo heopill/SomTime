@@ -15,6 +15,7 @@ nonisolated enum ClockSettingsStorage {
         static let clockColor = "clockColor"
         static let isTwentyFourHour = "isTwentyFourHour"
         static let showsSeconds = "showsSeconds"
+        static let pipAspectRatio = "pipAspectRatio"
     }
 
     enum DefaultValue {
@@ -22,5 +23,6 @@ nonisolated enum ClockSettingsStorage {
         static let clockColor: ClockColor = .amber
         static let isTwentyFourHour = true
         static let showsSeconds = true
+        static let pipAspectRatio: PipAspectRatio = .bar
     }
 }

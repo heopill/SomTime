@@ -43,6 +43,7 @@ final class PipClockController: NSObject {
     private var pipController: AVPictureInPictureController?
     private var renderTask: Task<Void, Never>?
     private var settings: ClockDisplaySettings?
+    private var aspectRatio = ClockSettingsStorage.DefaultValue.pipAspectRatio
     private var startContinuation: CheckedContinuation<Void, Error>?
     private var stopContinuation: CheckedContinuation<Void, Never>?
     /// 진행 중인 종료 작업 (끄자마자 다시 켜면 이전 창이 닫힌 뒤에 시작하도록)
@@ -55,11 +56,12 @@ final class PipClockController: NSObject {
     private var eventContinuations: [UUID: AsyncStream<PipClockEvent>.Continuation] = [:]
 
     /// PiP 시계를 켜고 창이 뜰 때까지 기다린다 (이미 떠 있으면 설정만 바꾼다)
-    func start(_ settings: ClockDisplaySettings) async throws {
+    func start(_ settings: ClockDisplaySettings, aspectRatio: PipAspectRatio) async throws {
         guard DeviceCapability.supportsPictureInPicture else { throw PipClockError.unsupported }
 
         await stopTask?.value
         self.settings = settings
+        setAspectRatio(aspectRatio)
         if pipController?.isPictureInPictureActive == true {
             renderFrame()
 
@@ -101,11 +103,28 @@ final class PipClockController: NSObject {
     }
 
     /// 떠 있는 PiP 시계에 바뀐 설정을 바로 반영한다
-    func update(_ settings: ClockDisplaySettings) {
+    func update(_ settings: ClockDisplaySettings, aspectRatio: PipAspectRatio) {
         guard self.settings != nil else { return }
 
         self.settings = settings
+        setAspectRatio(aspectRatio)
         renderFrame()
+    }
+
+    /// PiP 창 비율을 바꾼다 (프레임 크기가 바뀌면 시스템이 PiP 창 모양을 맞춘다). 숨겨 둔 레이어도 오른쪽 아래 기준으로 크기를 맞춘다
+    private func setAspectRatio(_ aspectRatio: PipAspectRatio) {
+        guard aspectRatio != self.aspectRatio else { return }
+
+        self.aspectRatio = aspectRatio
+        guard let displayView else { return }
+
+        let size = aspectRatio.frameSize
+        displayView.frame = CGRect(
+            x: displayView.frame.maxX - size.width,
+            y: displayView.frame.maxY - size.height,
+            width: size.width,
+            height: size.height
+        )
     }
 
     /// PiP 시계를 끄고 자동 시작도 해제한다 (떠 있던 창이 닫힐 때까지 기다린다)
@@ -183,7 +202,7 @@ final class PipClockController: NSObject {
 
         // PiP는 레이어가 창 안에 있어야 시작할 수 있어 앱 화면 뒤에 숨겨 둔다.
         // PiP 창은 이 레이어 위치에서 커지며 나오므로, PiP 창이 주로 놓이는 오른쪽 아래에 둔다
-        let size = PipClockFrame.size
+        let size = aspectRatio.frameSize
         let insets = window.safeAreaInsets
         let origin = CGPoint(
             x: window.bounds.maxX - insets.right - Spacing.screenHorizontal - size.width,
@@ -247,7 +266,7 @@ final class PipClockController: NSObject {
             showsSeconds: settings.showsSeconds,
             design: settings.design
         )
-        guard let sampleBuffer = frameRenderer.sampleBuffer(time: time, settings: settings) else { return }
+        guard let sampleBuffer = frameRenderer.sampleBuffer(time: time, settings: settings, aspectRatio: aspectRatio) else { return }
 
         renderer.enqueue(sampleBuffer)
     }
