@@ -70,7 +70,7 @@ struct HomeView: View {
                 FeatureCard(
                     systemImage: "pip",
                     title: "pipClock",
-                    status: store.isPipOn ? "pipClockOnStatus" : "pipClockOffStatus",
+                    status: pipStatus,
                     isOn: $store.isPipOn.sending(\.pipToggled)
                 )
                 MenuRow(systemImage: "globe", title: "serverTime", subtitle: "serverTimeSubtitle") {
@@ -116,6 +116,15 @@ struct HomeView: View {
         let remainingMinutes = max(0, Int(endDate.timeIntervalSince(now) / 60))
 
         return "dynamicIslandClockOnStatus \(remainingMinutes / 60) \(remainingMinutes % 60)"
+    }
+
+    /// PiP 시계 카드의 상태 문구를 만든다 (미지원 기기, 다이나믹 아일랜드가 없는 기기 안내 포함)
+    private var pipStatus: LocalizedStringKey {
+        guard DeviceCapability.supportsPictureInPicture else { return "pipClockUnsupportedStatus" }
+        guard !store.isPipOn else { return "pipClockOnStatus" }
+
+        // 다이나믹 아일랜드가 없는 기기는 PiP가 영상 위에서 시계를 보는 주 기능이다
+        return DeviceCapability.hasDynamicIsland ? "pipClockOffStatus" : "pipClockNoDynamicIslandStatus"
     }
 }
 

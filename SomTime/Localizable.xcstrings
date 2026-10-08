@@ -564,6 +564,22 @@
         }
       }
     },
+    "pipClockNoDynamicIslandStatus" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "See the clock over videos on this device"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 기기에서는 PiP로 영상 위에 시계를 띄워요"
+          }
+        }
+      }
+    },
     "pipClockOffStatus" : {
       "localizations" : {
         "en" : {
@@ -592,6 +608,86 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "켜짐 · 영상 위 작은 창으로 표시 중"
+          }
+        }
+      }
+    },
+    "pipClockUnsupportedStatus" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not available on this device"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 기기에서는 사용할 수 없어요"
+          }
+        }
+      }
+    },
+    "pipStartFailedMessage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please try again in a moment."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "잠시 후 다시 시도해 주세요."
+          }
+        }
+      }
+    },
+    "pipStartFailedTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't Start PiP"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PiP를 시작하지 못했어요"
+          }
+        }
+      }
+    },
+    "pipUnsupportedMessage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This device doesn't support Picture in Picture."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 기기는 PiP(화면 속 화면)를 지원하지 않아요."
+          }
+        }
+      }
+    },
+    "pipUnsupportedTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Picture in Picture Unavailable"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PiP를 사용할 수 없어요"
           }
         }
       }
