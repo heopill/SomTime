@@ -3,10 +3,10 @@
 //  SomTime
 //
 
-import SwiftUI
+import Foundation
 
 /// 설정에서 고르는 시계 디자인
-enum ClockDesign: String, CaseIterable, Codable {
+nonisolated enum ClockDesign: String, CaseIterable, Codable {
     /// 기본 (Pretendard Medium)
     case classic
     /// 모노 (SF Mono)
@@ -16,12 +16,11 @@ enum ClockDesign: String, CaseIterable, Codable {
     /// 도트 (Doto Black)
     case dot
 
-    var nameKey: LocalizedStringKey {
+    /// 폰트에 한글 글자가 있는지 여부 (Doto, SF Mono에는 "오전/오후" 글자가 없다)
+    var supportsHangul: Bool {
         switch self {
-        case .classic: return "clockDesignClassic"
-        case .mono: return "clockDesignMono"
-        case .bold: return "clockDesignBold"
-        case .dot: return "clockDesignDot"
+        case .classic, .bold: return true
+        case .mono, .dot: return false
         }
     }
 }
