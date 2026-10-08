@@ -4,6 +4,7 @@
 //
 
 import ComposableArchitecture
+import UIKit
 
 @Reducer
 struct SettingsFeature {
@@ -21,9 +22,11 @@ struct SettingsFeature {
         case colorSelected(ClockColor)
         case timeFormatChanged(isTwentyFourHour: Bool)
         case showsSecondsChanged(Bool)
+        case languageRowTapped
     }
 
     @Dependency(\.dismiss) var dismiss
+    @Dependency(\.openURL) var openURL
 
     var body: some Reducer<State, Action> {
         Reduce { state, action in
@@ -50,6 +53,12 @@ struct SettingsFeature {
                 state.$showsSeconds.withLock { $0 = showsSeconds }
 
                 return .none
+
+            case .languageRowTapped:
+                // 시스템 설정 앱의 섬타임 페이지 (언어 항목에서 앱 언어를 바꿀 수 있음)
+                guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return .none }
+
+                return .run { _ in await openURL(settingsURL) }
             }
         }
     }

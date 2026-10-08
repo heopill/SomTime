@@ -19,6 +19,7 @@ struct SettingsView: View {
                 designSection
                 colorSection
                 displayOptionsSection
+                appSection
             }
             .padding(.horizontal, Spacing.screenHorizontal)
             .padding(.top, 8)
@@ -141,6 +142,46 @@ struct SettingsView: View {
             .padding(.trailing, 14)
             .background(Color(.surface), in: RoundedRectangle(cornerRadius: CornerRadius.control))
         }
+    }
+
+    private var appSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            sectionTitle {
+                Text("appSection")
+            }
+            Button {
+                store.send(.languageRowTapped)
+            } label: {
+                HStack(spacing: 8) {
+                    Text("language")
+                        .fontStyle(.rowLabel)
+                        .foregroundStyle(Color(.textPrimary))
+                    Spacer(minLength: 12)
+                    Text(verbatim: currentLanguageName)
+                        .fontStyle(.rowLabel)
+                        .foregroundStyle(Color(.textSecondary))
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundStyle(Color(.textSecondary))
+                        .accessibilityHidden(true)
+                }
+                .padding(.leading, Spacing.cardPadding)
+                .padding(.trailing, 14)
+                .frame(minHeight: 56)
+                .background(Color(.surface), in: RoundedRectangle(cornerRadius: CornerRadius.control))
+                .contentShape(RoundedRectangle(cornerRadius: CornerRadius.control))
+            }
+            .buttonStyle(.plain)
+            .accessibilityElement(children: .combine)
+        }
+    }
+
+    // 앱에 지금 적용된 언어 이름을 그 언어로 표시한다 (예: 한국어, English)
+    private var currentLanguageName: String {
+        let languageCode = Bundle.main.preferredLocalizations.first ?? "en"
+        let languageName = Locale(identifier: languageCode).localizedString(forLanguageCode: languageCode) ?? languageCode
+
+        return languageName.localizedCapitalized
     }
 
     /// 섹션 제목 스타일(13pt SemiBold, textSecondary)을 적용한다
