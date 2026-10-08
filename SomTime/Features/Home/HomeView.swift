@@ -43,7 +43,11 @@ struct HomeView: View {
         VStack(spacing: Spacing.section) {
             header
             HomePreviewArea(
-                time: ClockTimeFormatter.string(from: now),
+                time: ClockTimeFormatter.string(
+                    from: now,
+                    isTwentyFourHour: store.isTwentyFourHour,
+                    showsSeconds: store.showsSeconds
+                ),
                 design: store.clockDesign,
                 isIslandOn: store.isIslandOn,
                 isPipOn: store.isPipOn

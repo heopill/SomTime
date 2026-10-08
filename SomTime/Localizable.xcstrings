@@ -113,6 +113,22 @@
         }
       }
     },
+    "clockColorSection" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Color"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "색상"
+          }
+        }
+      }
+    },
     "clockColorSky" : {
       "localizations" : {
         "en" : {
@@ -205,6 +221,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "모노"
+          }
+        }
+      }
+    },
+    "clockDesignSection" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clock Design"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시계 디자인"
+          }
+        }
+      }
+    },
+    "displayOptionsSection" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Display Options"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "표시 옵션"
           }
         }
       }
@@ -517,7 +565,6 @@
       }
     },
     "showSeconds" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -550,8 +597,23 @@
         }
       }
     },
+    "timeFormat" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time Format"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시간 형식"
+          }
+        }
+      }
+    },
     "timeFormat12Hour" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -568,7 +630,6 @@
       }
     },
     "timeFormat24Hour" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
