@@ -43,6 +43,9 @@ struct HomeView: View {
         .onChange(of: store.displaySettings) {
             store.send(.clockSettingsChanged)
         }
+        .onChange(of: store.pipAspectRatio) {
+            store.send(.pipAspectRatioChanged)
+        }
     }
 
     /// 홈 화면 본문 (헤더, 미리보기, 기능 카드, 설정 요약)
@@ -58,7 +61,8 @@ struct HomeView: View {
                 ),
                 design: store.clockDesign,
                 isIslandOn: store.isIslandOn,
-                isPipOn: store.isPipOn
+                isPipOn: store.isPipOn,
+                pipAspectRatio: store.pipAspectRatio
             )
             VStack(spacing: Spacing.card) {
                 FeatureCard(
@@ -70,7 +74,7 @@ struct HomeView: View {
                 FeatureCard(
                     systemImage: "pip",
                     title: "pipClock",
-                    status: store.isPipOn ? "pipClockOnStatus" : "pipClockOffStatus",
+                    status: pipStatus,
                     isOn: $store.isPipOn.sending(\.pipToggled)
                 )
                 MenuRow(systemImage: "globe", title: "serverTime", subtitle: "serverTimeSubtitle") {
@@ -105,17 +109,30 @@ struct HomeView: View {
         }
     }
 
-    /// 다이나믹 아일랜드 카드의 상태 문구를 만든다 (켜짐이면 자동 종료까지 남은 시간 포함)
+    /// 다이나믹 아일랜드 카드의 상태 문구를 만든다 (켜짐이면 자동 종료까지 남은 시간, PiP와 함께 켜면 숨김 안내)
     private func islandStatus(now: Date) -> LocalizedStringKey {
         guard store.isIslandOn, let startedAt = store.islandStartedAt else {
             // 다이나믹 아일랜드가 없는 기기는 Live Activity가 잠금 화면에만 표시된다
             return DeviceCapability.hasDynamicIsland ? "dynamicIslandClockOffStatus" : "dynamicIslandClockLockScreenOnlyStatus"
+        }
+        // PiP 창이 떠 있는 동안에는 시스템이 같은 앱의 Live Activity를 다이나믹 아일랜드에서 숨긴다
+        if store.isPipOn, DeviceCapability.hasDynamicIsland {
+            return "dynamicIslandClockHiddenByPipStatus"
         }
 
         let endDate = startedAt.addingTimeInterval(ClockActivityAttributes.autoEndInterval)
         let remainingMinutes = max(0, Int(endDate.timeIntervalSince(now) / 60))
 
         return "dynamicIslandClockOnStatus \(remainingMinutes / 60) \(remainingMinutes % 60)"
+    }
+
+    /// PiP 시계 카드의 상태 문구를 만든다 (미지원 기기, 다이나믹 아일랜드가 없는 기기 안내 포함)
+    private var pipStatus: LocalizedStringKey {
+        guard DeviceCapability.supportsPictureInPicture else { return "pipClockUnsupportedStatus" }
+        guard !store.isPipOn else { return "pipClockOnStatus" }
+
+        // 다이나믹 아일랜드가 없는 기기는 PiP가 영상 위에서 시계를 보는 주 기능이다
+        return DeviceCapability.hasDynamicIsland ? "pipClockOffStatus" : "pipClockNoDynamicIslandStatus"
     }
 }
 

@@ -26,6 +26,15 @@ extension SharedKey where Self == AppStorageKey<ClockColor>.Default {
     }
 }
 
+extension SharedKey where Self == AppStorageKey<PipAspectRatio>.Default {
+    static var pipAspectRatio: Self {
+        Self[
+            .appStorage(ClockSettingsStorage.Key.pipAspectRatio, store: ClockSettingsStorage.userDefaults),
+            default: ClockSettingsStorage.DefaultValue.pipAspectRatio
+        ]
+    }
+}
+
 extension SharedKey where Self == AppStorageKey<Bool>.Default {
     static var isTwentyFourHour: Self {
         Self[

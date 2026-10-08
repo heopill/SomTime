@@ -18,6 +18,7 @@ struct HomeFeature {
         @SharedReader(.clockColor) var clockColor
         @SharedReader(.isTwentyFourHour) var isTwentyFourHour
         @SharedReader(.showsSeconds) var showsSeconds
+        @SharedReader(.pipAspectRatio) var pipAspectRatio
         @Presents var destination: Destination.State?
         @Presents var alert: AlertState<Action.Alert>?
 
@@ -34,12 +35,15 @@ struct HomeFeature {
     enum Action {
         case onAppear
         case clockSettingsChanged
+        case pipAspectRatioChanged
         case islandToggled(Bool)
         case islandStarted(Date)
         case islandStartFailed
         case islandRestored(Date)
         case islandEnded
         case pipToggled(Bool)
+        case pipStartFailed
+        case pipClosed
         case settingsButtonTapped
         case serverTimeRowTapped
         case destination(PresentationAction<Destination.Action>)
@@ -52,9 +56,12 @@ struct HomeFeature {
 
     private nonisolated enum CancelID {
         case islandEndObservation
+        case pipStart
+        case pipEventObservation
     }
 
     @Dependency(\.liveActivityClient) var liveActivityClient
+    @Dependency(\.pipClockClient) var pipClockClient
     @Dependency(\.openURL) var openURL
 
     var body: some Reducer<State, Action> {
@@ -62,19 +69,33 @@ struct HomeFeature {
             switch action {
             case .onAppear:
                 // 앱을 다시 실행했을 때 이미 켜져 있는 Live Activity 상태를 복원한다
-                return .run { send in
-                    if let startedAt = await liveActivityClient.runningStartDate() {
-                        await send(.islandRestored(startedAt))
-                    }
-                }
+                return .merge(
+                    .run { send in
+                        if let startedAt = await liveActivityClient.runningStartDate() {
+                            await send(.islandRestored(startedAt))
+                        }
+                    },
+                    observePipEvents()
+                )
 
             case .clockSettingsChanged:
-                // 실행 중인 Live Activity에 바뀐 설정을 반영한다
-                guard state.isIslandOn, state.islandStartedAt != nil else { return .none }
+                // 실행 중인 Live Activity와 PiP 시계에 바뀐 설정을 반영한다
+                var effects: [Effect<Action>] = []
+                if state.isIslandOn, state.islandStartedAt != nil {
+                    let contentState = activityContentState(state)
+                    effects.append(.run { _ in await liveActivityClient.update(contentState) })
+                }
+                if state.isPipOn {
+                    effects.append(updatePip(state))
+                }
 
-                let contentState = activityContentState(state)
+                return .merge(effects)
 
-                return .run { _ in await liveActivityClient.update(contentState) }
+            case .pipAspectRatioChanged:
+                // 떠 있는 PiP 시계에 바뀐 창 비율을 반영한다
+                guard state.isPipOn else { return .none }
+
+                return updatePip(state)
 
             case let .islandToggled(isOn):
                 state.isIslandOn = isOn
@@ -127,8 +148,44 @@ struct HomeFeature {
                 return .none
 
             case let .pipToggled(isOn):
-                // TODO: PiP 이슈에서 PiP 시작/종료 연결
-                state.isPipOn = isOn
+                guard isOn else {
+                    state.isPipOn = false
+
+                    return .merge(
+                        .cancel(id: CancelID.pipStart),
+                        .run { _ in await pipClockClient.stop() }
+                    )
+                }
+                guard DeviceCapability.supportsPictureInPicture else {
+                    state.isPipOn = false
+                    state.alert = .pipUnsupported
+
+                    return .none
+                }
+
+                state.isPipOn = true
+                let settings = state.displaySettings
+                let aspectRatio = state.pipAspectRatio
+
+                return .run { send in
+                    do {
+                        try await pipClockClient.start(settings, aspectRatio)
+                    } catch is CancellationError {
+                        // 시작을 기다리는 중에 토글을 끈 경우
+                    } catch {
+                        await send(.pipStartFailed)
+                    }
+                }
+                .cancellable(id: CancelID.pipStart, cancelInFlight: true)
+
+            case .pipStartFailed:
+                state.isPipOn = false
+                state.alert = .pipStartFailed
+
+                return .none
+
+            case .pipClosed:
+                state.isPipOn = false
 
                 return .none
 
@@ -168,6 +225,27 @@ struct HomeFeature {
         }
         .cancellable(id: CancelID.islandEndObservation, cancelInFlight: true)
     }
+
+    /// 떠 있는 PiP 시계에 지금 설정과 창 비율을 반영한다
+    private func updatePip(_ state: State) -> Effect<Action> {
+        let settings = state.displaySettings
+        let aspectRatio = state.pipAspectRatio
+
+        return .run { _ in await pipClockClient.update(settings, aspectRatio) }
+    }
+
+    /// 사용자나 시스템이 PiP 창을 닫는지 지켜본다
+    private func observePipEvents() -> Effect<Action> {
+        return .run { send in
+            for await event in await pipClockClient.events() {
+                switch event {
+                case .closed:
+                    await send(.pipClosed)
+                }
+            }
+        }
+        .cancellable(id: CancelID.pipEventObservation, cancelInFlight: true)
+    }
 }
 
 extension HomeFeature {
@@ -192,5 +270,25 @@ extension AlertState where Action == HomeFeature.Action.Alert {
         }
     } message: {
         TextState("liveActivityDisabledMessage")
+    }
+
+    static let pipUnsupported = AlertState {
+        TextState("pipUnsupportedTitle")
+    } actions: {
+        ButtonState(role: .cancel) {
+            TextState("ok")
+        }
+    } message: {
+        TextState("pipUnsupportedMessage")
+    }
+
+    static let pipStartFailed = AlertState {
+        TextState("pipStartFailedTitle")
+    } actions: {
+        ButtonState(role: .cancel) {
+            TextState("ok")
+        }
+    } message: {
+        TextState("pipStartFailedMessage")
     }
 }

@@ -3,6 +3,7 @@
 //  SomTime
 //
 
+import AVKit
 import UIKit
 
 /// 기기 기능 확인
@@ -18,5 +19,10 @@ enum DeviceCapability {
         guard let insets = window?.safeAreaInsets else { return false }
 
         return max(insets.top, insets.left, insets.right) >= 51
+    }
+
+    /// PiP(화면 속 화면)를 지원하는 기기인지 여부
+    static var supportsPictureInPicture: Bool {
+        return AVPictureInPictureController.isPictureInPictureSupported()
     }
 }

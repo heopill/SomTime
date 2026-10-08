@@ -10,7 +10,7 @@ struct SettingsView: View {
     let store: StoreOf<SettingsFeature>
 
     var body: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: 22) {
                 ScreenHeader(title: "settings") {
                     store.send(.backButtonTapped)
@@ -121,10 +121,7 @@ struct SettingsView: View {
                 .padding(.vertical, 10)
                 .frame(minHeight: 56)
 
-                Rectangle()
-                    .fill(Color(.divider))
-                    .frame(height: 1)
-                    .padding(.trailing, -14)
+                divider
 
                 Toggle(
                     isOn: Binding(
@@ -138,11 +135,39 @@ struct SettingsView: View {
                 }
                 .toggleStyle(.accent)
                 .frame(minHeight: 56)
+
+                divider
+
+                HStack {
+                    Text("pipAspectRatio")
+                        .fontStyle(.rowLabel)
+                        .foregroundStyle(Color(.textPrimary))
+                    Spacer(minLength: 12)
+                    SegmentedPicker(
+                        options: PipAspectRatio.allCases,
+                        selection: Binding(
+                            get: { store.pipAspectRatio },
+                            set: { store.send(.pipAspectRatioChanged($0)) }
+                        )
+                    ) { aspectRatio in
+                        aspectRatio.nameKey
+                    }
+                }
+                .padding(.vertical, 10)
+                .frame(minHeight: 56)
             }
             .padding(.leading, Spacing.cardPadding)
             .padding(.trailing, 14)
             .background(Color(.surface), in: RoundedRectangle(cornerRadius: CornerRadius.control))
         }
+    }
+
+    /// 표시 옵션 그룹의 행 구분선
+    private var divider: some View {
+        Rectangle()
+            .fill(Color(.divider))
+            .frame(height: 1)
+            .padding(.trailing, -14)
     }
 
     private var appSection: some View {

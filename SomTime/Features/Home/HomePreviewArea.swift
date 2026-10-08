@@ -11,6 +11,7 @@ struct HomePreviewArea: View {
     let design: ClockDesign
     let isIslandOn: Bool
     let isPipOn: Bool
+    var pipAspectRatio: PipAspectRatio = ClockSettingsStorage.DefaultValue.pipAspectRatio
 
     var body: some View {
         VStack(spacing: 0) {
@@ -26,7 +27,7 @@ struct HomePreviewArea: View {
         .frame(height: 210)
         .overlay(alignment: .bottomTrailing) {
             if isPipOn {
-                PipClockWindow(time: time, design: design)
+                PipClockWindow(time: time, design: design, aspectRatio: pipAspectRatio)
                     .scaleEffect(0.72, anchor: .bottomTrailing)
                     .padding(14)
                     .transition(.opacity)
