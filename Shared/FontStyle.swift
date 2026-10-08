@@ -99,8 +99,8 @@ extension FontStyle {
             case .minimal: return 13
             case .expanded: return 44
             case .lockScreen: return 30
-            case .pip: return 28
-            case .pipMilliseconds: return 19
+            case .pip: return 18
+            case .pipMilliseconds: return 12
             case .serverTime: return 38
             case .serverTimeMilliseconds: return 24
             case .designCard: return 26
