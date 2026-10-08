@@ -109,11 +109,15 @@ struct HomeView: View {
         }
     }
 
-    /// 다이나믹 아일랜드 카드의 상태 문구를 만든다 (켜짐이면 자동 종료까지 남은 시간 포함)
+    /// 다이나믹 아일랜드 카드의 상태 문구를 만든다 (켜짐이면 자동 종료까지 남은 시간, PiP와 함께 켜면 숨김 안내)
     private func islandStatus(now: Date) -> LocalizedStringKey {
         guard store.isIslandOn, let startedAt = store.islandStartedAt else {
             // 다이나믹 아일랜드가 없는 기기는 Live Activity가 잠금 화면에만 표시된다
             return DeviceCapability.hasDynamicIsland ? "dynamicIslandClockOffStatus" : "dynamicIslandClockLockScreenOnlyStatus"
+        }
+        // PiP 창이 떠 있는 동안에는 시스템이 같은 앱의 Live Activity를 다이나믹 아일랜드에서 숨긴다
+        if store.isPipOn, DeviceCapability.hasDynamicIsland {
+            return "dynamicIslandClockHiddenByPipStatus"
         }
 
         let endDate = startedAt.addingTimeInterval(ClockActivityAttributes.autoEndInterval)

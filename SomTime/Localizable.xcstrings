@@ -306,6 +306,22 @@
         }
       }
     },
+    "dynamicIslandClockHiddenByPipStatus" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On · Appears on the Island when PiP is off"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "켜짐 · PiP를 끄면 아일랜드에 표시돼요"
+          }
+        }
+      }
+    },
     "dynamicIslandClockLockScreenOnlyStatus" : {
       "localizations" : {
         "en" : {
