@@ -306,6 +306,22 @@
         }
       }
     },
+    "dynamicIslandClockLockScreenOnlyStatus" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shown only on the Lock Screen on this device"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 기기에서는 잠금 화면에만 표시돼요"
+          }
+        }
+      }
+    },
     "dynamicIslandClockOffStatus" : {
       "localizations" : {
         "en" : {
@@ -451,6 +467,38 @@
         }
       }
     },
+    "liveActivityDisabledMessage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn on Live Activities for SomTime in Settings to show the clock on the Dynamic Island."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다이나믹 아일랜드에 시계를 표시하려면 설정에서 섬타임의 실시간 현황을 켜 주세요."
+          }
+        }
+      }
+    },
+    "liveActivityDisabledTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live Activities Are Off"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "실시간 현황이 꺼져 있어요"
+          }
+        }
+      }
+    },
     "measure" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -464,6 +512,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "측정"
+          }
+        }
+      }
+    },
+    "ok" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "확인"
+          }
+        }
+      }
+    },
+    "openSettings" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Settings"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정 열기"
           }
         }
       }

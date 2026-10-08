@@ -9,6 +9,8 @@ import SwiftUI
 struct HomeView: View {
     @Bindable var store: StoreOf<HomeFeature>
 
+    @Environment(\.scenePhase) private var scenePhase
+
     var body: some View {
         NavigationStack {
             TimelineView(.periodic(from: .now, by: 1)) { context in
@@ -36,6 +38,18 @@ struct HomeView: View {
         .environment(\.clockAccent, store.clockColor.color)
         .tint(store.clockColor.color)
         .preferredColorScheme(.dark)
+        .alert($store.scope(state: \.alert, action: \.alert))
+        .onAppear {
+            store.send(.onAppear)
+        }
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase == .active {
+                store.send(.sceneBecameActive)
+            }
+        }
+        .onChange(of: store.displaySettings) {
+            store.send(.clockSettingsChanged)
+        }
     }
 
     /// 홈 화면 본문 (헤더, 미리보기, 기능 카드, 설정 요약)
@@ -46,7 +60,8 @@ struct HomeView: View {
                 time: ClockTimeFormatter.string(
                     from: now,
                     isTwentyFourHour: store.isTwentyFourHour,
-                    showsSeconds: store.showsSeconds
+                    showsSeconds: store.showsSeconds,
+                    design: store.clockDesign
                 ),
                 design: store.clockDesign,
                 isIslandOn: store.isIslandOn,
@@ -100,10 +115,11 @@ struct HomeView: View {
     /// 다이나믹 아일랜드 카드의 상태 문구를 만든다 (켜짐이면 자동 종료까지 남은 시간 포함)
     private func islandStatus(now: Date) -> LocalizedStringKey {
         guard store.isIslandOn, let startedAt = store.islandStartedAt else {
-            return "dynamicIslandClockOffStatus"
+            // 다이나믹 아일랜드가 없는 기기는 Live Activity가 잠금 화면에만 표시된다
+            return DeviceCapability.hasDynamicIsland ? "dynamicIslandClockOffStatus" : "dynamicIslandClockLockScreenOnlyStatus"
         }
 
-        let endDate = startedAt.addingTimeInterval(HomeFeature.islandAutoEndInterval)
+        let endDate = startedAt.addingTimeInterval(ClockActivityAttributes.autoEndInterval)
         let remainingMinutes = max(0, Int(endDate.timeIntervalSince(now) / 60))
 
         return "dynamicIslandClockOnStatus \(remainingMinutes / 60) \(remainingMinutes % 60)"
