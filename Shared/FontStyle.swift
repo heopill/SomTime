@@ -110,8 +110,11 @@ extension FontStyle {
 
     /// 시계 디자인과 표시 위치에 맞는 시계 숫자 스타일을 만든다 (크기 고정, 숫자 폭 고정)
     static func clock(_ design: ClockDesign, placement: ClockPlacement) -> FontStyle {
-        let size = placement.fontSize
+        return clock(design, size: placement.fontSize)
+    }
 
+    /// 시계 디자인과 임의의 크기로 시계 숫자 스타일을 만든다 (가로 모드 아일랜드처럼 공간에 맞춰 크기를 줄일 때 사용)
+    static func clock(_ design: ClockDesign, size: CGFloat) -> FontStyle {
         switch design {
         case .classic:
             return FontStyle(font: Font.custom(FontName.pretendardMedium, fixedSize: size).monospacedDigit(), fontSize: size)

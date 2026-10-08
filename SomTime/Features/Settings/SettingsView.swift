@@ -37,7 +37,8 @@ struct SettingsView: View {
                 time: ClockTimeFormatter.string(
                     from: context.date,
                     isTwentyFourHour: store.isTwentyFourHour,
-                    showsSeconds: store.showsSeconds
+                    showsSeconds: store.showsSeconds,
+                    design: store.clockDesign
                 ),
                 design: store.clockDesign
             )
