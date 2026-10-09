@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>섬타임 개인정보 처리방침</title>
+<style>
+  /* 앱이 다크 모드만 지원하므로 항상 앱 배경색(다크)으로 고정한다. 색상은 앱 디자인 토큰과 같다 */
+  :root {
+    color-scheme: dark;
+    --bg: #0e0f12;
+    --surface: #1a1c21;
+    --border: #23262d;
+    --line: #262930;
+    --text-primary: #f2f3f5;
+    --text-secondary: #9a9ea8;
+    --accent: #ffb340;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 20px 20px 48px;
+    background: var(--bg);
+    color: var(--text-secondary);
+    font-family: -apple-system, "Apple SD Gothic Neo", system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    word-break: keep-all;
+    -webkit-text-size-adjust: 100%;
+  }
+  h1 {
+    color: var(--text-primary);
+    font-size: 22px;
+    font-weight: 700;
+    margin: 4px 0 4px;
+    letter-spacing: -0.02em;
+  }
+  .updated {
+    font-size: 13px;
+    margin-top: 24px;
+  }
+  .intro {
+    margin-bottom: 28px;
+  }
+  h2 {
+    color: var(--text-primary);
+    font-size: 16px;
+    font-weight: 700;
+    margin: 28px 0 8px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    letter-spacing: -0.01em;
+  }
+  /* 번호(1. 2. …)만 강조색으로 표시한다 */
+  h2 .num { color: var(--accent); margin-right: 6px; }
+  p { margin: 8px 0; }
+  ul { margin: 8px 0; padding-left: 20px; }
+  li { margin: 5px 0; }
+  strong { color: var(--text-primary); font-weight: 700; }
+  a { color: var(--accent); text-decoration: none; word-break: break-all; }
+  .contact {
+    margin-top: 28px;
+    padding: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+  }
+</style>
+</head>
+<body>
+
+  <h1>개인정보 처리방침</h1>
+
+  <p class="intro">
+    섬타임(SomTime)(이하 "앱")은 이용자의 개인정보를 소중하게 생각하며, 최소한의 정보만을 다룹니다.
+    본 앱은 별도의 회원가입이나 로그인 절차가 없고, 개발자가 운영하는 서버가 없으므로 이용자의 개인정보를 서버에 수집·저장하지 않습니다.
+  </p>
+
+  <h2><span class="num">1.</span>수집·이용하는 개인정보</h2>
+  <p>
+    앱은 서비스 이용 과정에서 이용자를 식별할 수 있는 개인정보를 수집하지 않습니다.
+    앱에서 생성되는 아래 정보는 모두 이용자의 <strong>기기 내부에만 저장</strong>되며, 외부로 전송되거나 개발자가 열람할 수 없습니다.
+  </p>
+  <ul>
+    <li>시계 디자인 · 색상, 시간 형식(12시간/24시간), 초 표시 여부, PiP 화면 비율 설정</li>
+    <li>서버 시간 화면에 입력한 사이트 주소</li>
+    <li>마지막 서버 시간 측정 결과(기기 시각과의 차이, 오차 범위)</li>
+    <li>서버 시간 표시 방식 및 밀리초 표시 설정</li>
+  </ul>
+  <p>
+    위 정보는 다이나믹 아일랜드 · 잠금 화면에 시계를 표시하기 위해 같은 기기 안의 앱 확장 프로그램(위젯)과 공유될 수 있으며,
+    앱을 삭제하면 기기에서 함께 삭제됩니다.
+  </p>
+
+  <h2><span class="num">2.</span>서버 시간 측정을 위한 통신</h2>
+  <p>
+    서버 시간 기능을 사용하면, 앱은 이용자가 입력한 사이트에 기기에서 <strong>직접</strong> 요청을 보내 응답에 포함된 시각 정보만 읽습니다.
+    이 요청은 개발자의 서버를 거치지 않으며, 개발자에게 어떠한 정보도 전송되지 않습니다.
+  </p>
+  <ul>
+    <li>요청 시 쿠키를 저장하거나 사용하지 않으며, 응답 내용은 저장하지 않습니다.</li>
+    <li>일반적인 웹 접속과 마찬가지로, 해당 사이트는 이용자의 IP 주소 등 접속 정보를 받을 수 있습니다. 이 정보의 처리는 해당 사이트의 개인정보 처리방침을 따릅니다.</li>
+  </ul>
+
+  <h2><span class="num">3.</span>다이나믹 아일랜드 · PiP 시계</h2>
+  <p>
+    다이나믹 아일랜드, 잠금 화면, PiP(화면 속 화면)에 표시되는 시계는 모두 기기 안에서 만들어지며, 원격 푸시 서버를 사용하지 않습니다.
+    앱은 카메라, 마이크, 위치, 사진, 연락처 등 기기 권한을 요청하지 않습니다.
+  </p>
+
+  <h2><span class="num">4.</span>문의 시 처리되는 정보</h2>
+  <p>
+    이용자가 앱 내 "문의하기"를 통해 이메일을 보내는 경우, 원활한 문의 응대를 위해 아래 정보가 메일 본문에 자동으로 포함될 수 있습니다.
+  </p>
+  <ul>
+    <li>기기 모델명 · iOS 버전 · 앱 버전</li>
+    <li>기기의 언어/지역 설정</li>
+    <li>이용자가 메일을 발송하는 경우, 발신 이메일 주소</li>
+  </ul>
+  <p>
+    이 정보는 <strong>이용자가 직접 메일을 발송하는 경우에만</strong> 전달되며, 문의 내용 확인 및 답변 목적으로만 이용됩니다.
+    발송 여부는 전적으로 이용자의 선택에 따릅니다.
+  </p>
+
+  <h2><span class="num">5.</span>제3자 제공 및 분석 도구</h2>
+  <p>
+    앱은 이용자의 개인정보를 제3자에게 제공하지 않습니다. 또한 광고, 광고 식별자, 사용자 행동 분석(analytics) 도구를 사용하지 않습니다.
+  </p>
+
+  <h2><span class="num">6.</span>개인정보의 보유 및 파기</h2>
+  <p>
+    기기에 저장되는 정보는 앱 삭제 시 함께 파기됩니다. 문의 응대를 위해 수신한 이메일은 문의 처리 완료 후 관련 법령이 정하는 바에 따라 보관 및 파기됩니다.
+  </p>
+
+  <h2><span class="num">7.</span>이용자의 권리</h2>
+  <p>
+    이용자는 기기에 저장된 앱 데이터를 앱 삭제를 통해 언제든지 삭제할 수 있습니다.
+    문의를 통해 전달한 정보의 열람·삭제를 원하시는 경우 아래 연락처로 요청하실 수 있습니다.
+  </p>
+
+  <h2><span class="num">8.</span>아동의 개인정보</h2>
+  <p>
+    앱은 아동을 포함한 이용자로부터 개인정보를 수집하지 않습니다.
+  </p>
+
+  <h2><span class="num">9.</span>개인정보 처리방침의 변경</h2>
+  <p>
+    본 방침은 법령 또는 서비스 변경에 따라 개정될 수 있으며, 개정 시 앱을 통해 고지합니다.
+  </p>
+
+  <div class="contact">
+    <p><strong>문의처</strong></p>
+    <p>개인정보 관련 문의: <a href="mailto:somtime.support@gmail.com">somtime.support@gmail.com</a></p>
+  </div>
+
+  <p class="updated">시행일: 2026년 10월 10일</p>
+
+</body>
+</html>
