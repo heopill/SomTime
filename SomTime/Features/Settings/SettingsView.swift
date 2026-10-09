@@ -68,6 +68,7 @@ struct SettingsView: View {
                     from: context.date,
                     isTwentyFourHour: store.isTwentyFourHour,
                     showsSeconds: store.showsSeconds,
+                    showsDayPeriod: store.showsDayPeriod,
                     design: store.clockDesign
                 ),
                 design: store.clockDesign
@@ -151,6 +152,27 @@ struct SettingsView: View {
                 .padding(.vertical, 10)
                 .frame(minHeight: 56)
 
+                // 12시간제일 때만 오전/오후 표시 토글을 보여 준다
+                if !store.isTwentyFourHour {
+                    VStack(spacing: 0) {
+                        divider
+
+                        Toggle(
+                            isOn: Binding(
+                                get: { store.showsDayPeriod },
+                                set: { store.send(.showsDayPeriodChanged($0)) }
+                            )
+                        ) {
+                            Text("showDayPeriod")
+                                .fontStyle(.rowLabel)
+                                .foregroundStyle(Color(.textPrimary))
+                        }
+                        .toggleStyle(.accent)
+                        .frame(minHeight: 56)
+                    }
+                    .transition(.opacity)
+                }
+
                 divider
 
                 Toggle(
@@ -189,6 +211,7 @@ struct SettingsView: View {
             .padding(.leading, Spacing.cardPadding)
             .padding(.trailing, 14)
             .background(Color(.surface), in: RoundedRectangle(cornerRadius: CornerRadius.control))
+            .animation(.easeInOut(duration: 0.2), value: store.isTwentyFourHour)
         }
     }
 
