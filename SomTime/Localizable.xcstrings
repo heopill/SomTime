@@ -257,6 +257,22 @@
         }
       }
     },
+    "displayModeSection" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Display"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "표시 방식"
+          }
+        }
+      }
+    },
     "displayOptionsSection" : {
       "localizations" : {
         "en" : {
@@ -274,7 +290,6 @@
       }
     },
     "dynamicIsland" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -516,7 +531,6 @@
       }
     },
     "measure" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -528,6 +542,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "측정"
+          }
+        }
+      }
+    },
+    "measuring" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Measuring"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "측정 중"
           }
         }
       }
@@ -756,6 +786,22 @@
         }
       }
     },
+    "remeasure" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resync"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다시 맞추기"
+          }
+        }
+      }
+    },
     "serverTime" : {
       "localizations" : {
         "en" : {
@@ -768,6 +814,198 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "서버 시간"
+          }
+        }
+      }
+    },
+    "serverTimeCDNNotice" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sites behind a CDN may differ slightly from their actual server time."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CDN을 쓰는 사이트는 실제 서버와 시각이 조금 다를 수 있어요."
+          }
+        }
+      }
+    },
+    "serverTimeComparison %@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ of your phone · ±%2$@ s"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "내 폰보다 %1$@ · 오차 ±%2$@초"
+          }
+        }
+      }
+    },
+    "serverTimeFaster %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ s ahead"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@초 빠름"
+          }
+        }
+      }
+    },
+    "serverTimeGuide" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter an address and tap Measure\nto sync with that site's server time"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "주소를 입력하고 측정을 누르면\n그 사이트의 서버 시간을 맞춰요"
+          }
+        }
+      }
+    },
+    "serverTimeInvalidURLMessage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter a website address like https://ticket.example.com."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://ticket.example.com 처럼 사이트 주소를 입력해 주세요."
+          }
+        }
+      }
+    },
+    "serverTimeInvalidURLTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check the Address"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "주소를 확인해 주세요"
+          }
+        }
+      }
+    },
+    "serverTimeMeasureFailedMessage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't connect to the site. Check the address and your network connection."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사이트에 연결하지 못했어요. 주소와 네트워크 연결을 확인해 주세요."
+          }
+        }
+      }
+    },
+    "serverTimeMeasureFailedTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't Sync Server Time"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "서버 시간을 맞추지 못했어요"
+          }
+        }
+      }
+    },
+    "serverTimeMeasuringGuide" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Syncing with the server time…"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "서버 시간을 맞추는 중이에요…"
+          }
+        }
+      }
+    },
+    "serverTimeNoDateHeaderMessage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This site doesn't report its server time. Try a different address."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 사이트는 서버 시각을 알려 주지 않아요. 다른 주소로 시도해 주세요."
+          }
+        }
+      }
+    },
+    "serverTimeResultTitle %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Server Time"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 서버 시간"
+          }
+        }
+      }
+    },
+    "serverTimeSlower %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ s behind"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@초 느림"
           }
         }
       }
@@ -789,7 +1027,6 @@
       }
     },
     "serverURLPlaceholder" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -801,6 +1038,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "https://ticket.example.com"
+          }
+        }
+      }
+    },
+    "serverURLSection" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Website Address"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사이트 주소"
           }
         }
       }
@@ -853,6 +1106,38 @@
         }
       }
     },
+    "showMilliseconds" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show Milliseconds"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "밀리초 표시"
+          }
+        }
+      }
+    },
+    "showMillisecondsDescription" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For moments that need precision, like ticketing"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "티켓팅처럼 정확한 순간이 필요할 때"
+          }
+        }
+      }
+    },
     "showSeconds" : {
       "localizations" : {
         "en" : {
@@ -869,8 +1154,23 @@
         }
       }
     },
+    "startServerTimeIsland" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start Server Time on the Island"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아일랜드에 서버 시간 시작"
+          }
+        }
+      }
+    },
     "startServerTimePip" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -935,7 +1235,6 @@
       }
     },
     "turnOffClock" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

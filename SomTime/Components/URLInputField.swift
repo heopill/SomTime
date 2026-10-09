@@ -5,11 +5,13 @@
 
 import SwiftUI
 
-/// 사이트 주소 입력창 + 보조 버튼 (높이 52, URL 키보드, 자동완성 끔)
+/// 사이트 주소 입력창 + 보조 버튼 (높이 52, URL 키보드, 자동완성 끔). 엔터나 버튼을 누르면 키보드를 내린다
 struct URLInputField: View {
     @Binding var text: String
+    var isFocused: FocusState<Bool>.Binding
     let placeholder: LocalizedStringKey
     let buttonTitle: LocalizedStringKey
+    var isButtonEnabled = true
     let action: () -> Void
 
     var body: some View {
@@ -24,7 +26,13 @@ struct URLInputField: View {
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled()
             .submitLabel(.go)
-            .onSubmit(action)
+            .focused(isFocused)
+            .onSubmit {
+                isFocused.wrappedValue = false
+                guard isButtonEnabled else { return }
+
+                action()
+            }
             .padding(.horizontal, 16)
             .frame(height: 52)
             .background(Color(.surface), in: RoundedRectangle(cornerRadius: CornerRadius.input))
@@ -33,7 +41,10 @@ struct URLInputField: View {
                     .strokeBorder(Color(.borderStrong), lineWidth: 1)
             }
 
-            Button(action: action) {
+            Button {
+                isFocused.wrappedValue = false
+                action()
+            } label: {
                 Text(buttonTitle)
                     .fontStyle(.secondaryButton)
                     .foregroundStyle(Color(.textPrimary))
@@ -43,14 +54,17 @@ struct URLInputField: View {
                     .contentShape(RoundedRectangle(cornerRadius: CornerRadius.input))
             }
             .buttonStyle(.plain)
+            .disabled(!isButtonEnabled)
+            .opacity(isButtonEnabled ? 1 : 0.5)
         }
     }
 }
 
 #Preview {
     @Previewable @State var url = ""
+    @Previewable @FocusState var isFocused: Bool
 
-    URLInputField(text: $url, placeholder: "serverURLPlaceholder", buttonTitle: "measure") {}
+    URLInputField(text: $url, isFocused: $isFocused, placeholder: "serverURLPlaceholder", buttonTitle: "measure") {}
         .padding(Spacing.screenHorizontal)
         .background(Color(.background))
 }

@@ -6,7 +6,7 @@
 import SwiftUI
 import WidgetKit
 
-/// 시계 아이콘 (Compact leading, Expanded 앱 이름 옆)
+/// 시계 아이콘 (Compact leading, 가로 모드에서 초를 끈 아래 칸)
 struct IslandClockIcon: View {
     let settings: ClockDisplaySettings
 
@@ -154,7 +154,7 @@ private struct ClockComponentLabel: View {
     let size: CGFloat
 
     var body: some View {
-        LiveClockComponentText(component: component, isTwentyFourHour: settings.isTwentyFourHour)
+        LiveClockComponentText(component: component, settings: settings)
             .fontStyle(.clock(settings.design, size: size))
             .fontWeight(component == .hour ? .bold : .medium)
             .opacity(opacity)

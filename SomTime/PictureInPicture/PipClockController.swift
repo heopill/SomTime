@@ -33,6 +33,8 @@ final class PipClockController: NSObject {
     private static let startTimeout: Duration = .seconds(5)
     /// 시스템이 PiP를 띄우기 시작했다면(willStart) 추가로 더 기다리는 시간
     private static let startingGracePeriod: Duration = .seconds(10)
+    /// 밀리초를 표시할 때 프레임 간격 (약 30fps. 배터리 소모가 커서 서버 시간 PiP에서만 쓴다)
+    private static let millisecondsFrameInterval: Duration = .milliseconds(33)
     /// 직접 끈 PiP 창이 닫힐 때까지 기다리는 최대 시간
     private static let stopTimeout: Duration = .seconds(2)
     /// 오디오 세션을 켜고 끄는 순서를 지키기 위한 직렬 큐 (메인 스레드에서 처리하면 화면이 멈출 수 있다)
@@ -63,7 +65,8 @@ final class PipClockController: NSObject {
         self.settings = settings
         setAspectRatio(aspectRatio)
         if pipController?.isPictureInPictureActive == true {
-            renderFrame()
+            // 이미 떠 있는 창은 그대로 두고 새 설정으로 다시 그린다 (일반 시계 ↔ 서버 시간 전환)
+            startRendering()
 
             return
         }
@@ -108,7 +111,12 @@ final class PipClockController: NSObject {
 
         self.settings = settings
         setAspectRatio(aspectRatio)
-        renderFrame()
+        // 밀리초 표시가 바뀌면 그리는 간격도 바뀌므로 다시 시작한다
+        if renderTask != nil {
+            startRendering()
+        } else {
+            renderFrame()
+        }
     }
 
     /// PiP 창 비율을 바꾼다 (프레임 크기가 바뀌면 시스템이 PiP 창 모양을 맞춘다). 숨겨 둔 레이어도 오른쪽 아래 기준으로 크기를 맞춘다
@@ -238,17 +246,31 @@ final class PipClockController: NSObject {
         }
     }
 
-    /// 매 초가 바뀌는 순간에 맞춰 시계 프레임을 그린다
+    /// 시계 프레임을 계속 그린다 (보통은 표시하는 초가 바뀌는 순간마다, 밀리초를 표시하면 초당 30번)
     private func startRendering() {
         renderTask?.cancel()
         renderTask = Task { [weak self] in
             while !Task.isCancelled {
-                self?.renderFrame()
-                let now = Date().timeIntervalSinceReferenceDate
-                let nextSecond = now.rounded(.down) + 1
-                try? await Task.sleep(for: .seconds(nextSecond - now + 0.01))
+                guard let delay = self?.renderFrameAndNextDelay() else { return }
+
+                try? await Task.sleep(for: delay)
             }
         }
+    }
+
+    /// 프레임 하나를 그리고 다음 프레임까지 기다릴 시간을 돌려준다
+    private func renderFrameAndNextDelay() -> Duration {
+        renderFrame()
+        guard let settings else { return .seconds(1) }
+
+        if settings.serverTime?.showsMilliseconds == true {
+            return Self.millisecondsFrameInterval
+        }
+
+        // 서버 시간이면 오프셋을 더한 시각의 초가 바뀌는 순간에 맞춘다
+        let now = settings.clockDate().timeIntervalSinceReferenceDate
+
+        return .seconds(now.rounded(.down) + 1 - now + 0.01)
     }
 
     /// 지금 시각으로 프레임 하나를 그려 레이어에 넣는다
@@ -260,13 +282,22 @@ final class PipClockController: NSObject {
             renderer.flush()
         }
 
+        let date = settings.clockDate()
         let time = ClockTimeFormatter.string(
-            from: Date(),
+            from: date,
             isTwentyFourHour: settings.isTwentyFourHour,
             showsSeconds: settings.showsSeconds,
             design: settings.design
         )
-        guard let sampleBuffer = frameRenderer.sampleBuffer(time: time, settings: settings, aspectRatio: aspectRatio) else { return }
+        let milliseconds = settings.serverTime?.showsMilliseconds == true
+            ? String(format: "%03d", Int((date.timeIntervalSince1970 * 1000).rounded(.down)) % 1000)
+            : nil
+        guard let sampleBuffer = frameRenderer.sampleBuffer(
+            time: time,
+            milliseconds: milliseconds,
+            settings: settings,
+            aspectRatio: aspectRatio
+        ) else { return }
 
         renderer.enqueue(sampleBuffer)
     }

@@ -11,8 +11,8 @@ import OSLog
 /// 다이나믹 아일랜드 시계 Live Activity를 시작 · 업데이트 · 종료한다
 @DependencyClient
 nonisolated struct LiveActivityClient {
-    /// 실행 중인 시계 Live Activity의 시작 시각 (없으면 nil)
-    var runningStartDate: @Sendable () async -> Date? = { nil }
+    /// 실행 중인 시계 Live Activity의 시작 시각과 표시 상태 (없으면 nil)
+    var running: @Sendable () async -> RunningClockActivity? = { nil }
     /// 새 Live Activity를 시작하고 시작 시각을 돌려준다 (이미 있으면 정리 후 새로 시작)
     var start: @Sendable (_ state: ClockActivityAttributes.ContentState) async throws -> Date
     /// 실행 중인 Live Activity의 표시 상태를 바꾼다
@@ -23,6 +23,12 @@ nonisolated struct LiveActivityClient {
     var ended: @Sendable () async -> Void
 }
 
+/// 실행 중인 시계 Live Activity
+nonisolated struct RunningClockActivity: Equatable, Sendable {
+    var startedAt: Date
+    var state: ClockActivityAttributes.ContentState
+}
+
 nonisolated enum LiveActivityError: Error {
     /// 설정에서 섬타임의 실시간 현황(Live Activities)이 꺼져 있음
     case disabled
@@ -30,8 +36,10 @@ nonisolated enum LiveActivityError: Error {
 
 extension LiveActivityClient: DependencyKey {
     nonisolated static let liveValue = LiveActivityClient(
-        runningStartDate: {
-            return runningActivities().first?.attributes.startedAt
+        running: {
+            guard let activity = runningActivities().first else { return nil }
+
+            return RunningClockActivity(startedAt: activity.attributes.startedAt, state: activity.content.state)
         },
         start: { state in
             guard ActivityAuthorizationInfo().areActivitiesEnabled else {
