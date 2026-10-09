@@ -31,6 +31,7 @@ struct LiveClockText: View {
             format: ClockTimeFormatter.formatStyle(
                 isTwentyFourHour: state.settings.isTwentyFourHour,
                 showsSeconds: state.settings.showsSeconds,
+                showsDayPeriod: state.settings.showsDayPeriod,
                 design: state.settings.design,
                 timeZone: state.settings.timeZone
             )
@@ -38,13 +39,14 @@ struct LiveClockText: View {
     }
 
     private var widthTemplate: String {
-        // 22:58:58 → "22:58:58" / "오후 10:58:58" / "10:58:58 PM" (숫자 폭은 monospacedDigit으로 같음)
+        // 22:58:58 → "22:58:58" / "오후 10:58:58" / "10:58:58 PM" / "10:58:58" (숫자 폭은 monospacedDigit으로 같음)
         let sample = Calendar.current.date(bySettingHour: 22, minute: 58, second: 58, of: .now) ?? .now
 
         return ClockTimeFormatter.string(
             from: sample,
             isTwentyFourHour: state.settings.isTwentyFourHour,
             showsSeconds: state.settings.showsSeconds,
+            showsDayPeriod: state.settings.showsDayPeriod,
             design: state.settings.design
         )
     }

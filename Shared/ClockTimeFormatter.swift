@@ -8,25 +8,35 @@ import Foundation
 /// 시계에 표시할 시각 문자열을 만든다.
 /// 기기 설정(24시간제 스위치, 지역 형식)에 휘둘리지 않도록 형식을 직접 지정한다 (VerbatimFormatStyle)
 nonisolated enum ClockTimeFormatter {
-    /// 설정한 시간 형식과 초 표시 여부에 맞는 시각 문자열을 만든다 (예: 20:05:32, 오후 8:05:32, 8:05:32 PM)
+    /// 설정한 시간 형식과 초 · 오전/오후 표시 여부에 맞는 시각 문자열을 만든다 (예: 20:05:32, 오후 8:05:32, 8:05:32 PM, 8:05:32)
     static func string(
         from date: Date,
         isTwentyFourHour: Bool = true,
         showsSeconds: Bool = true,
+        showsDayPeriod: Bool = true,
         design: ClockDesign = .classic,
         locale: Locale = .autoupdatingCurrent,
         timeZone: TimeZone = .autoupdatingCurrent
     ) -> String {
         return date.formatted(
-            formatStyle(isTwentyFourHour: isTwentyFourHour, showsSeconds: showsSeconds, design: design, locale: locale, timeZone: timeZone)
+            formatStyle(
+                isTwentyFourHour: isTwentyFourHour,
+                showsSeconds: showsSeconds,
+                showsDayPeriod: showsDayPeriod,
+                design: design,
+                locale: locale,
+                timeZone: timeZone
+            )
         )
     }
 
-    /// 시간 형식과 초 표시 여부에 맞는 FormatStyle을 만든다 (Live Activity의 시스템 갱신 Text에도 사용).
-    /// 한글 글자가 없는 디자인(모노, 도트)의 12시간제는 "오후" 대신 영문 AM/PM으로 표시한다 (예: 8:05:32 PM)
+    /// 시간 형식과 초 · 오전/오후 표시 여부에 맞는 FormatStyle을 만든다 (Live Activity의 시스템 갱신 Text에도 사용).
+    /// 한글 글자가 없는 디자인(모노, 도트)의 12시간제는 "오후" 대신 영문 AM/PM으로 표시한다 (예: 8:05:32 PM).
+    /// 오전/오후 표시를 끄면 12시간제 숫자만 표시한다 (예: 8:05:32)
     static func formatStyle(
         isTwentyFourHour: Bool,
         showsSeconds: Bool,
+        showsDayPeriod: Bool = true,
         design: ClockDesign = .classic,
         locale: Locale = .autoupdatingCurrent,
         timeZone: TimeZone = .autoupdatingCurrent
@@ -35,6 +45,14 @@ nonisolated enum ClockTimeFormatter {
             let format: Date.FormatString = showsSeconds
                 ? "\(hour: .twoDigits(clock: .twentyFourHour, hourCycle: .zeroBased)):\(minute: .twoDigits):\(second: .twoDigits)"
                 : "\(hour: .twoDigits(clock: .twentyFourHour, hourCycle: .zeroBased)):\(minute: .twoDigits)"
+
+            return verbatimStyle(format, locale: locale, timeZone: timeZone)
+        }
+
+        guard showsDayPeriod else {
+            let format: Date.FormatString = showsSeconds
+                ? "\(hour: .defaultDigits(clock: .twelveHour, hourCycle: .oneBased)):\(minute: .twoDigits):\(second: .twoDigits)"
+                : "\(hour: .defaultDigits(clock: .twelveHour, hourCycle: .oneBased)):\(minute: .twoDigits)"
 
             return verbatimStyle(format, locale: locale, timeZone: timeZone)
         }

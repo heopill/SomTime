@@ -186,7 +186,7 @@ private extension ClockActivityAttributes {
 private extension ClockActivityAttributes.ContentState {
     static var preview: Self {
         return Self(
-            settings: ClockDisplaySettings(design: .classic, color: .amber, isTwentyFourHour: true, showsSeconds: true)
+            settings: ClockDisplaySettings(design: .classic, color: .amber, isTwentyFourHour: true, showsSeconds: true, showsDayPeriod: true)
         )
     }
 }

@@ -57,6 +57,7 @@ struct HomeView: View {
                     from: now,
                     isTwentyFourHour: store.isTwentyFourHour,
                     showsSeconds: store.showsSeconds,
+                    showsDayPeriod: store.showsDayPeriod,
                     design: store.clockDesign
                 ),
                 design: store.clockDesign,

@@ -287,6 +287,7 @@ final class PipClockController: NSObject {
             from: date,
             isTwentyFourHour: settings.isTwentyFourHour,
             showsSeconds: settings.showsSeconds,
+            showsDayPeriod: settings.showsDayPeriod,
             design: settings.design
         )
         let milliseconds = settings.serverTime?.showsMilliseconds == true

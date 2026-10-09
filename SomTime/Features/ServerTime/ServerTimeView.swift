@@ -85,7 +85,8 @@ struct ServerTimeView: View {
                     design: store.clockDesign,
                     color: store.clockColor,
                     isTwentyFourHour: store.isTwentyFourHour,
-                    showsSeconds: store.showsSeconds
+                    showsSeconds: store.showsSeconds,
+                    showsDayPeriod: store.showsDayPeriod
                 )
             )
             if store.measurement != nil {
@@ -247,6 +248,7 @@ private struct ServerTimeClockText: View {
                 from: serverDate,
                 isTwentyFourHour: settings.isTwentyFourHour,
                 showsSeconds: settings.showsSeconds,
+                showsDayPeriod: settings.showsDayPeriod,
                 design: settings.design
             ))
             .fontStyle(.clock(settings.design, placement: .serverTime))
