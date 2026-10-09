@@ -14,9 +14,12 @@ nonisolated enum ClockTimeFormatter {
         isTwentyFourHour: Bool = true,
         showsSeconds: Bool = true,
         design: ClockDesign = .classic,
-        locale: Locale = .autoupdatingCurrent
+        locale: Locale = .autoupdatingCurrent,
+        timeZone: TimeZone = .autoupdatingCurrent
     ) -> String {
-        return date.formatted(formatStyle(isTwentyFourHour: isTwentyFourHour, showsSeconds: showsSeconds, design: design, locale: locale))
+        return date.formatted(
+            formatStyle(isTwentyFourHour: isTwentyFourHour, showsSeconds: showsSeconds, design: design, locale: locale, timeZone: timeZone)
+        )
     }
 
     /// 시간 형식과 초 표시 여부에 맞는 FormatStyle을 만든다 (Live Activity의 시스템 갱신 Text에도 사용).
@@ -25,14 +28,15 @@ nonisolated enum ClockTimeFormatter {
         isTwentyFourHour: Bool,
         showsSeconds: Bool,
         design: ClockDesign = .classic,
-        locale: Locale = .autoupdatingCurrent
+        locale: Locale = .autoupdatingCurrent,
+        timeZone: TimeZone = .autoupdatingCurrent
     ) -> Date.VerbatimFormatStyle {
         guard !isTwentyFourHour else {
             let format: Date.FormatString = showsSeconds
                 ? "\(hour: .twoDigits(clock: .twentyFourHour, hourCycle: .zeroBased)):\(minute: .twoDigits):\(second: .twoDigits)"
                 : "\(hour: .twoDigits(clock: .twentyFourHour, hourCycle: .zeroBased)):\(minute: .twoDigits)"
 
-            return verbatimStyle(format, locale: locale)
+            return verbatimStyle(format, locale: locale, timeZone: timeZone)
         }
 
         let dayPeriodLocale = design.supportsHangul ? locale : Locale(identifier: "en_US_POSIX")
@@ -48,11 +52,16 @@ nonisolated enum ClockTimeFormatter {
             format = "\(hour: .defaultDigits(clock: .twelveHour, hourCycle: .oneBased)):\(minute: .twoDigits) \(dayPeriod: .standard(.abbreviated))"
         }
 
-        return verbatimStyle(format, locale: dayPeriodLocale)
+        return verbatimStyle(format, locale: dayPeriodLocale, timeZone: timeZone)
     }
 
     /// 시 · 분 · 초 중 하나만 숫자로 표시하는 FormatStyle을 만든다 (가로 모드, Minimal의 세로 쌓기용. "시" 같은 접미사 없음)
-    static func componentStyle(_ component: Component, isTwentyFourHour: Bool, locale: Locale = .autoupdatingCurrent) -> Date.VerbatimFormatStyle {
+    static func componentStyle(
+        _ component: Component,
+        isTwentyFourHour: Bool,
+        locale: Locale = .autoupdatingCurrent,
+        timeZone: TimeZone = .autoupdatingCurrent
+    ) -> Date.VerbatimFormatStyle {
         let format: Date.FormatString
         switch component {
         case .hour:
@@ -65,7 +74,7 @@ nonisolated enum ClockTimeFormatter {
             format = "\(second: .twoDigits)"
         }
 
-        return verbatimStyle(format, locale: locale)
+        return verbatimStyle(format, locale: locale, timeZone: timeZone)
     }
 
     enum Component {
@@ -74,12 +83,12 @@ nonisolated enum ClockTimeFormatter {
         case second
     }
 
-    /// 지정한 형식 그대로 그리는 FormatStyle을 만든다 (그레고리력, 기기 시간대)
-    private static func verbatimStyle(_ format: Date.FormatString, locale: Locale) -> Date.VerbatimFormatStyle {
+    /// 지정한 형식 그대로 그리는 FormatStyle을 만든다 (그레고리력, 기본은 기기 시간대)
+    private static func verbatimStyle(_ format: Date.FormatString, locale: Locale, timeZone: TimeZone) -> Date.VerbatimFormatStyle {
         return Date.VerbatimFormatStyle(
             format: format,
             locale: locale,
-            timeZone: .autoupdatingCurrent,
+            timeZone: timeZone,
             calendar: Calendar(identifier: .gregorian)
         )
     }

@@ -31,7 +31,8 @@ struct LiveClockText: View {
             format: ClockTimeFormatter.formatStyle(
                 isTwentyFourHour: state.settings.isTwentyFourHour,
                 showsSeconds: state.settings.showsSeconds,
-                design: state.settings.design
+                design: state.settings.design,
+                timeZone: state.settings.timeZone
             )
         )
     }
@@ -52,9 +53,12 @@ struct LiveClockText: View {
 /// 시 · 분 · 초 중 하나만 시스템이 갱신하도록 그리는 텍스트 (가로 모드와 Minimal용)
 struct LiveClockComponentText: View {
     let component: ClockTimeFormatter.Component
-    let isTwentyFourHour: Bool
+    let settings: ClockDisplaySettings
 
     var body: some View {
-        Text(.currentDate, format: ClockTimeFormatter.componentStyle(component, isTwentyFourHour: isTwentyFourHour))
+        Text(
+            .currentDate,
+            format: ClockTimeFormatter.componentStyle(component, isTwentyFourHour: settings.isTwentyFourHour, timeZone: settings.timeZone)
+        )
     }
 }
