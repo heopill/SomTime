@@ -58,10 +58,10 @@
 		5B7A00052F00000500000001 /* Exceptions for "Shared" folder in "SomTimeWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Fonts/Pretendard-Bold.otf,
-				Fonts/Pretendard-Medium.otf,
-				Fonts/Pretendard-Regular.otf,
-				Fonts/Pretendard-SemiBold.otf,
+				"Fonts/Pretendard-Bold.otf",
+				"Fonts/Pretendard-Medium.otf",
+				"Fonts/Pretendard-Regular.otf",
+				"Fonts/Pretendard-SemiBold.otf",
 			);
 			target = 5B7A00022F00000200000011 /* SomTimeWidgetExtension */;
 		};
@@ -285,7 +285,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 26.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.seongpil.SomTime.SomTimeWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -314,7 +314,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 26.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.seongpil.SomTime.SomTimeWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -473,7 +473,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 26.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.seongpil.SomTime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -509,7 +509,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 26.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.seongpil.SomTime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
