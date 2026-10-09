@@ -49,4 +49,12 @@ extension SharedKey where Self == AppStorageKey<Bool>.Default {
             default: ClockSettingsStorage.DefaultValue.showsSeconds
         ]
     }
+
+    /// 12시간제에서 오전/오후(AM/PM) 표시 여부
+    static var showsDayPeriod: Self {
+        Self[
+            .appStorage(ClockSettingsStorage.Key.showsDayPeriod, store: ClockSettingsStorage.userDefaults),
+            default: ClockSettingsStorage.DefaultValue.showsDayPeriod
+        ]
+    }
 }

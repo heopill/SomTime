@@ -15,6 +15,7 @@ struct SettingsFeature {
         @Shared(.clockColor) var clockColor
         @Shared(.isTwentyFourHour) var isTwentyFourHour
         @Shared(.showsSeconds) var showsSeconds
+        @Shared(.showsDayPeriod) var showsDayPeriod
         @Shared(.pipAspectRatio) var pipAspectRatio
         /// 문의 메일 작성 창 표시 여부
         var isMailComposePresented = false
@@ -30,6 +31,7 @@ struct SettingsFeature {
         case colorSelected(ClockColor)
         case timeFormatChanged(isTwentyFourHour: Bool)
         case showsSecondsChanged(Bool)
+        case showsDayPeriodChanged(Bool)
         case pipAspectRatioChanged(PipAspectRatio)
         case languageRowTapped
         case privacyPolicyRowTapped
@@ -74,6 +76,11 @@ struct SettingsFeature {
 
             case let .showsSecondsChanged(showsSeconds):
                 state.$showsSeconds.withLock { $0 = showsSeconds }
+
+                return .none
+
+            case let .showsDayPeriodChanged(showsDayPeriod):
+                state.$showsDayPeriod.withLock { $0 = showsDayPeriod }
 
                 return .none
 

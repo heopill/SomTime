@@ -11,8 +11,33 @@ nonisolated struct ClockDisplaySettings: Codable, Hashable {
     var color: ClockColor
     var isTwentyFourHour: Bool
     var showsSeconds: Bool
+    /// 12시간제에서 오전/오후(AM/PM) 표시 여부
+    var showsDayPeriod: Bool
     /// 서버 시간 시계면 측정한 오프셋 (일반 시계는 nil)
     var serverTime: ServerTimeClock?
+
+    private enum CodingKeys: String, CodingKey {
+        case design
+        case color
+        case isTwentyFourHour
+        case showsSeconds
+        case showsDayPeriod
+        case serverTime
+    }
+}
+
+nonisolated extension ClockDisplaySettings {
+    /// 저장된 상태를 읽는다. 이전 버전에서 시작한 Live Activity 상태에는 showsDayPeriod가 없으므로 기본값으로 채운다
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        design = try container.decode(ClockDesign.self, forKey: .design)
+        color = try container.decode(ClockColor.self, forKey: .color)
+        isTwentyFourHour = try container.decode(Bool.self, forKey: .isTwentyFourHour)
+        showsSeconds = try container.decode(Bool.self, forKey: .showsSeconds)
+        showsDayPeriod = try container.decodeIfPresent(Bool.self, forKey: .showsDayPeriod)
+            ?? ClockSettingsStorage.DefaultValue.showsDayPeriod
+        serverTime = try container.decodeIfPresent(ServerTimeClock.self, forKey: .serverTime)
+    }
 }
 
 nonisolated extension ClockDisplaySettings {

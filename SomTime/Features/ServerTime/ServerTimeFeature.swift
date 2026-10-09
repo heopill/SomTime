@@ -19,6 +19,7 @@ struct ServerTimeFeature {
         @SharedReader(.clockColor) var clockColor
         @SharedReader(.isTwentyFourHour) var isTwentyFourHour
         @SharedReader(.showsSeconds) var showsSeconds
+        @SharedReader(.showsDayPeriod) var showsDayPeriod
         var isMeasuring = false
         @Presents var alert: AlertState<Action.Alert>?
 

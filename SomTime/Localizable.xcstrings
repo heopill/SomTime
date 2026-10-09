@@ -1346,6 +1346,22 @@
         }
       }
     },
+    "showDayPeriod" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show AM/PM"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "오전/오후 표시"
+          }
+        }
+      }
+    },
     "showMilliseconds" : {
       "localizations" : {
         "en" : {

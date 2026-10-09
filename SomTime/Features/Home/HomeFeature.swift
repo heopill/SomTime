@@ -18,6 +18,7 @@ struct HomeFeature {
         @SharedReader(.clockColor) var clockColor
         @SharedReader(.isTwentyFourHour) var isTwentyFourHour
         @SharedReader(.showsSeconds) var showsSeconds
+        @SharedReader(.showsDayPeriod) var showsDayPeriod
         @SharedReader(.pipAspectRatio) var pipAspectRatio
         /// 서버 시간 화면에서 켠 시계. 켜져 있는 동안 일반 시계 토글은 꺼져 있다 (시계는 한 번에 하나만)
         @Shared(.serverClockSession) var serverClock
@@ -29,7 +30,8 @@ struct HomeFeature {
                 design: clockDesign,
                 color: clockColor,
                 isTwentyFourHour: isTwentyFourHour,
-                showsSeconds: showsSeconds
+                showsSeconds: showsSeconds,
+                showsDayPeriod: showsDayPeriod
             )
         }
 
