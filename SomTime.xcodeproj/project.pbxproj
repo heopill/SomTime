@@ -58,10 +58,10 @@
 		5B7A00052F00000500000001 /* Exceptions for "Shared" folder in "SomTimeWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Fonts/Pretendard-Bold.otf,
-				Fonts/Pretendard-Medium.otf,
-				Fonts/Pretendard-Regular.otf,
-				Fonts/Pretendard-SemiBold.otf,
+				"Fonts/Pretendard-Bold.otf",
+				"Fonts/Pretendard-Medium.otf",
+				"Fonts/Pretendard-Regular.otf",
+				"Fonts/Pretendard-SemiBold.otf",
 			);
 			target = 5B7A00022F00000200000011 /* SomTimeWidgetExtension */;
 		};
