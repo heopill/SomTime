@@ -7,7 +7,7 @@ import ComposableArchitecture
 import SwiftUI
 
 struct SettingsView: View {
-    let store: StoreOf<SettingsFeature>
+    @Bindable var store: StoreOf<SettingsFeature>
 
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -29,6 +29,36 @@ struct SettingsView: View {
         .background(Color(.background))
         .toolbar(.hidden, for: .navigationBar)
         .environment(\.clockAccent, store.clockColor.color)
+        .navigationDestination(
+            item: $store.scope(state: \.privacyPolicy, action: \.privacyPolicy)
+        ) { privacyPolicyStore in
+            PrivacyPolicyView(store: privacyPolicyStore)
+        }
+        // 문의하기: 기기/앱 정보가 자동 입력된 메일 작성 창
+        .sheet(
+            isPresented: Binding(
+                get: { store.isMailComposePresented },
+                set: { if !$0 { store.send(.mailComposeDismissed) } }
+            )
+        ) {
+            MailComposeView(
+                recipient: SupportInfo.recipient,
+                subject: SupportInfo.subject,
+                body: SupportInfo.body,
+                onFinish: { store.send(.mailComposeDismissed) }
+            )
+            .ignoresSafeArea()
+        }
+        .alert($store.scope(state: \.alert, action: \.alert))
+        // 문의 정보 복사 완료 토스트 (하단, 잠시 후 자동으로 사라짐)
+        .overlay(alignment: .bottom) {
+            if store.isContactInfoCopiedToastPresented {
+                ToastMessage(message: "contactInfoCopied")
+                    .padding(.bottom, 24)
+                    .transition(.opacity)
+            }
+        }
+        .animation(.easeInOut(duration: 0.2), value: store.isContactInfoCopiedToastPresented)
     }
 
     private var preview: some View {
@@ -175,31 +205,60 @@ struct SettingsView: View {
             sectionTitle {
                 Text("appSection")
             }
-            Button {
-                store.send(.languageRowTapped)
-            } label: {
-                HStack(spacing: 8) {
-                    Text("language")
-                        .fontStyle(.rowLabel)
-                        .foregroundStyle(Color(.textPrimary))
-                    Spacer(minLength: 12)
-                    Text(verbatim: currentLanguageName)
-                        .fontStyle(.rowLabel)
-                        .foregroundStyle(Color(.textSecondary))
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: 15, weight: .semibold))
-                        .foregroundStyle(Color(.textSecondary))
-                        .accessibilityHidden(true)
+            VStack(spacing: 0) {
+                navigationRow(title: "language", value: currentLanguageName) {
+                    store.send(.languageRowTapped)
                 }
-                .padding(.leading, Spacing.cardPadding)
-                .padding(.trailing, 14)
-                .frame(minHeight: 56)
-                .background(Color(.surface), in: RoundedRectangle(cornerRadius: CornerRadius.control))
-                .contentShape(RoundedRectangle(cornerRadius: CornerRadius.control))
+                appRowDivider
+                navigationRow(title: "privacyPolicy") {
+                    store.send(.privacyPolicyRowTapped)
+                }
+                appRowDivider
+                navigationRow(title: "contactUs") {
+                    store.send(.contactRowTapped)
+                }
             }
-            .buttonStyle(.plain)
-            .accessibilityElement(children: .combine)
+            .background(Color(.surface), in: RoundedRectangle(cornerRadius: CornerRadius.control))
         }
+    }
+
+    /// 앱 그룹의 행 (제목, 현재 값, 화살표). 행 전체를 누를 수 있다
+    private func navigationRow(
+        title: LocalizedStringKey,
+        value: String? = nil,
+        action: @escaping () -> Void
+    ) -> some View {
+        return Button(action: action) {
+            HStack(spacing: 8) {
+                Text(title)
+                    .fontStyle(.rowLabel)
+                    .foregroundStyle(Color(.textPrimary))
+                Spacer(minLength: 12)
+                if let value {
+                    Text(verbatim: value)
+                        .fontStyle(.rowLabel)
+                        .foregroundStyle(Color(.textSecondary))
+                }
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundStyle(Color(.textSecondary))
+                    .accessibilityHidden(true)
+            }
+            .padding(.leading, Spacing.cardPadding)
+            .padding(.trailing, 14)
+            .frame(minHeight: 56)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityElement(children: .combine)
+    }
+
+    /// 앱 그룹의 행 구분선 (행 제목 위치부터 카드 오른쪽 끝까지)
+    private var appRowDivider: some View {
+        Rectangle()
+            .fill(Color(.divider))
+            .frame(height: 1)
+            .padding(.leading, Spacing.cardPadding)
     }
 
     // 앱에 지금 적용된 언어 이름을 그 언어로 표시한다 (예: 한국어, English)
