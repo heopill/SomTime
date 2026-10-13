@@ -139,7 +139,7 @@ struct ServerTimeView: View {
     }
 
     private var startButton: some View {
-        PrimaryButton(title: startButtonTitle, isRunning: store.isRunning) {
+        PrimaryButton(title: startButtonTitle, style: store.isRunning ? .neutral : .accent) {
             store.send(.startButtonTapped)
         }
         .disabled(!store.isRunning && store.measurement == nil)

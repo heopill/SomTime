@@ -65,11 +65,14 @@ extension FontStyle {
     static let homeTitle = FontStyle(fontName: FontName.pretendardBold, fontSize: 28, lineHeightMultiple: 1.3, trackingRatio: -0.02) // 홈 타이틀
     static let screenTitle = FontStyle(fontName: FontName.pretendardBold, fontSize: 24, lineHeightMultiple: 1.3, trackingRatio: -0.02) // 하위 화면 타이틀 (설정, 서버 시간)
     static let primaryButton = FontStyle(fontName: FontName.pretendardBold, fontSize: 16, lineHeightMultiple: 1.3) // 기본 버튼 (시작, 시계 끄기)
+    static let largeButton = FontStyle(fontName: FontName.pretendardBold, fontSize: 18, lineHeightMultiple: 1.3) // 큰 기본 버튼 (정각 클릭 연습의 예매하기)
+    static let badge = FontStyle(fontName: FontName.pretendardBold, fontSize: 10, trackingRatio: 0.04) // NEW 배지
 
     // MARK: Pretendard-SemiBold
     static let cardTitle = FontStyle(fontName: FontName.pretendardSemiBold, fontSize: 16, lineHeightMultiple: 1.5) // 기능 카드, 메뉴 행 제목
     static let secondaryButton = FontStyle(fontName: FontName.pretendardSemiBold, fontSize: 14, lineHeightMultiple: 1.5) // 보조 버튼, 선택 버튼 (측정, 다이나믹 아일랜드)
-    static let sectionTitle = FontStyle(fontName: FontName.pretendardSemiBold, fontSize: 13, lineHeightMultiple: 1.5) // 섹션 제목, 세그먼트
+    static let sectionTitle = FontStyle(fontName: FontName.pretendardSemiBold, fontSize: 13, lineHeightMultiple: 1.5) // 섹션 제목, 세그먼트, 칩
+    static let stageLabel = FontStyle(fontName: FontName.pretendardSemiBold, fontSize: 11, trackingRatio: 0.16) // 좌석 배치도의 STAGE
 
     // MARK: Pretendard-Regular (Body)
     static let rowLabel = FontStyle(fontName: FontName.pretendardRegular, fontSize: 15, lineHeightMultiple: 1.5) // 리스트 행 레이블, 입력창
@@ -92,6 +95,12 @@ extension FontStyle {
         case serverTime // 서버 시간 결과
         case serverTimeMilliseconds // 서버 시간 결과의 밀리초
         case designCard // 설정의 디자인 카드 미리보기
+        case practiceCard // 티켓팅 연습 카드 미리보기
+        case practiceCardMilliseconds // 티켓팅 연습 카드 미리보기의 밀리초
+        case practiceReady // 정각 클릭 연습 시작 전
+        case practiceReadyMilliseconds // 정각 클릭 연습 시작 전의 밀리초
+        case practicePlaying // 정각 클릭 연습 진행 중
+        case practicePlayingMilliseconds // 정각 클릭 연습 진행 중의 밀리초
 
         var fontSize: CGFloat {
             switch self {
@@ -104,6 +113,12 @@ extension FontStyle {
             case .serverTime: return 38
             case .serverTimeMilliseconds: return 24
             case .designCard: return 26
+            case .practiceCard: return 28
+            case .practiceCardMilliseconds: return 18
+            case .practiceReady: return 38
+            case .practiceReadyMilliseconds: return 24
+            case .practicePlaying: return 60
+            case .practicePlayingMilliseconds: return 36
             }
         }
     }
@@ -126,6 +141,16 @@ extension FontStyle {
             return FontStyle(font: Font.custom(FontName.dotoBlack, fixedSize: size), fontSize: size, trackingRatio: 0.02)
         }
     }
+}
+
+// MARK: - 티켓팅 연습 숫자
+
+extension FontStyle {
+    static let practiceResult = FontStyle(font: Font.custom(FontName.pretendardSemiBold, fixedSize: 56).monospacedDigit(), fontSize: 56, trackingRatio: -0.02) // 정각 클릭 결과의 차이
+    static let practiceResultUnit = FontStyle(fontName: FontName.pretendardSemiBold, fontSize: 28, isFixedSize: true) // 정각 클릭 결과의 "초"
+    static let practiceTimer = FontStyle(font: Font.custom(FontName.pretendardSemiBold, fixedSize: 32).monospacedDigit(), fontSize: 32, trackingRatio: -0.02) // 포도알 연습의 남은 시간
+    static let practiceTimerUnit = FontStyle(fontName: FontName.pretendardSemiBold, fontSize: 16, isFixedSize: true) // 포도알 연습 남은 시간의 "초"
+    static let practiceTimeLimit = FontStyle(font: Font.custom(FontName.pretendardSemiBold, size: 24).monospacedDigit(), fontSize: 24) // 포도알 난이도 버튼의 제한 시간
 }
 
 // MARK: - View 적용

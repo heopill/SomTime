@@ -5,10 +5,15 @@
 
 import SwiftUI
 
-/// 화면 하단의 기본 버튼 (높이 56). 시작은 강조색 배경, 실행 중은 surfaceRaised 배경
+/// 화면 하단의 기본 버튼 (높이 56). 강조 스타일은 강조색 배경, 보조 스타일은 surfaceRaised 배경 (실행 중인 시계 끄기, 그만하기 등)
 struct PrimaryButton: View {
+    enum Style {
+        case accent
+        case neutral
+    }
+
     let title: LocalizedStringKey
-    var isRunning: Bool = false
+    var style: Style = .accent
     let action: () -> Void
 
     @Environment(\.clockAccent) private var accent
@@ -17,11 +22,13 @@ struct PrimaryButton: View {
         Button(action: action) {
             Text(title)
                 .fontStyle(.primaryButton)
-                .foregroundStyle(isRunning ? Color(.textPrimary) : Color(.background))
+                .foregroundStyle(style == .neutral ? Color(.textPrimary) : Color(.background))
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
                 .frame(maxWidth: .infinity)
                 .frame(height: 56)
                 .background(
-                    isRunning ? Color(.surfaceRaised) : accent,
+                    style == .neutral ? Color(.surfaceRaised) : accent,
                     in: RoundedRectangle(cornerRadius: CornerRadius.control)
                 )
                 .contentShape(RoundedRectangle(cornerRadius: CornerRadius.control))
@@ -33,7 +40,7 @@ struct PrimaryButton: View {
 #Preview {
     VStack(spacing: Spacing.card) {
         PrimaryButton(title: "startServerTimePip") {}
-        PrimaryButton(title: "turnOffClock", isRunning: true) {}
+        PrimaryButton(title: "turnOffClock", style: .neutral) {}
     }
     .padding(Spacing.screenHorizontal)
     .background(Color(.background))

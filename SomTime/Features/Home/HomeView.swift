@@ -32,6 +32,11 @@ struct HomeView: View {
             ) { serverTimeStore in
                 ServerTimeView(store: serverTimeStore)
             }
+            .navigationDestination(
+                item: $store.scope(state: \.destination?.ticketingPractice, action: \.destination.ticketingPractice)
+            ) { ticketingPracticeStore in
+                TicketingPracticeView(store: ticketingPracticeStore)
+            }
         }
         .environment(\.clockAccent, store.clockColor.color)
         .tint(store.clockColor.color)
@@ -48,7 +53,7 @@ struct HomeView: View {
         }
     }
 
-    /// 홈 화면 본문 (헤더, 미리보기, 기능 카드, 설정 요약)
+    /// 홈 화면 본문 (헤더, 미리보기, 기능 카드, 서버 시간 · 티켓팅 연습 타일)
     private func content(now: Date) -> some View {
         VStack(spacing: Spacing.section) {
             header
@@ -78,14 +83,23 @@ struct HomeView: View {
                     status: pipStatus,
                     isOn: $store.isPipOn.sending(\.pipToggled)
                 )
-                MenuRow(systemImage: "globe", title: "serverTime", subtitle: "serverTimeSubtitle") {
-                    store.send(.serverTimeRowTapped)
+                HStack(spacing: Spacing.card) {
+                    HomeTile(systemImage: "globe", title: "serverTime", subtitle: "serverTimeSubtitle") {
+                        store.send(.serverTimeTileTapped)
+                    }
+                    HomeTile(
+                        systemImage: "ticket",
+                        title: "ticketingPractice",
+                        subtitle: "ticketingPracticeSubtitle",
+                        showsNewBadge: !store.hasOpenedTicketingPractice
+                    ) {
+                        store.send(.ticketingPracticeTileTapped)
+                    }
                 }
+                .fixedSize(horizontal: false, vertical: true)
             }
+            // 홈 하단 광고 배너 자리 (광고는 추후 추가)
             Spacer(minLength: 0)
-            SettingsSummaryRow(design: store.clockDesign, color: store.clockColor) {
-                store.send(.settingsButtonTapped)
-            }
         }
         .padding(.horizontal, Spacing.screenHorizontal)
         .padding(.top, 8)
