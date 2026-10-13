@@ -22,6 +22,8 @@ struct HomeFeature {
         @SharedReader(.pipAspectRatio) var pipAspectRatio
         /// 서버 시간 화면에서 켠 시계. 켜져 있는 동안 일반 시계 토글은 꺼져 있다 (시계는 한 번에 하나만)
         @Shared(.serverClockSession) var serverClock
+        /// 티켓팅 연습 타일을 눌러 본 적이 있는지 여부 (NEW 배지 숨김)
+        @Shared(.hasOpenedTicketingPractice) var hasOpenedTicketingPractice
         @Presents var destination: Destination.State?
         @Presents var alert: AlertState<Action.Alert>?
 
@@ -60,7 +62,8 @@ struct HomeFeature {
         case serverIslandRestored(ServerTimeClock)
         case serverClockStartFailed(ServerTimeDisplayMode)
         case settingsButtonTapped
-        case serverTimeRowTapped
+        case serverTimeTileTapped
+        case ticketingPracticeTileTapped
         case destination(PresentationAction<Destination.Action>)
         case alert(PresentationAction<Alert>)
 
@@ -267,8 +270,14 @@ struct HomeFeature {
 
                 return .none
 
-            case .serverTimeRowTapped:
+            case .serverTimeTileTapped:
                 state.destination = .serverTime(ServerTimeFeature.State())
+
+                return .none
+
+            case .ticketingPracticeTileTapped:
+                state.$hasOpenedTicketingPractice.withLock { $0 = true }
+                state.destination = .ticketingPractice(TicketingPracticeFeature.State())
 
                 return .none
 
@@ -421,6 +430,7 @@ extension HomeFeature {
     enum Destination {
         case settings(SettingsFeature)
         case serverTime(ServerTimeFeature)
+        case ticketingPractice(TicketingPracticeFeature)
     }
 }
 
