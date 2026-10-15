@@ -7,15 +7,13 @@
   섬타임 (SomTime)
   <p align="center">
   <img src="https://img.shields.io/badge/프로젝트 기간-2026.10.05 ~ -FFB340?style=flat&logo=&logoColor=white" alt="프로젝트 기간" />
-  <img src="https://img.shields.io/badge/release-v26.0.0-4fc08d?style=flat&logo=apple&logoColor=white" alt="릴리즈 버전" />
+  <img src="https://img.shields.io/badge/release-v26.1.0-4fc08d?style=flat&logo=apple&logoColor=white" alt="릴리즈 버전" />
   </p>
-  <!-- TODO: 앱스토어 출시 후 앱 ID를 채우고 주석을 해제한다
   <p align="center">
-    <a href="https://apps.apple.com/kr/app/섬타임-아일랜드-시계/idXXXXXXXXXX">
+    <a href="https://apps.apple.com/kr/app/%EC%84%AC%ED%83%80%EC%9E%84/id6820983446">
       <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store" height="40">
     </a>
   </p>
-  -->
 </h1>
 
 
@@ -51,6 +49,12 @@
 * **원하는 곳에 표시** : 측정한 서버 시간을 다이나믹 아일랜드 또는 PiP 플로팅 시계 중 원하는 곳에 띄울 수 있습니다.
 * **밀리초 표시** : PiP에서는 밀리초까지 표시해, 티켓팅처럼 정확한 순간이 필요할 때 활용할 수 있습니다.
 * **다시 맞추기** : 시계가 실행 중일 때 다시 측정하면 새로 맞춘 시각이 곧바로 시계에 반영됩니다.
+
+### 🎟️ 티켓팅 연습
+* **정각 클릭 연습** : 09:59:50부터 흐르는 연습 시계를 보고 10:00:00 정각에 예매하기를 누르면, 정각과의 차이를 밀리초 단위로 보여주고 "완벽해요 · 아주 좋아요"처럼 판정합니다. 누른 순간은 −0.5초 ~ +0.5초 타임라인 위에 표시됩니다.
+* **포도알 클릭 연습** : 좌석 배치도에서 무작위로 뜨는 빈 좌석(포도알)을 찾아 누르고, 제한 시간 안에 예매하기까지 누르는 연습입니다. 결과 화면에서는 걸린 시간을 "좌석 선택"과 "예매하기까지"로 나눠 보여줍니다.
+* **난이도 · 좌석 사라짐** : 쉬움(5초) · 보통(3초) · 어려움(2초) 중에서 고르며, 다른 사람이 먼저 잡은 것처럼 빈 좌석이 하나씩 사라지고 고른 좌석도 뺏길 수 있어 실전처럼 연습할 수 있습니다.
+* **연습 기록** : 정각 클릭의 최고 기록 · 최근 10회 평균 · 연습 횟수와 포도알 클릭의 난이도별 최고 기록을 기기에 저장합니다.
 
 ### 🎨 나만의 시계 꾸미기
 * **4가지 시계 디자인** : 기본 · 굵게 · 모노 · 도트(도트 매트릭스) 디자인을 가로 슬라이드로 골라볼 수 있습니다.
@@ -133,11 +137,13 @@
 ## 📸 App Previews
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/4d0a705a-6414-4829-b27c-909d712f4305" width="18%" alt="1-대표" />
-  <img src="https://github.com/user-attachments/assets/0cb03182-e080-4a4c-bcfa-8f5eeef47d7e" width="18%" alt="2-홈" />
-  <img src="https://github.com/user-attachments/assets/785b6c94-b173-4ea1-b4d2-e219bf209a84" width="18%" alt="3-영상PiP" />
-  <img src="https://github.com/user-attachments/assets/f0ba3070-c1b1-41c9-ae1a-9dc20923d1ed" width="18%" alt="4-서버시간" />
-  <img src="https://github.com/user-attachments/assets/2f9453c4-13ce-41db-a9c0-476a4e73cf15" width="18%" alt="5-설정" />
+  <img src="https://github.com/user-attachments/assets/4d0a705a-6414-4829-b27c-909d712f4305" width="13.5%" alt="1-대표" />
+  <img src="https://github.com/user-attachments/assets/0cb03182-e080-4a4c-bcfa-8f5eeef47d7e" width="13.5%" alt="2-홈" />
+  <img src="https://github.com/user-attachments/assets/785b6c94-b173-4ea1-b4d2-e219bf209a84" width="13.5%" alt="3-영상PiP" />
+  <img src="https://github.com/user-attachments/assets/f0ba3070-c1b1-41c9-ae1a-9dc20923d1ed" width="13.5%" alt="4-서버시간" />
+  <img src="https://github.com/user-attachments/assets/2f9453c4-13ce-41db-a9c0-476a4e73cf15" width="13.5%" alt="5-설정" />
+  <img src="https://github.com/user-attachments/assets/2a1a6733-5bf3-4333-a9d3-fb277969c9d3" width="13.5%" alt="6-정각클릭연습" />
+  <img src="https://github.com/user-attachments/assets/b1944121-a00d-4ace-9729-4d47c64f716b" width="13.5%" alt="7-포도알클릭연습" />
 </p>
 
 <br>
@@ -147,13 +153,14 @@
 | Version | Date | Description |
 |:---|:---|:---|
 | **v26.0.0** | 2026.10.10 | 첫 공식 배포 (Initial Release) |
-
+| **v26.1.0** | 2026.10.15 | 티켓팅 연습 기능 추가 (정각 클릭, 포도알 클릭) |
 
 <br>
 
 ## 🌳 프로젝트 구조
 
 ```
+## 🌳 프로젝트 구조
 SomTime/
 ├── SomTime/                                # 앱 메인 타깃
 │   ├── SomTimeApp.swift                    # 앱 진입점
@@ -175,6 +182,14 @@ SomTime/
 │   │   │   ├── SettingsFeature.swift
 │   │   │   ├── SettingsView.swift
 │   │   │   └── MailComposeView.swift
+│   │   ├── TicketingPractice/              # 티켓팅 연습 (정각 클릭 · 포도알 클릭)
+│   │   │   ├── TicketingPracticeFeature.swift
+│   │   │   ├── TicketingPracticeView.swift #  └ 연습 선택 화면
+│   │   │   ├── TimingPracticeFeature.swift
+│   │   │   ├── TimingPracticeView.swift    #  └ 정각 클릭 연습
+│   │   │   ├── SeatPracticeFeature.swift
+│   │   │   ├── SeatPracticeView.swift      #  └ 포도알 클릭 연습
+│   │   │   └── TicketingPracticeModels.swift
 │   │   └── PrivacyPolicy/                  # 개인정보 처리방침
 │   │       ├── PrivacyPolicyFeature.swift
 │   │       └── PrivacyPolicyView.swift
@@ -189,32 +204,42 @@ SomTime/
 │   │   └── PipClockFrameRenderer.swift     # SwiftUI 시계 → CMSampleBuffer 렌더링
 │   │
 │   ├── Components/                         # 공통 UI 컴포넌트
+│   │   ├── Chip.swift
 │   │   ├── ColorSwatch.swift
 │   │   ├── DesignCard.swift
+│   │   ├── DifficultyButton.swift
 │   │   ├── FeatureCard.swift
+│   │   ├── HomeTile.swift
 │   │   ├── IconButton.swift
 │   │   ├── IconTile.swift
 │   │   ├── IslandPill.swift
-│   │   ├── MenuRow.swift
+│   │   ├── MiniSeatGrid.swift
 │   │   ├── PipClockWindow.swift
+│   │   ├── PracticeClockText.swift
+│   │   ├── PracticeModeCard.swift
 │   │   ├── PrimaryButton.swift
+│   │   ├── RecordList.swift
+│   │   ├── ResultIcon.swift
 │   │   ├── ScreenHeader.swift
+│   │   ├── SeatButton.swift
 │   │   ├── SegmentedPicker.swift
 │   │   ├── SelectionButton.swift
-│   │   ├── SettingsSummaryRow.swift
 │   │   ├── SwitchIndicator.swift
+│   │   ├── TimeBreakdownBar.swift
 │   │   ├── ToastMessage.swift
 │   │   ├── URLInputField.swift
 │   │   └── WebView.swift
 │   │
 │   ├── Storage/                            # @Shared 저장 키
 │   │   ├── ClockSettingsSharedKeys.swift   # 시계 설정 (App Group UserDefaults)
-│   │   └── ServerTimeSharedKeys.swift      # 서버 시간 입력값 · 측정 결과 · 실행 상태
+│   │   ├── ServerTimeSharedKeys.swift      # 서버 시간 입력값 · 측정 결과 · 실행 상태
+│   │   └── TicketingPracticeSharedKeys.swift  # 티켓팅 연습 기록 · 옵션 (앱 전용 저장소)
 │   │
-│   ├── Extensions/                         # 디자인 · 색상 · PiP 비율 표시 이름
+│   ├── Extensions/                         # 디자인 · 색상 · PiP 비율 · 난이도 표시 이름
 │   │   ├── ClockColor+Name.swift
 │   │   ├── ClockDesign+Name.swift
-│   │   └── PipAspectRatio+Name.swift
+│   │   ├── PipAspectRatio+Name.swift
+│   │   └── TicketingPractice+Name.swift
 │   │
 │   ├── Utilities/
 │   │   ├── DeviceCapability.swift          # 다이나믹 아일랜드 · PiP 지원 여부 판별
