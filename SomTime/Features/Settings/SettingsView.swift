@@ -26,6 +26,18 @@ struct SettingsView: View {
             .padding(.bottom, Spacing.section)
         }
         .scrollBounceBehavior(.basedOnSize)
+        // 문의 정보 복사 완료 토스트 (하단 광고 배너 위, 잠시 후 자동으로 사라짐)
+        .overlay(alignment: .bottom) {
+            if store.isContactInfoCopiedToastPresented {
+                ToastMessage(message: "contactInfoCopied")
+                    .padding(.bottom, 24)
+                    .transition(.opacity)
+            }
+        }
+        .animation(.easeInOut(duration: 0.2), value: store.isContactInfoCopiedToastPresented)
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            AdBannerSlot(placement: .settings)
+        }
         .background(Color(.background))
         .toolbar(.hidden, for: .navigationBar)
         .environment(\.clockAccent, store.clockColor.color)
@@ -50,15 +62,6 @@ struct SettingsView: View {
             .ignoresSafeArea()
         }
         .alert($store.scope(state: \.alert, action: \.alert))
-        // 문의 정보 복사 완료 토스트 (하단, 잠시 후 자동으로 사라짐)
-        .overlay(alignment: .bottom) {
-            if store.isContactInfoCopiedToastPresented {
-                ToastMessage(message: "contactInfoCopied")
-                    .padding(.bottom, 24)
-                    .transition(.opacity)
-            }
-        }
-        .animation(.easeInOut(duration: 0.2), value: store.isContactInfoCopiedToastPresented)
     }
 
     private var preview: some View {

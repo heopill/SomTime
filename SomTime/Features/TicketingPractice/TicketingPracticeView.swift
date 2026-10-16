@@ -34,6 +34,9 @@ struct TicketingPracticeView: View {
         .padding(.top, 8)
         .padding(.bottom, 12)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            AdBannerSlot(placement: .ticketingPractice)
+        }
         .background(Color(.background))
         .toolbar(.hidden, for: .navigationBar)
         .navigationDestination(
