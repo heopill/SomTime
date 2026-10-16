@@ -243,6 +243,13 @@ struct SettingsView: View {
                 navigationRow(title: "contactUs") {
                     store.send(.contactRowTapped)
                 }
+                // 광고 동의가 필요한 지역(유럽 · 영국 등)에서만 동의를 다시 고르는 항목을 보여 준다
+                if store.adConsent?.isPrivacyOptionsRequired == true {
+                    appRowDivider
+                    navigationRow(title: "adPrivacyOptions") {
+                        store.send(.adPrivacyOptionsRowTapped)
+                    }
+                }
             }
             .background(Color(.surface), in: RoundedRectangle(cornerRadius: CornerRadius.control))
         }
