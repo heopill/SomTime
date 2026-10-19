@@ -38,7 +38,8 @@ struct AdBannerSlot: View {
                 .padding(.bottom, 8)
             }
         }
-        .frame(maxWidth: .infinity)
+        // 배너가 넓어도 자리 폭은 화면이 준 폭을 따른다 (가로 → 세로 회전 뒤 넓은 배너 폭이 다시 측정되어 고정되지 않도록)
+        .frame(minWidth: 0, maxWidth: .infinity)
         .onGeometryChange(for: CGFloat.self) { proxy in
             proxy.size.width
         } action: { newWidth in
