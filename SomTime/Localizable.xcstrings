@@ -33,6 +33,22 @@
         }
       }
     },
+    "adPrivacyOptions" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ad Privacy Settings"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "광고 개인정보 설정"
+          }
+        }
+      }
+    },
     "appSection" : {
       "localizations" : {
         "en" : {

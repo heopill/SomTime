@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5B7A00012F00000100000003 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 5B7A00012F00000100000002 /* ComposableArchitecture */; };
 		5B7A00022F00000200000002 /* SomTimeWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5B7A00022F00000200000001 /* SomTimeWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		5B7A00032F00000300000003 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 5B7A00032F00000300000002 /* GoogleMobileAds */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +108,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B7A00012F00000100000003 /* ComposableArchitecture in Frameworks */,
+				5B7A00032F00000300000003 /* GoogleMobileAds in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,6 +181,7 @@
 			name = SomTime;
 			packageProductDependencies = (
 				5B7A00012F00000100000002 /* ComposableArchitecture */,
+				5B7A00032F00000300000002 /* GoogleMobileAds */,
 			);
 			productName = SomTime;
 			productReference = BBAA050C3073CA47008CD219 /* SomTime.app */;
@@ -214,6 +217,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				5B7A00012F00000100000001 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				5B7A00032F00000300000001 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BBAA050D3073CA47008CD219 /* Products */;
@@ -285,7 +289,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 26.1.0;
+				MARKETING_VERSION = 26.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.seongpil.SomTime.SomTimeWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -316,7 +320,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 26.1.0;
+				MARKETING_VERSION = 26.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.seongpil.SomTime.SomTimeWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -477,7 +481,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 26.1.0;
+				MARKETING_VERSION = 26.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.seongpil.SomTime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -515,7 +519,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 26.1.0;
+				MARKETING_VERSION = 26.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.seongpil.SomTime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -571,6 +575,14 @@
 				minimumVersion = 1.26.2;
 			};
 		};
+		5B7A00032F00000300000001 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.11.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -578,6 +590,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5B7A00012F00000100000001 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
+		};
+		5B7A00032F00000300000002 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5B7A00032F00000300000001 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

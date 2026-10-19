@@ -33,6 +33,12 @@ struct ServerTimeView: View {
         .padding(.top, 8)
         .padding(.bottom, 12)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            // 주소를 입력하는 동안에는 키보드 바로 위에 광고가 붙지 않도록 뺀다 (실수 클릭 방지)
+            if !isURLFieldFocused {
+                AdBannerSlot(placement: .serverTime)
+            }
+        }
         .background { keyboardDismissArea }
         .background(Color(.background))
         .toolbar(.hidden, for: .navigationBar)

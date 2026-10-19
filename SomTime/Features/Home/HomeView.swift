@@ -20,6 +20,10 @@ struct HomeView: View {
                     .scrollBounceBehavior(.basedOnSize)
                 }
             }
+            // 하단 광고 배너 (매초 다시 그리는 시계 영역 밖에 둔다)
+            .safeAreaInset(edge: .bottom, spacing: 0) {
+                AdBannerSlot(placement: .home)
+            }
             .background(Color(.background))
             .toolbar(.hidden, for: .navigationBar)
             .navigationDestination(
@@ -98,7 +102,6 @@ struct HomeView: View {
                 }
                 .fixedSize(horizontal: false, vertical: true)
             }
-            // 홈 하단 광고 배너 자리 (광고는 추후 추가)
             Spacer(minLength: 0)
         }
         .padding(.horizontal, Spacing.screenHorizontal)
