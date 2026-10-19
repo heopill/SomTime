@@ -10,6 +10,12 @@
             "value" : "SomTime"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SomTime"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",

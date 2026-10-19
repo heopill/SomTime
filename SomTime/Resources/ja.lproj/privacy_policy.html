@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>SomTime プライバシーポリシー</title>
+<style>
+  /* 앱이 다크 모드만 지원하므로 항상 앱 배경색(다크)으로 고정한다. 색상은 앱 디자인 토큰과 같다 */
+  :root {
+    color-scheme: dark;
+    --bg: #0e0f12;
+    --surface: #1a1c21;
+    --border: #23262d;
+    --line: #262930;
+    --text-primary: #f2f3f5;
+    --text-secondary: #9a9ea8;
+    --accent: #ffb340;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 20px 20px 48px;
+    background: var(--bg);
+    color: var(--text-secondary);
+    font-family: -apple-system, "Hiragino Sans", system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-wrap: break-word;
+    -webkit-text-size-adjust: 100%;
+  }
+  h1 {
+    color: var(--text-primary);
+    font-size: 22px;
+    font-weight: 700;
+    margin: 4px 0 4px;
+    letter-spacing: -0.02em;
+  }
+  .updated {
+    font-size: 13px;
+    margin-top: 24px;
+  }
+  .intro {
+    margin-bottom: 28px;
+  }
+  h2 {
+    color: var(--text-primary);
+    font-size: 16px;
+    font-weight: 700;
+    margin: 28px 0 8px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    letter-spacing: -0.01em;
+  }
+  /* 번호(1. 2. …)만 강조색으로 표시한다 */
+  h2 .num { color: var(--accent); margin-right: 6px; }
+  p { margin: 8px 0; }
+  ul { margin: 8px 0; padding-left: 20px; }
+  li { margin: 5px 0; }
+  strong { color: var(--text-primary); font-weight: 700; }
+  a { color: var(--accent); text-decoration: none; word-break: break-all; }
+  .contact {
+    margin-top: 28px;
+    padding: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+  }
+</style>
+</head>
+<body>
+
+  <h1>プライバシーポリシー</h1>
+
+  <p class="intro">
+    SomTime(以下「本アプリ」)は、利用者のプライバシーを大切に考え、必要最小限の情報のみを取り扱います。
+    本アプリには会員登録やログインの手続きがなく、開発者が運営するサーバーもないため、開発者が利用者の個人情報をサーバーに収集・保存することはありません。
+    ただし、広告を表示するためにGoogle AdMobが第5項の情報を処理する場合があります。
+  </p>
+
+  <h2><span class="num">1.</span>収集・利用する個人情報</h2>
+  <p>
+    開発者は、サービスの利用中に利用者を識別できる個人情報を収集しません(広告に関する情報の処理は第5項を参照)。
+    本アプリで作成される以下の情報はすべて利用者の<strong>デバイス内にのみ保存</strong>され、外部に送信されたり、開発者が閲覧したりすることはできません。
+  </p>
+  <ul>
+    <li>時計のデザイン・カラー、時刻の形式(12時間/24時間)、秒の表示、PiPの縦横比の設定</li>
+    <li>サーバー時間の画面で入力したサイトのアドレス</li>
+    <li>直近のサーバー時間の測定結果(デバイスの時刻との差、誤差の範囲)</li>
+    <li>サーバー時間の表示方法およびミリ秒表示の設定</li>
+  </ul>
+  <p>
+    これらの情報は、Dynamic Islandやロック画面に時計を表示するため、同じデバイス内の本アプリの拡張機能(ウィジェット)と共有される場合があり、
+    本アプリを削除するとデバイスから一緒に削除されます。
+  </p>
+
+  <h2><span class="num">2.</span>サーバー時間の測定のための通信</h2>
+  <p>
+    サーバー時間の機能を使用すると、本アプリは利用者が入力したサイトへデバイスから<strong>直接</strong>リクエストを送信し、レスポンスに含まれる時刻情報のみを読み取ります。
+    このリクエストは開発者のサーバーを経由せず、開発者にはいかなる情報も送信されません。
+  </p>
+  <ul>
+    <li>本アプリはこのリクエストでCookieを保存・利用せず、レスポンスの内容も保存しません。</li>
+    <li>一般的なWebサイトへのアクセスと同様に、サイト側がIPアドレスなどの接続情報を受け取る場合があります。これらの情報は、そのサイトのプライバシーポリシーに従って取り扱われます。</li>
+  </ul>
+
+  <h2><span class="num">3.</span>Dynamic IslandとPiPの時計</h2>
+  <p>
+    Dynamic Island、ロック画面、ピクチャ・イン・ピクチャ(PiP)に表示される時計はすべてデバイス内で生成され、本アプリはリモートプッシュサーバーを使用しません。
+    本アプリは、カメラ、マイク、位置情報、写真、連絡先などのデバイスへのアクセス許可を求めません。
+  </p>
+
+  <h2><span class="num">4.</span>お問い合わせの際に取り扱う情報</h2>
+  <p>
+    本アプリの「お問い合わせ」からメールを送信する場合、お問い合わせへの対応のため、以下の情報がメール本文に自動で含まれることがあります。
+  </p>
+  <ul>
+    <li>デバイスのモデル・iOSのバージョン・アプリのバージョン</li>
+    <li>デバイスの言語/地域の設定</li>
+    <li>メールを送信する場合は、利用者のメールアドレス</li>
+  </ul>
+  <p>
+    これらの情報は<strong>利用者がご自身でメールを送信した場合にのみ</strong>送られ、お問い合わせの確認と回答のためにのみ使用されます。
+    送信するかどうかは、利用者が自由に選択できます。
+  </p>
+
+  <h2><span class="num">5.</span>広告と第三者への提供</h2>
+  <p>
+    本アプリは、ホーム、設定、サーバー時間、チケット取り練習の各画面の下部にバナー広告を表示するため、Googleの広告サービスである<strong>Google AdMob</strong>を使用しています。
+    広告の表示と効果測定のため、Googleが以下の情報を収集・処理する場合があります。
+  </p>
+  <ul>
+    <li>IPアドレスと、そこから推定されるおおよその位置情報</li>
+    <li>アプリまたは開発者単位のデバイス識別子</li>
+    <li>広告の表示やクリックなどの広告とのやり取り</li>
+    <li>クラッシュログや起動時間などの診断・パフォーマンスデータ</li>
+  </ul>
+  <ul>
+    <li>本アプリは、他社のアプリやWebサイトをまたいだアクティビティの追跡許可(App Tracking Transparency)を求めないため、デバイスの広告識別子(IDFA)は使用されません。</li>
+    <li>欧州経済領域(EEA)、英国、スイスにお住まいの場合は、本アプリが広告のプライバシーに関する同意を求めます。同意内容は、設定の「広告のプライバシー設定」からいつでも変更できます。</li>
+    <li>Googleによる情報の取り扱いの詳細は、<a href="https://policies.google.com/technologies/partner-sites">Googleのサービスを使用するサイトやアプリから収集した情報のGoogleによる使用</a>および<a href="https://policies.google.com/privacy">Googleプライバシーポリシー</a>をご覧ください。</li>
+  </ul>
+  <p>
+    上記以外に、本アプリが利用者の個人情報を第三者に提供することはなく、利用者の行動分析ツールも使用しません。
+  </p>
+
+  <h2><span class="num">6.</span>保存期間と削除</h2>
+  <p>
+    デバイスに保存された情報は、本アプリを削除すると削除されます。お問い合わせで受け取ったメールは、対応の完了後、関係法令に従って保管・削除します。
+    Googleが広告のために処理する情報は、Googleプライバシーポリシーに従って保管されます。
+  </p>
+
+  <h2><span class="num">7.</span>利用者の権利</h2>
+  <p>
+    利用者は、本アプリを削除することで、デバイスに保存された本アプリのデータをいつでも削除できます。
+    お問い合わせで送信した情報の確認や削除をご希望の場合は、下記の連絡先までご連絡ください。
+  </p>
+
+  <h2><span class="num">8.</span>子どものプライバシー</h2>
+  <p>
+    開発者は、子どもを含むすべての利用者から個人情報を収集しません。広告のために処理される情報は、第5項のとおり取り扱われます。
+  </p>
+
+  <h2><span class="num">9.</span>プライバシーポリシーの変更</h2>
+  <p>
+    本ポリシーは、法令やサービスの変更に伴い改定される場合があります。改定した場合は、本アプリを通じてお知らせします。
+  </p>
+
+  <div class="contact">
+    <p><strong>お問い合わせ</strong></p>
+    <p>プライバシーに関するお問い合わせ: <a href="mailto:somtime.support@gmail.com">somtime.support@gmail.com</a></p>
+  </div>
+
+  <p class="updated">施行日: 2026年10月16日</p>
+
+</body>
+</html>
