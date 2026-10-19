@@ -9,6 +9,12 @@
             "value" : "Off"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "オフ"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -23,6 +29,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "On"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "オン"
           }
         },
         "ko" : {
@@ -41,6 +53,12 @@
             "value" : "Ad Privacy Settings"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "広告のプライバシー設定"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -55,6 +73,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "App"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリ"
           }
         },
         "ko" : {
@@ -73,6 +97,12 @@
             "value" : "%1$lld–%2$lld open seats"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "空席 %1$lld〜%2$lld席"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -87,6 +117,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Back"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "戻る"
           }
         },
         "ko" : {
@@ -105,6 +141,12 @@
             "value" : "Best"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最高記録"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -119,6 +161,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ Best"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@の最高記録"
           }
         },
         "ko" : {
@@ -137,6 +185,12 @@
             "value" : "Book"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "予約する"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -151,6 +205,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Not tapped"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タップできず"
           }
         },
         "ko" : {
@@ -169,6 +229,12 @@
             "value" : "Booked in %@"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@で予約できました"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -183,6 +249,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Booked!"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "予約成功"
           }
         },
         "ko" : {
@@ -201,6 +273,12 @@
             "value" : "Seat → Book"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "座席選択 → 予約する"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -215,6 +293,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Change Level"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "難易度を変更"
           }
         },
         "ko" : {
@@ -233,6 +317,12 @@
             "value" : "Amber"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アンバー"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -247,6 +337,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Coral"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コーラル"
           }
         },
         "ko" : {
@@ -265,6 +361,12 @@
             "value" : "Lavender"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ラベンダー"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -279,6 +381,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mint"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ミント"
           }
         },
         "ko" : {
@@ -297,6 +405,12 @@
             "value" : "Color"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カラー"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -311,6 +425,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sky"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スカイ"
           }
         },
         "ko" : {
@@ -329,6 +449,12 @@
             "value" : "White"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ホワイト"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -343,6 +469,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bold"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "太字"
           }
         },
         "ko" : {
@@ -361,6 +493,12 @@
             "value" : "Classic"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "標準"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -375,6 +513,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dot"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ドット"
           }
         },
         "ko" : {
@@ -393,6 +537,12 @@
             "value" : "Mono"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "モノ"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -407,6 +557,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Clock Design"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "時計のデザイン"
           }
         },
         "ko" : {
@@ -425,6 +581,12 @@
             "value" : "Clock Display"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "時計の表示"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -439,6 +601,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Milliseconds"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ミリ秒まで"
           }
         },
         "ko" : {
@@ -457,6 +625,12 @@
             "value" : "Watch the milliseconds to hit the exact moment"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ミリ秒まで見ながら、正確な瞬間を狙いましょう"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -471,6 +645,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seconds Only"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "秒まで"
           }
         },
         "ko" : {
@@ -489,6 +669,12 @@
             "value" : "With seconds only, you tap by feel, just like real ticketing"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "秒までの表示だと、本番のチケット取りのように感覚でタップします"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -503,6 +689,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Contact info copied"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "お問い合わせ情報をコピーしました"
           }
         },
         "ko" : {
@@ -521,6 +713,12 @@
             "value" : "App Version: %@"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリのバージョン: %@"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -535,6 +733,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "The information below was filled in automatically to help us handle your inquiry."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "お問い合わせに対応するため、以下の情報が自動で入力されています。"
           }
         },
         "ko" : {
@@ -553,6 +757,12 @@
             "value" : "Device: %@"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "デバイス: %@"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -567,6 +777,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Please write your inquiry below."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "お問い合わせ内容を以下にご記入ください。"
           }
         },
         "ko" : {
@@ -585,6 +801,12 @@
             "value" : "Language/Region: %@"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "言語/地域: %@"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -599,6 +821,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "iOS Version: %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iOSのバージョン: %@"
           }
         },
         "ko" : {
@@ -617,6 +845,12 @@
             "value" : "To: %@"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "宛先: %@"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -631,6 +865,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "[SomTime] Contact Us"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "[SomTime] お問い合わせ"
           }
         },
         "ko" : {
@@ -649,6 +889,12 @@
             "value" : "Subject: %@"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "件名: %@"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -663,6 +909,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Contact Us"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "お問い合わせ"
           }
         },
         "ko" : {
@@ -681,6 +933,12 @@
             "value" : "Copy Info"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "情報をコピー"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -695,6 +953,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$@ · %2$lld s"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · %2$lld秒"
           }
         },
         "ko" : {
@@ -713,6 +977,12 @@
             "value" : "Display"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "表示方法"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -727,6 +997,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Display Options"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "表示オプション"
           }
         },
         "ko" : {
@@ -745,6 +1021,12 @@
             "value" : "%@s"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@秒"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -756,6 +1038,12 @@
     "dynamicIsland" : {
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dynamic Island"
+          }
+        },
+        "ja" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dynamic Island"
@@ -777,6 +1065,12 @@
             "value" : "Dynamic Island Clock"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dynamic Island時計"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -791,6 +1085,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "On · Appears on the Island when PiP is off"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "オン · PiPをオフにするとアイランドに表示されます"
           }
         },
         "ko" : {
@@ -809,6 +1109,12 @@
             "value" : "Shown only on the Lock Screen on this device"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このデバイスではロック画面にのみ表示されます"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -823,6 +1129,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Portrait and landscape (iOS 27+)"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "縦向き · 横向きどちらも表示 (iOS 27+)"
           }
         },
         "ko" : {
@@ -841,6 +1153,12 @@
             "value" : "On · Ends automatically in about %1$lld h %2$lld min"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "オン · 約%1$lld時間%2$lld分後に自動終了"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -855,6 +1173,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$@ / %2$lld s"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ / %2$lld秒"
           }
         },
         "ko" : {
@@ -873,6 +1197,12 @@
             "value" : "Time Taken"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "かかった時間"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -887,6 +1217,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Showing on the Dynamic Island"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dynamic Islandに表示中"
           }
         },
         "ko" : {
@@ -905,6 +1241,12 @@
             "value" : "Showing on the Island + PiP"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アイランド + PiPに表示中"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -919,6 +1261,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "The clock is off"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "時計はオフです"
           }
         },
         "ko" : {
@@ -937,6 +1285,12 @@
             "value" : "Showing in a PiP window"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PiPウインドウに表示中"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -949,6 +1303,12 @@
       "comment" : "Small label above the home title. Shows the app name in the other language (ko: SomTime, en: 섬타임).",
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "섬타임"
+          }
+        },
+        "ja" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "섬타임"
@@ -970,6 +1330,12 @@
             "value" : "SomTime"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SomTime"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -984,6 +1350,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Language"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "言語"
           }
         },
         "ko" : {
@@ -1002,6 +1374,12 @@
             "value" : "Latest"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最新"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1016,6 +1394,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Turn on Live Activities for SomTime in Settings to show the clock on the Dynamic Island."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dynamic Islandに時計を表示するには、設定でSomTimeのライブアクティビティをオンにしてください。"
           }
         },
         "ko" : {
@@ -1034,6 +1418,12 @@
             "value" : "Live Activities Are Off"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ライブアクティビティがオフです"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1048,6 +1438,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mail isn't set up on this device.\nPlease contact us at %@."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このデバイスではメールが設定されていません。\n%@までお問い合わせください。"
           }
         },
         "ko" : {
@@ -1066,6 +1462,12 @@
             "value" : "Can't Send Mail"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "メールを送信できません"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1080,6 +1482,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Measure"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "測定"
           }
         },
         "ko" : {
@@ -1098,6 +1506,12 @@
             "value" : "Measuring"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "測定中"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1114,6 +1528,12 @@
             "value" : "My Best"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自己ベスト"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1125,6 +1545,12 @@
     "newBadge" : {
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NEW"
+          }
+        },
+        "ja" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "NEW"
@@ -1146,6 +1572,12 @@
             "value" : "New Best"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ベスト更新"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1162,6 +1594,12 @@
             "value" : "No record"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記録なし"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1173,6 +1611,12 @@
     "ok" : {
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "ja" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "OK"
@@ -1194,6 +1638,12 @@
             "value" : "On time"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定刻"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1208,6 +1658,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Open Settings"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定を開く"
           }
         },
         "ko" : {
@@ -1226,6 +1682,12 @@
             "value" : "PiP Aspect Ratio"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PiPの縦横比"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1237,6 +1699,12 @@
     "pipAspectRatioBar" : {
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10:1"
+          }
+        },
+        "ja" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "10:1"
@@ -1258,6 +1726,12 @@
             "value" : "2:1"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2:1"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1272,6 +1746,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "PiP Floating Clock"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PiPフローティング時計"
           }
         },
         "ko" : {
@@ -1290,6 +1770,12 @@
             "value" : "See the clock over videos on this device"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このデバイスではPiPで動画の上に時計を表示します"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1304,6 +1790,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "A small window floating over videos"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "動画の上に浮かぶ小さなウインドウ"
           }
         },
         "ko" : {
@@ -1322,6 +1814,12 @@
             "value" : "On · Showing in a small window over videos"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "オン · 動画の上の小さなウインドウに表示中"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1336,6 +1834,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Not available on this device"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このデバイスでは使用できません"
           }
         },
         "ko" : {
@@ -1354,6 +1858,12 @@
             "value" : "Please try again in a moment."
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "しばらくしてからもう一度お試しください。"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1368,6 +1878,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Couldn't Start PiP"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PiPを開始できませんでした"
           }
         },
         "ko" : {
@@ -1386,6 +1902,12 @@
             "value" : "This device doesn't support Picture in Picture."
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このデバイスはピクチャ・イン・ピクチャ(PiP)に対応していません。"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1400,6 +1922,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Picture in Picture Unavailable"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PiPを使用できません"
           }
         },
         "ko" : {
@@ -1418,6 +1946,12 @@
             "value" : "Attempts"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "練習回数"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1432,6 +1966,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld回"
           }
         },
         "ko" : {
@@ -1450,6 +1990,12 @@
             "value" : "How to Practice"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "練習方法"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1464,6 +2010,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Records are saved only on this device"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記録はこのデバイスにのみ保存されます"
           }
         },
         "ko" : {
@@ -1482,6 +2034,12 @@
             "value" : "Practice Server Time"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "練習用サーバー時間"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1496,6 +2054,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Target"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目標"
           }
         },
         "ko" : {
@@ -1514,6 +2078,12 @@
             "value" : "Practicing"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "練習中"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1528,6 +2098,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tapped At"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タップした瞬間"
           }
         },
         "ko" : {
@@ -1546,6 +2122,12 @@
             "value" : "Privacy Policy"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "プライバシーポリシー"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1560,6 +2142,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "purple open seat"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "紫の空席"
           }
         },
         "ko" : {
@@ -1578,6 +2166,12 @@
             "value" : "Quit"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "やめる"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1592,6 +2186,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Last 10 Average"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "直近10回の平均"
           }
         },
         "ko" : {
@@ -1610,6 +2210,12 @@
             "value" : "Time left"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "残り時間"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1624,6 +2230,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Resync"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再測定"
           }
         },
         "ko" : {
@@ -1642,6 +2254,12 @@
             "value" : "Available"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選択可"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1656,6 +2274,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld seat"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld席"
           }
         },
         "ko" : {
@@ -1674,6 +2298,12 @@
             "value" : "Easy"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "かんたん"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1688,6 +2318,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hard"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "むずかしい"
           }
         },
         "ko" : {
@@ -1706,6 +2342,12 @@
             "value" : "Normal"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ふつう"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1720,6 +2362,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Difficulty"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "難易度"
           }
         },
         "ko" : {
@@ -1738,6 +2386,12 @@
             "value" : "Not selected"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選択できず"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1752,6 +2406,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Section %1$@, Row %2$lld, Seat %3$lld"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ブロック %2$lld列 %3$lld番"
           }
         },
         "ko" : {
@@ -1770,6 +2430,12 @@
             "value" : "Seat Pick Practice"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "座席選択練習"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1784,6 +2450,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tap a %1$@ and book within %2$@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@をタップし、%2$@以内に「予約する」までタップします"
           }
         },
         "ko" : {
@@ -1802,6 +2474,12 @@
             "value" : "Grab an open seat and book in time"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "空席を取って制限時間内に予約"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1816,6 +2494,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Right after tapping a seat, %@. Moving to the button often takes longer than picking the seat."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "座席をタップしたら、すぐに%@。座席を選ぶより、ボタンまで指を動かすほうが時間がかかることが多いです。"
           }
         },
         "ko" : {
@@ -1834,6 +2518,12 @@
             "value" : "move your thumb straight to Book"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "親指を「予約する」ボタンへ動かしましょう"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1848,6 +2538,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Section %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ブロック"
           }
         },
         "ko" : {
@@ -1866,6 +2562,12 @@
             "value" : "Selected"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選択中"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1880,6 +2582,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seat selection"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "座席選択"
           }
         },
         "ko" : {
@@ -1898,6 +2606,12 @@
             "value" : "Sold"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "販売済み"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1912,6 +2626,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pick another purple seat"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ほかの紫の座席を選んでください"
           }
         },
         "ko" : {
@@ -1930,6 +2650,12 @@
             "value" : "Someone else got that seat"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すでにほかの人が選んだ座席です"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1944,6 +2670,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seats vanish one by one, as if others grabbed them first"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ほかの人が先に取ったように、座席がひとつずつ消えていきます"
           }
         },
         "ko" : {
@@ -1962,6 +2694,12 @@
             "value" : "Seats Disappear"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "座席が消える"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1976,6 +2714,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld s"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld秒"
           }
         },
         "ko" : {
@@ -1994,6 +2738,12 @@
             "value" : "s"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "秒"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2008,6 +2758,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tap a purple seat to select it"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "紫の座席をタップして選択してください"
           }
         },
         "ko" : {
@@ -2026,6 +2782,12 @@
             "value" : "Selected Seat"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選んだ座席"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2040,6 +2802,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Server Time"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "サーバー時間"
           }
         },
         "ko" : {
@@ -2058,6 +2826,12 @@
             "value" : "Sites behind a CDN may differ slightly from their actual server time."
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CDNを利用しているサイトは、実際のサーバーと時刻が少しずれることがあります。"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2072,6 +2846,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$@ of your phone · ±%2$@ s"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "端末より%1$@ · 誤差 ±%2$@秒"
           }
         },
         "ko" : {
@@ -2090,6 +2870,12 @@
             "value" : "%@ s ahead"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@秒速い"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2104,6 +2890,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enter an address and tap Measure\nto sync with that site's server time"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アドレスを入力して「測定」をタップすると\nそのサイトのサーバー時間に合わせます"
           }
         },
         "ko" : {
@@ -2122,6 +2914,12 @@
             "value" : "Enter a website address like https://ticket.example.com."
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://ticket.example.com のようにサイトのアドレスを入力してください。"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2136,6 +2934,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Check the Address"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アドレスを確認してください"
           }
         },
         "ko" : {
@@ -2154,6 +2958,12 @@
             "value" : "Couldn't connect to the site. Check the address and your network connection."
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "サイトに接続できませんでした。アドレスとネットワーク接続を確認してください。"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2168,6 +2978,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Couldn't Sync Server Time"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "サーバー時間を合わせられませんでした"
           }
         },
         "ko" : {
@@ -2186,6 +3002,12 @@
             "value" : "Syncing with the server time…"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "サーバー時間に合わせています…"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2200,6 +3022,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "This site doesn't report its server time. Try a different address."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このサイトはサーバー時刻を返しません。別のアドレスでお試しください。"
           }
         },
         "ko" : {
@@ -2218,6 +3046,12 @@
             "value" : "%@ Server Time"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@のサーバー時間"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2232,6 +3066,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ s behind"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@秒遅い"
           }
         },
         "ko" : {
@@ -2250,6 +3090,12 @@
             "value" : "Website server time"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "サイトのサーバー時刻"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2261,6 +3107,12 @@
     "serverURLPlaceholder" : {
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://ticket.example.com"
+          }
+        },
+        "ja" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "https://ticket.example.com"
@@ -2282,6 +3134,12 @@
             "value" : "Website Address"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "サイトのアドレス"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2296,6 +3154,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Settings"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定"
           }
         },
         "ko" : {
@@ -2314,6 +3178,12 @@
             "value" : "Show AM/PM"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "午前/午後を表示"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2328,6 +3198,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Show Milliseconds"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ミリ秒を表示"
           }
         },
         "ko" : {
@@ -2346,6 +3222,12 @@
             "value" : "For moments that need precision, like ticketing"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "チケット取りのように、正確な瞬間が必要なときに"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2362,6 +3244,12 @@
             "value" : "Show Seconds"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "秒を表示"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2373,6 +3261,12 @@
     "stage" : {
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "STAGE"
+          }
+        },
+        "ja" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "STAGE"
@@ -2394,6 +3288,12 @@
             "value" : "Start Practice"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "練習を始める"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2408,6 +3308,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Start Server Time on the Island"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アイランドでサーバー時間を開始"
           }
         },
         "ko" : {
@@ -2426,6 +3332,12 @@
             "value" : "Start Server Time in PiP"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PiPでサーバー時間を開始"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2440,6 +3352,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Start Test"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "テスト開始"
           }
         },
         "ko" : {
@@ -2458,6 +3376,12 @@
             "value" : "Stop"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "やめる"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2472,6 +3396,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ticketing Practice"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "チケット取り練習"
           }
         },
         "ko" : {
@@ -2490,6 +3420,12 @@
             "value" : "Warm up before the real booking. There are two ways to practice."
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本番の予約の前に、指を慣らしておきましょう。2種類の練習ができます。"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2504,6 +3440,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "On-time tap · Seat pick"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定刻タップ · 座席選択"
           }
         },
         "ko" : {
@@ -2522,6 +3464,12 @@
             "value" : "Time Format"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "時刻の形式"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2536,6 +3484,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "12-hour"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "12時間"
           }
         },
         "ko" : {
@@ -2554,6 +3508,12 @@
             "value" : "24-hour"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "24時間"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2568,6 +3528,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Time's Up"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "時間切れ"
           }
         },
         "ko" : {
@@ -2586,6 +3552,12 @@
             "value" : "You couldn't book within %@"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@以内に「予約する」をタップできませんでした"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2600,6 +3572,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "−%@ s early"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "−%@秒 早い"
           }
         },
         "ko" : {
@@ -2618,6 +3596,12 @@
             "value" : "+%@ s late"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "+%@秒 遅い"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2632,6 +3616,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ s early"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@秒早く"
           }
         },
         "ko" : {
@@ -2650,6 +3640,12 @@
             "value" : "%@ s late"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@秒遅く"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2664,6 +3660,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "You didn't tap Book by %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@までに「予約する」をタップしませんでした"
           }
         },
         "ko" : {
@@ -2682,6 +3684,12 @@
             "value" : "No Tap"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タップしませんでした"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2696,6 +3704,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "On-Time Tap Practice"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定刻タップ練習"
           }
         },
         "ko" : {
@@ -2714,6 +3728,12 @@
             "value" : "Tap Book right at 10:00:00"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10:00:00ちょうどに「予約する」をタップ"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2728,6 +3748,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tap the moment it hits the hour"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定刻になった瞬間にタップしてください"
           }
         },
         "ko" : {
@@ -2746,6 +3772,12 @@
             "value" : "You tapped %@"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定刻より%@タップしました"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2760,6 +3792,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "You tapped right on time"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定刻ぴったりにタップしました"
           }
         },
         "ko" : {
@@ -2778,6 +3816,12 @@
             "value" : "Tap Book the moment it hits %@"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@になった瞬間に「予約する」をタップします"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2792,6 +3836,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "See how far off you were from the exact time"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定刻から何秒ずれたかをお知らせします"
           }
         },
         "ko" : {
@@ -2810,6 +3860,12 @@
             "value" : "When you tap Start Test, the clock runs from %@"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「テスト開始」をタップすると、%@から時計が進みます"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2824,6 +3880,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tap Book exactly at %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ちょうどに「予約する」をタップしてください"
           }
         },
         "ko" : {
@@ -2842,6 +3904,12 @@
             "value" : "Great"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "とても良い"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2856,6 +3924,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Perfect"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完璧"
           }
         },
         "ko" : {
@@ -2874,6 +3948,12 @@
             "value" : "Keep Practicing"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "もう一度チャレンジ"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2888,6 +3968,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "A Bit Early"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "少し早め"
           }
         },
         "ko" : {
@@ -2906,6 +3992,12 @@
             "value" : "A Bit Late"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "少し遅め"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2922,6 +4014,12 @@
             "value" : "Try Again"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "もう一度"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2936,6 +4034,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Turn Off Clock"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "時計をオフ"
           }
         },
         "ko" : {
