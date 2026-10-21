@@ -44,6 +44,7 @@ struct SettingsFeature {
         case notificationRowTapped
         case privacyPolicyRowTapped
         case contactRowTapped
+        case rateAppRowTapped
         case adPrivacyOptionsRowTapped
         case mailComposeDismissed
         case contactInfoCopiedToastExpired
@@ -141,6 +142,12 @@ struct SettingsFeature {
                 }
 
                 return .none
+
+            case .rateAppRowTapped:
+                // 시스템 평가 요청 창은 1년에 3번까지만 뜨므로, 언제든 App Store 리뷰 작성 화면으로 보낸다
+                guard let writeReviewURL = ReviewRequest.writeReviewURL else { return .none }
+
+                return .run { _ in await openURL(writeReviewURL) }
 
             case .adPrivacyOptionsRowTapped:
                 // Google 광고 동의 설정 창. 닫은 뒤 바뀐 동의 상태를 배너에 반영한다
