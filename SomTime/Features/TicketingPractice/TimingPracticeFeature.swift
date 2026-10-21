@@ -13,6 +13,7 @@ struct TimingPracticeFeature {
         var phase: Phase = .ready
         @Shared(.timingPracticeShowsMilliseconds) var showsMilliseconds
         @Shared(.timingPracticeRecords) var records
+        @Shared(.reviewRequestRecord) var reviewRequestRecord
         @SharedReader(.clockDesign) var clockDesign
         @SharedReader(.clockColor) var clockColor
         @SharedReader(.isTwentyFourHour) var isTwentyFourHour
@@ -56,6 +57,7 @@ struct TimingPracticeFeature {
     @Dependency(\.continuousClock) var clock
     @Dependency(\.date.now) var now
     @Dependency(\.dismiss) var dismiss
+    @Dependency(\.reviewClient) var reviewClient
 
     var body: some Reducer<State, Action> {
         Reduce { state, action in
@@ -99,8 +101,16 @@ struct TimingPracticeFeature {
                 let difference = now.timeIntervalSince(startedAt) - TimingPractice.leadTime
                 state.$records.withLock { $0.add(difference) }
                 state.phase = .result(.pressed(difference: difference))
+                // 정각에 가깝게 누른 순간(완벽해요 · 아주 좋아요)을 평가 요청의 성공 순간으로 센다
+                let verdict = TimingVerdict(difference: difference)
+                let reviewRequest: Effect<Action> = verdict == .perfect || verdict == .great
+                    ? reviewClient.recordSuccess(in: state.$reviewRequestRecord)
+                    : .none
 
-                return .cancel(id: CancelID.missTimer)
+                return .merge(
+                    .cancel(id: CancelID.missTimer),
+                    reviewRequest
+                )
 
             case .missTimerFired:
                 guard case .playing = state.phase else { return .none }

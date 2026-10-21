@@ -18,6 +18,7 @@ struct ServerTimeFeature {
         @Shared(.isServerTimeTargetOn) var isTargetOn
         @Shared(.serverTimeTargetDate) var targetDate
         @Shared(.vibratesBeforeServerTimeTarget) var vibratesBeforeTarget
+        @Shared(.reviewRequestRecord) var reviewRequestRecord
         @SharedReader(.serverClockSession) var session
         @SharedReader(.clockDesign) var clockDesign
         @SharedReader(.clockColor) var clockColor
@@ -85,6 +86,7 @@ struct ServerTimeFeature {
     @Dependency(\.serverTimeClient) var serverTimeClient
     @Dependency(\.notificationClient) var notificationClient
     @Dependency(\.openURL) var openURL
+    @Dependency(\.reviewClient) var reviewClient
     @Dependency(\.date.now) var now
 
     var body: some Reducer<State, Action> {
@@ -138,16 +140,20 @@ struct ServerTimeFeature {
                     measuredAt: now
                 )
                 state.$savedMeasurement.withLock { $0 = measurement }
+                let reviewRequest: Effect<Action> = reviewClient.recordSuccess(in: state.$reviewRequestRecord)
                 // 목표 시각 알림도 다시 맞춘 오프셋으로 다시 예약한다
                 let rescheduleAlerts: Effect<Action> = state.isTargetOn
                     ? scheduleTargetAlerts(state, requestsAuthorization: false)
                     : .none
 
                 // 같은 사이트의 서버 시간 시계가 실행 중이면 다시 맞춘 오프셋을 바로 반영한다
-                guard let session = state.session, session.clock.host == host else { return rescheduleAlerts }
+                guard let session = state.session, session.clock.host == host else {
+                    return .merge(rescheduleAlerts, reviewRequest)
+                }
 
                 return .merge(
                     rescheduleAlerts,
+                    reviewRequest,
                     .send(.delegate(.startRequested(makeSession(state, mode: session.mode))))
                 )
 
