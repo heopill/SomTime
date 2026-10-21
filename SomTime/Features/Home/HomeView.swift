@@ -9,6 +9,8 @@ import SwiftUI
 struct HomeView: View {
     @Bindable var store: StoreOf<HomeFeature>
 
+    @Environment(\.scenePhase) private var scenePhase
+
     var body: some View {
         NavigationStack {
             TimelineView(.periodic(from: .now, by: 1)) { context in
@@ -54,6 +56,11 @@ struct HomeView: View {
         }
         .onChange(of: store.pipAspectRatio) {
             store.send(.pipAspectRatioChanged)
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active {
+                store.send(.appBecameActive)
+            }
         }
     }
 

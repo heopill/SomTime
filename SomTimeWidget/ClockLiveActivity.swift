@@ -169,7 +169,7 @@ private struct TargetCountdown {
 
         let targetText = ClockTimeFormatter.string(
             from: targetDate,
-            isTwentyFourHour: settings.isTwentyFourHour,
+            isTwentyFourHour: settings.islandIsTwentyFourHour,
             showsSeconds: false,
             showsDayPeriod: settings.showsDayPeriod,
             design: settings.design
