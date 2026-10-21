@@ -13,4 +13,6 @@ nonisolated struct ServerTimeClock: Codable, Hashable {
     var offset: TimeInterval
     /// 밀리초까지 표시할지 여부 (PiP 전용)
     var showsMilliseconds = false
+    /// 목표 시각 (서버 시계 기준. 있으면 남은 시간을 함께 표시한다)
+    var targetDate: Date?
 }

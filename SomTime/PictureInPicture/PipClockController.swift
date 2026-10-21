@@ -296,11 +296,22 @@ final class PipClockController: NSObject {
         guard let sampleBuffer = frameRenderer.sampleBuffer(
             time: time,
             milliseconds: milliseconds,
+            countdown: countdown(at: date, settings: settings),
             settings: settings,
             aspectRatio: aspectRatio
         ) else { return }
 
         renderer.enqueue(sampleBuffer)
+    }
+
+    /// 목표 시각까지 남은 시간 문자열 (목표 시각이 없거나 지났으면 nil)
+    private func countdown(at date: Date, settings: ClockDisplaySettings) -> String? {
+        guard let targetDate = settings.serverTime?.targetDate else { return nil }
+
+        let remaining = targetDate.timeIntervalSince(date)
+        guard remaining > 0 else { return nil }
+
+        return ClockTimeFormatter.countdownString(remaining)
     }
 
     /// 시작 대기 시간이 지났을 때 처리한다 (창이 이미 떠 있으면 성공으로 본다)

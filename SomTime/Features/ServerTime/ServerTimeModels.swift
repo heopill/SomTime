@@ -29,6 +29,22 @@ nonisolated struct ServerClockSession: Equatable, Sendable {
     var clock: ServerTimeClock
 }
 
+/// 서버 시간 목표 시각 계산 (서버 시계 기준. 시 · 분만 고르고 초는 00)
+nonisolated enum ServerTimeTarget {
+    /// 처음 보여 줄 목표 시각 (오늘 20:00)
+    static var defaultDate: Date {
+        return Calendar.current.date(bySettingHour: 20, minute: 0, second: 0, of: Date()) ?? Date()
+    }
+
+    /// time의 시 · 분이 serverNow 뒤에 처음 오는 시각 (오늘 그 시각이 이미 지났으면 다음 날)
+    static func nextDate(matching time: Date, after serverNow: Date, calendar: Calendar = .current) -> Date {
+        let components = calendar.dateComponents([.hour, .minute], from: time)
+        let matching = DateComponents(hour: components.hour, minute: components.minute, second: 0)
+
+        return calendar.nextDate(after: serverNow, matching: matching, matchingPolicy: .nextTime) ?? time
+    }
+}
+
 /// 사이트 주소 입력값을 측정할 URL로 바꾼다 (scheme이 없으면 https://를 붙인다)
 nonisolated enum ServerTimeURL {
     static func url(from input: String) -> URL? {

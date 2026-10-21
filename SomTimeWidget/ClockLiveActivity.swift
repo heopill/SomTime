@@ -54,7 +54,7 @@ private struct ExpandedLeadingLabel: View {
 }
 
 /// Expanded 하단: 큰 시간 44pt + 맨 아래 줄.
-/// 맨 아래 줄은 일반 시계면 자동 종료까지 남은 시간, 서버 시간이면 왼쪽 날짜 · 오른쪽 사이트 호스트 (위쪽 leading 칸은 좁아서 폭 전체를 쓰는 하단에 둔다)
+/// 맨 아래 줄은 일반 시계면 자동 종료까지 남은 시간, 서버 시간이면 왼쪽 날짜(목표 시각이 있으면 남은 시간) · 오른쪽 사이트 호스트 (위쪽 leading 칸은 좁아서 폭 전체를 쓰는 하단에 둔다)
 private struct ExpandedClockView: View {
     let attributes: ClockActivityAttributes
     let state: ClockActivityAttributes.ContentState
@@ -66,9 +66,18 @@ private struct ExpandedClockView: View {
                 if let serverTime = state.settings.serverTime {
                     // 시스템이 갱신하는 날짜 Text는 실제보다 넓은 폭을 차지하므로, 주소가 먼저 자기 폭을 갖고 날짜는 남은 폭에 왼쪽 정렬한다
                     HStack(spacing: 8) {
-                        LiveDateText()
-                            .lineLimit(1)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                        Group {
+                            if let target = TargetCountdown(attributes: attributes, settings: state.settings) {
+                                HStack(spacing: 4) {
+                                    target.label
+                                    target.timer
+                                }
+                            } else {
+                                LiveDateText()
+                            }
+                        }
+                        .lineLimit(1)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         ServerHostLabel(host: serverTime.host)
                             .layoutPriority(1)
                     }
@@ -88,7 +97,7 @@ private struct ExpandedClockView: View {
     }
 }
 
-/// 잠금 화면 · StandBy: 앱 이름 + 시간 30pt / 오른쪽에 자동 종료까지 남은 시간
+/// 잠금 화면 · StandBy: 앱 이름 + 시간 30pt / 오른쪽에 자동 종료까지 남은 시간 (서버 시간에 목표 시각이 있으면 목표 시각까지 남은 시간)
 private struct LockScreenClockView: View {
     let attributes: ClockActivityAttributes
     let state: ClockActivityAttributes.ContentState
@@ -103,9 +112,15 @@ private struct LockScreenClockView: View {
             }
             Spacer(minLength: 12)
             VStack(alignment: .trailing, spacing: 2) {
-                Text("liveActivityAutoEnd")
-                Text(attributes.autoEndDate, style: .relative)
-                    .multilineTextAlignment(.trailing)
+                if let target = TargetCountdown(attributes: attributes, settings: state.settings) {
+                    target.label
+                    target.timer
+                        .multilineTextAlignment(.trailing)
+                } else {
+                    Text("liveActivityAutoEnd")
+                    Text(attributes.autoEndDate, style: .relative)
+                        .multilineTextAlignment(.trailing)
+                }
             }
             .fontStyle(.caption)
             .foregroundStyle(Color(.textSecondary))
@@ -139,6 +154,30 @@ private struct ServerHostLabel: View {
             .minimumScaleFactor(0.7)
             .truncationMode(.middle)
             .multilineTextAlignment(.trailing)
+    }
+}
+
+/// 서버 시간 목표 시각까지 남은 시간 (예: "오후 8:00까지" + "4:27").
+/// 남은 시간은 시스템이 매초 갱신하고 목표 시각에 0:00에서 멈춘다
+private struct TargetCountdown {
+    let label: Text
+    let timer: Text
+
+    /// 서버 시간 시계에 목표 시각이 있을 때만 만든다
+    init?(attributes: ClockActivityAttributes, settings: ClockDisplaySettings) {
+        guard let targetDate = settings.serverTime?.targetDate, let phoneDate = settings.targetPhoneDate else { return nil }
+
+        let targetText = ClockTimeFormatter.string(
+            from: targetDate,
+            isTwentyFourHour: settings.isTwentyFourHour,
+            showsSeconds: false,
+            showsDayPeriod: settings.showsDayPeriod,
+            design: settings.design
+        )
+        label = Text("liveActivityTargetUntil \(targetText)")
+        // 시작 시각이 목표 시각보다 늦으면 범위를 만들 수 없으므로 목표 시각에서 시작한다 (0:00 표시)
+        timer = Text(timerInterval: min(attributes.startedAt, phoneDate)...phoneDate, countsDown: true)
+            .monospacedDigit()
     }
 }
 

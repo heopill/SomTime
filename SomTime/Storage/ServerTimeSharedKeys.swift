@@ -27,6 +27,18 @@ extension SharedKey where Self == AppStorageKey<Bool>.Default {
     static var showsServerTimeMilliseconds: Self {
         Self[.appStorage("showsServerTimeMilliseconds", store: ClockSettingsStorage.userDefaults), default: false]
     }
+
+    /// 목표 시각 카운트다운 · 알림을 켰는지 여부 (목표 시각이 지나면 서버 시간 화면에 들어올 때 끈다)
+    static var isServerTimeTargetOn: Self {
+        Self[.appStorage("isServerTimeTargetOn", store: ClockSettingsStorage.userDefaults), default: false]
+    }
+}
+
+extension SharedKey where Self == AppStorageKey<Date>.Default {
+    /// 목표 시각 (서버 시계 기준. 끈 동안에도 시각 선택값으로 남겨 둔다)
+    static var serverTimeTargetDate: Self {
+        Self[.appStorage("serverTimeTargetDate", store: ClockSettingsStorage.userDefaults), default: ServerTimeTarget.defaultDate]
+    }
 }
 
 extension SharedKey where Self == FileStorageKey<ServerTimeMeasurement?>.Default {
