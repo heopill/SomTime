@@ -55,4 +55,11 @@ nonisolated extension ClockDisplaySettings {
     func clockDate(from date: Date = Date()) -> Date {
         return date.addingTimeInterval(serverTime?.offset ?? 0)
     }
+
+    /// 서버 시계가 목표 시각이 되는 순간의 폰 시각 (시스템이 갱신하는 타이머 Text에 쓴다. 목표 시각이 없으면 nil)
+    var targetPhoneDate: Date? {
+        guard let serverTime, let targetDate = serverTime.targetDate else { return nil }
+
+        return targetDate.addingTimeInterval(-serverTime.offset)
+    }
 }
