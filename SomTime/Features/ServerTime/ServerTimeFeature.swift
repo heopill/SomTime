@@ -5,6 +5,7 @@
 
 import ComposableArchitecture
 import Foundation
+import UIKit
 
 @Reducer
 struct ServerTimeFeature {
@@ -14,6 +15,8 @@ struct ServerTimeFeature {
         @Shared(.serverTimeMeasurement) var savedMeasurement
         @Shared(.serverTimeDisplayMode) var displayMode
         @Shared(.showsServerTimeMilliseconds) var showsMilliseconds
+        @Shared(.isServerTimeTargetOn) var isTargetOn
+        @Shared(.serverTimeTargetDate) var targetDate
         @SharedReader(.serverClockSession) var session
         @SharedReader(.clockDesign) var clockDesign
         @SharedReader(.clockColor) var clockColor
@@ -38,20 +41,31 @@ struct ServerTimeFeature {
         var isRunning: Bool {
             return session != nil
         }
+
+        /// 지금 입력한 주소의 서버 오프셋 (측정 전이면 0)
+        var offset: TimeInterval {
+            return measurement?.offset ?? 0
+        }
     }
 
     enum Action {
+        case onAppear
         case backButtonTapped
         case urlTextChanged(String)
         case measureButtonTapped
         case measureFinished(Result<ServerTimeOffsetResult, Error>)
         case displayModeSelected(ServerTimeDisplayMode)
         case showsMillisecondsChanged(Bool)
+        case targetToggled(Bool)
+        case targetTimeChanged(Date)
+        case notificationAuthorizationDenied
         case startButtonTapped
         case alert(PresentationAction<Alert>)
         case delegate(Delegate)
 
-        enum Alert: Equatable {}
+        enum Alert: Equatable {
+            case openNotificationSettingsTapped
+        }
 
         enum Delegate {
             /// 서버 시간 시계를 시작하거나, 실행 중이면 새 설정으로 바꾼다 (홈이 일반 시계를 끄고 처리)
@@ -67,11 +81,21 @@ struct ServerTimeFeature {
 
     @Dependency(\.dismiss) var dismiss
     @Dependency(\.serverTimeClient) var serverTimeClient
+    @Dependency(\.notificationClient) var notificationClient
+    @Dependency(\.openURL) var openURL
     @Dependency(\.date.now) var now
 
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
+            case .onAppear:
+                // 지난 목표 시각은 끈다 (한 번 쓰고 끝나는 목표라 다음 날로 넘기지 않는다)
+                if state.isTargetOn, state.targetDate <= now.addingTimeInterval(state.offset) {
+                    state.$isTargetOn.withLock { $0 = false }
+                }
+
+                return .none
+
             case .backButtonTapped:
                 return .run { _ in await dismiss() }
 
@@ -112,11 +136,18 @@ struct ServerTimeFeature {
                     measuredAt: now
                 )
                 state.$savedMeasurement.withLock { $0 = measurement }
+                // 목표 시각 알림도 다시 맞춘 오프셋으로 다시 예약한다
+                let rescheduleAlerts: Effect<Action> = state.isTargetOn
+                    ? scheduleTargetAlerts(state, requestsAuthorization: false)
+                    : .none
 
                 // 같은 사이트의 서버 시간 시계가 실행 중이면 다시 맞춘 오프셋을 바로 반영한다
-                guard let session = state.session, session.clock.host == host else { return .none }
+                guard let session = state.session, session.clock.host == host else { return rescheduleAlerts }
 
-                return .send(.delegate(.startRequested(makeSession(state, mode: session.mode))))
+                return .merge(
+                    rescheduleAlerts,
+                    .send(.delegate(.startRequested(makeSession(state, mode: session.mode))))
+                )
 
             case let .measureFinished(.failure(error)):
                 state.isMeasuring = false
@@ -139,6 +170,44 @@ struct ServerTimeFeature {
                 session.clock.showsMilliseconds = showsMilliseconds
 
                 return .send(.delegate(.startRequested(session)))
+
+            case let .targetToggled(isOn):
+                state.$isTargetOn.withLock { $0 = isOn }
+                guard isOn else {
+                    return .merge(
+                        .run { _ in await notificationClient.removeTargetAlerts() },
+                        updateRunningTarget(state)
+                    )
+                }
+
+                // 고른 시각이 지났으면 다음 날 그 시각으로 맞춘다
+                let targetDate = ServerTimeTarget.nextDate(matching: state.targetDate, after: now.addingTimeInterval(state.offset))
+                state.$targetDate.withLock { $0 = targetDate }
+
+                return .merge(
+                    scheduleTargetAlerts(state, requestsAuthorization: true),
+                    updateRunningTarget(state)
+                )
+
+            case let .targetTimeChanged(time):
+                let targetDate = ServerTimeTarget.nextDate(matching: time, after: now.addingTimeInterval(state.offset))
+                state.$targetDate.withLock { $0 = targetDate }
+                guard state.isTargetOn else { return .none }
+
+                return .merge(
+                    scheduleTargetAlerts(state, requestsAuthorization: false),
+                    updateRunningTarget(state)
+                )
+
+            case .notificationAuthorizationDenied:
+                state.alert = .notificationsDisabled
+
+                return .none
+
+            case .alert(.presented(.openNotificationSettingsTapped)):
+                guard let settingsURL = URL(string: UIApplication.openNotificationSettingsURLString) else { return .none }
+
+                return .run { _ in await openURL(settingsURL) }
 
             case .startButtonTapped:
                 guard !state.isRunning else {
@@ -166,10 +235,53 @@ struct ServerTimeFeature {
         let clock = ServerTimeClock(
             host: measurement?.host ?? "",
             offset: measurement?.offset ?? 0,
-            showsMilliseconds: mode == .pip && state.showsMilliseconds
+            showsMilliseconds: mode == .pip && state.showsMilliseconds,
+            targetDate: activeTargetDate(state)
         )
 
         return ServerClockSession(mode: mode, clock: clock)
+    }
+
+    /// 시계에 표시할 목표 시각 (꺼져 있거나 이미 지났으면 nil)
+    private func activeTargetDate(_ state: State) -> Date? {
+        guard state.isTargetOn, state.targetDate > now.addingTimeInterval(state.offset) else { return nil }
+
+        return state.targetDate
+    }
+
+    /// 서버 시간 시계가 실행 중이면 같은 오프셋으로 목표 시각만 바로 반영한다
+    private func updateRunningTarget(_ state: State) -> Effect<Action> {
+        guard var session = state.session else { return .none }
+
+        session.clock.targetDate = activeTargetDate(state)
+
+        return .send(.delegate(.startRequested(session)))
+    }
+
+    /// 목표 시각 5 · 3 · 1분 전 알림을 다시 예약한다.
+    /// requestsAuthorization이면 먼저 알림 권한을 묻고, 거부되어 있으면 설정으로 안내한다 (남은 시간 표시는 그대로 쓸 수 있다)
+    private func scheduleTargetAlerts(_ state: State, requestsAuthorization: Bool) -> Effect<Action> {
+        let alert = ServerTimeTargetAlert(
+            fireDate: state.targetDate.addingTimeInterval(-state.offset),
+            targetText: ClockTimeFormatter.string(
+                from: state.targetDate,
+                isTwentyFourHour: state.isTwentyFourHour,
+                showsSeconds: false,
+                showsDayPeriod: state.showsDayPeriod
+            ),
+            host: state.measurement?.host
+        )
+
+        return .run { send in
+            if requestsAuthorization {
+                guard await notificationClient.requestAuthorization() else {
+                    await send(.notificationAuthorizationDenied)
+
+                    return
+                }
+            }
+            await notificationClient.scheduleTargetAlerts(alert)
+        }
     }
 }
 
@@ -212,5 +324,18 @@ extension AlertState where Action == ServerTimeFeature.Action.Alert {
         }
     } message: {
         TextState("pipUnsupportedMessage")
+    }
+
+    static let notificationsDisabled = AlertState {
+        TextState("notificationDisabledTitle")
+    } actions: {
+        ButtonState(role: .cancel) {
+            TextState("ok")
+        }
+        ButtonState(action: .openNotificationSettingsTapped) {
+            TextState("openSettings")
+        }
+    } message: {
+        TextState("notificationDisabledMessage")
     }
 }
