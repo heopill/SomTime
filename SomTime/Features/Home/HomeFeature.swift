@@ -52,6 +52,7 @@ struct HomeFeature {
 
     enum Action {
         case onAppear
+        case appBecameActive
         case clockSettingsChanged
         case pipAspectRatioChanged
         case islandToggled(Bool)
@@ -121,6 +122,12 @@ struct HomeFeature {
                         }
                     )
                 )
+
+            case .appBecameActive:
+                // 아일랜드 서버 시간은 다시 그릴 때 스톱워치 기준(서버 자정)을 새로 잡으므로, 켜 둔 채 자정을 넘겨 24:xx가 됐어도 앱으로 돌아오면 바로잡힌다
+                guard let session = state.serverClock, session.mode == .island else { return .none }
+
+                return updateIsland(state.serverSettings(session))
 
             case .clockSettingsChanged:
                 // 실행 중인 Live Activity와 PiP 시계에 바뀐 설정을 반영한다
