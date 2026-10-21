@@ -17,6 +17,7 @@ struct ServerTimeFeature {
         @Shared(.showsServerTimeMilliseconds) var showsMilliseconds
         @Shared(.isServerTimeTargetOn) var isTargetOn
         @Shared(.serverTimeTargetDate) var targetDate
+        @Shared(.vibratesBeforeServerTimeTarget) var vibratesBeforeTarget
         @SharedReader(.serverClockSession) var session
         @SharedReader(.clockDesign) var clockDesign
         @SharedReader(.clockColor) var clockColor
@@ -58,6 +59,7 @@ struct ServerTimeFeature {
         case showsMillisecondsChanged(Bool)
         case targetToggled(Bool)
         case targetTimeChanged(Date)
+        case targetVibrationToggled(Bool)
         case notificationAuthorizationDenied
         case startButtonTapped
         case alert(PresentationAction<Alert>)
@@ -199,6 +201,11 @@ struct ServerTimeFeature {
                     updateRunningTarget(state)
                 )
 
+            case let .targetVibrationToggled(isOn):
+                state.$vibratesBeforeTarget.withLock { $0 = isOn }
+
+                return updateRunningTarget(state)
+
             case .notificationAuthorizationDenied:
                 state.alert = .notificationsDisabled
 
@@ -236,7 +243,8 @@ struct ServerTimeFeature {
             host: measurement?.host ?? "",
             offset: measurement?.offset ?? 0,
             showsMilliseconds: mode == .pip && state.showsMilliseconds,
-            targetDate: activeTargetDate(state)
+            targetDate: activeTargetDate(state),
+            vibratesBeforeTarget: state.vibratesBeforeTarget
         )
 
         return ServerClockSession(mode: mode, clock: clock)
@@ -249,11 +257,12 @@ struct ServerTimeFeature {
         return state.targetDate
     }
 
-    /// 서버 시간 시계가 실행 중이면 같은 오프셋으로 목표 시각만 바로 반영한다
+    /// 서버 시간 시계가 실행 중이면 같은 오프셋으로 목표 시각 · 진동 설정만 바로 반영한다
     private func updateRunningTarget(_ state: State) -> Effect<Action> {
         guard var session = state.session else { return .none }
 
         session.clock.targetDate = activeTargetDate(state)
+        session.clock.vibratesBeforeTarget = state.vibratesBeforeTarget
 
         return .send(.delegate(.startRequested(session)))
     }

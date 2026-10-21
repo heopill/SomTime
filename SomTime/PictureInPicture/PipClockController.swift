@@ -3,6 +3,7 @@
 //  SomTime
 //
 
+import AudioToolbox
 import AVFoundation
 import AVKit
 import OSLog
@@ -35,6 +36,12 @@ final class PipClockController: NSObject {
     private static let startingGracePeriod: Duration = .seconds(10)
     /// 밀리초를 표시할 때 프레임 간격 (약 30fps. 배터리 소모가 커서 서버 시간 PiP에서만 쓴다)
     private static let millisecondsFrameInterval: Duration = .milliseconds(33)
+    /// 목표 시각 몇 초 전부터 시계와 남은 시간을 경고색으로 바꿀지
+    private static let warningLeadTime: TimeInterval = 10
+    /// 목표 시각 몇 초 전부터 0.5초 간격으로 깜빡일지
+    private static let blinkLeadTime: TimeInterval = 3
+    /// 목표 시각 몇 초 전부터 1초마다 진동할지 (3 · 2 · 1초 전)
+    private static let vibrationLeadSeconds = 3
     /// 직접 끈 PiP 창이 닫힐 때까지 기다리는 최대 시간
     private static let stopTimeout: Duration = .seconds(2)
     /// 오디오 세션을 켜고 끄는 순서를 지키기 위한 직렬 큐 (메인 스레드에서 처리하면 화면이 멈출 수 있다)
@@ -55,6 +62,8 @@ final class PipClockController: NSObject {
     private var isPictureInPictureStarting = false
     /// 켜고 끌 때마다 바뀌는 세션 번호 (이전 세션의 늦은 실패 처리가 새 세션을 정리하지 않도록)
     private var session = 0
+    /// 마지막으로 진동한 목표 시각과 남은 초 (프레임마다 확인해도 같은 순간에 한 번만 진동하도록)
+    private var lastVibration: (targetDate: Date, secondsLeft: Int)?
     private var eventContinuations: [UUID: AsyncStream<PipClockEvent>.Continuation] = [:]
 
     /// PiP 시계를 켜고 창이 뜰 때까지 기다린다 (이미 떠 있으면 설정만 바꾼다)
@@ -263,12 +272,17 @@ final class PipClockController: NSObject {
         renderFrame()
         guard let settings else { return .seconds(1) }
 
+        let date = settings.clockDate()
+        vibrateIfNeeded(at: date, settings: settings)
         if settings.serverTime?.showsMilliseconds == true {
             return Self.millisecondsFrameInterval
         }
 
-        // 서버 시간이면 오프셋을 더한 시각의 초가 바뀌는 순간에 맞춘다
-        let now = settings.clockDate().timeIntervalSinceReferenceDate
+        // 서버 시간이면 오프셋을 더한 시각의 초가 바뀌는 순간에 맞춘다 (깜빡이는 동안에는 0.5초마다)
+        let now = date.timeIntervalSinceReferenceDate
+        if isBlinking(at: date, settings: settings) {
+            return .seconds((now * 2).rounded(.down) / 2 + 0.5 - now + 0.01)
+        }
 
         return .seconds(now.rounded(.down) + 1 - now + 0.01)
     }
@@ -297,6 +311,7 @@ final class PipClockController: NSObject {
             time: time,
             milliseconds: milliseconds,
             countdown: countdown(at: date, settings: settings),
+            emphasis: emphasis(at: date, settings: settings),
             settings: settings,
             aspectRatio: aspectRatio
         ) else { return }
@@ -306,12 +321,52 @@ final class PipClockController: NSObject {
 
     /// 목표 시각까지 남은 시간 문자열 (목표 시각이 없거나 지났으면 nil)
     private func countdown(at date: Date, settings: ClockDisplaySettings) -> String? {
+        guard let remaining = remainingTime(at: date, settings: settings) else { return nil }
+
+        return ClockTimeFormatter.countdownString(remaining)
+    }
+
+    /// 목표 시각까지 남은 시간 (목표 시각이 없거나 지났으면 nil)
+    private func remainingTime(at date: Date, settings: ClockDisplaySettings) -> TimeInterval? {
         guard let targetDate = settings.serverTime?.targetDate else { return nil }
 
         let remaining = targetDate.timeIntervalSince(date)
-        guard remaining > 0 else { return nil }
 
-        return ClockTimeFormatter.countdownString(remaining)
+        return remaining > 0 ? remaining : nil
+    }
+
+    /// 목표 시각 직전 강조 상태. 10초 전부터 경고색, 마지막 3초는 매초 앞 0.5초는 밝게 · 뒤 0.5초는 흐리게 깜빡인다
+    private func emphasis(at date: Date, settings: ClockDisplaySettings) -> PipClockEmphasis {
+        guard let remaining = remainingTime(at: date, settings: settings), remaining <= Self.warningLeadTime else { return .none }
+        guard remaining <= Self.blinkLeadTime else { return .warning }
+
+        // 남은 시간의 소수 부분이 0.5 이상이면 그 초가 시작된 지 0.5초가 안 된 것
+        let fraction = remaining - remaining.rounded(.down)
+
+        return fraction >= 0.5 ? .warning : .warningDimmed
+    }
+
+    /// 깜빡이는 구간인지 여부 (이때는 0.5초마다 프레임을 그린다)
+    private func isBlinking(at date: Date, settings: ClockDisplaySettings) -> Bool {
+        guard let remaining = remainingTime(at: date, settings: settings) else { return false }
+
+        return remaining <= Self.blinkLeadTime + 1
+    }
+
+    /// 목표 시각 3 · 2 · 1초 전(남은 시간 표시가 0:03 · 0:02 · 0:01로 바뀌는 순간)에 한 번씩 진동한다
+    private func vibrateIfNeeded(at date: Date, settings: ClockDisplaySettings) {
+        guard settings.serverTime?.vibratesBeforeTarget == true,
+              let targetDate = settings.serverTime?.targetDate,
+              let remaining = remainingTime(at: date, settings: settings) else { return }
+
+        let secondsLeft = Int(remaining.rounded(.up))
+        guard secondsLeft <= Self.vibrationLeadSeconds else { return }
+        if let lastVibration, lastVibration.targetDate == targetDate, lastVibration.secondsLeft == secondsLeft {
+            return
+        }
+
+        lastVibration = (targetDate, secondsLeft)
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
     }
 
     /// 시작 대기 시간이 지났을 때 처리한다 (창이 이미 떠 있으면 성공으로 본다)
@@ -350,6 +405,7 @@ final class PipClockController: NSObject {
         pipController?.canStartPictureInPictureAutomaticallyFromInline = false
         displayView?.displayLayer.sampleBufferRenderer.flush(removingDisplayedImage: true, completionHandler: nil)
         settings = nil
+        lastVibration = nil
         isRestoringUserInterface = false
         isPictureInPictureStarting = false
         deactivateAudioSession()

@@ -150,7 +150,7 @@ struct ServerTimeView: View {
         .animation(.easeInOut(duration: 0.2), value: store.displayMode)
     }
 
-    /// 목표 시각: 카운트다운 · 알림 토글 + 켜면 시각 선택 행
+    /// 목표 시각: 카운트다운 · 알림 토글 + 켜면 시각 선택 행 · 3 · 2 · 1초 전 진동 토글
     private var targetSection: some View {
         VStack(alignment: .leading, spacing: 10) {
             sectionTitle("targetTimeSection")
@@ -201,6 +201,27 @@ struct ServerTimeView: View {
                             .tint(accent)
                         }
                         .frame(minHeight: 56)
+
+                        targetDivider
+                        Toggle(
+                            isOn: Binding(
+                                get: { store.vibratesBeforeTarget },
+                                set: { store.send(.targetVibrationToggled($0)) }
+                            )
+                        ) {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("targetVibration")
+                                    .fontStyle(.rowLabel)
+                                    .foregroundStyle(Color(.textPrimary))
+                                Text("targetVibrationDescription")
+                                    .font(FontStyle.caption.font)
+                                    .lineSpacing(2)
+                                    .foregroundStyle(Color(.textSecondary))
+                            }
+                        }
+                        .toggleStyle(.accent)
+                        .padding(.vertical, 10)
+                        .frame(minHeight: 60)
                     }
                     .transition(.opacity)
                 }
