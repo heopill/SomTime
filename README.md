@@ -7,7 +7,7 @@
   섬타임 (SomTime)
   <p align="center">
   <img src="https://img.shields.io/badge/프로젝트 기간-2026.10.05 ~ -FFB340?style=flat&logo=&logoColor=white" alt="프로젝트 기간" />
-  <img src="https://img.shields.io/badge/release-v26.1.0-4fc08d?style=flat&logo=apple&logoColor=white" alt="릴리즈 버전" />
+  <img src="https://img.shields.io/badge/release-v26.2.0-4fc08d?style=flat&logo=apple&logoColor=white" alt="릴리즈 버전" />
   </p>
   <p align="center">
     <a href="https://apps.apple.com/kr/app/%EC%84%AC%ED%83%80%EC%9E%84/id6820983446">
@@ -68,7 +68,7 @@
 * **개인정보 처리방침** : 앱 안에서 바로 확인할 수 있습니다.
 
 ### 🌏 다국어 지원
-* **한국어 · 영어** : String Catalog 기반으로 두 개 언어를 지원하며, 앱 이름도 언어에 맞게 **섬타임 / SomTime**으로 표시됩니다.
+* **한국어 · 영어 · 일본어** : String Catalog 기반으로 세 개 언어를 지원하며, 앱 이름도 언어에 맞게 **섬타임 / SomTime**으로 표시됩니다.
 
 <br>
 
@@ -94,6 +94,7 @@
 | **Font** | `Pretendard`, `Doto` (위젯 확장은 서브셋 폰트 사용) |
 | **Localization** | `String Catalog (.xcstrings)` — 한국어 / 영어 |
 | **Deployment** | `iOS 18.0+`, `iPhone / iPad`, `Swift 5.0` |
+| **Ads** | `Google Mobile Ads SDK (AdMob)`, `User Messaging Platform (UMP)` |
 
 <br>
 
@@ -132,6 +133,13 @@
 ### 기기별 대응
 * **다이나믹 아일랜드 판별** : 다이나믹 아일랜드 유무를 알려주는 공식 API가 없어 Safe Area inset으로 판별하고, 아일랜드가 없는 기기에서는 PiP를 주 기능으로 안내했습니다.
 
+### 광고 : AdMob 배너 + UMP 동의
+* **동의 → SDK 시작 → 광고 요청 순서 보장** : 앱 실행 시 홈에서 UMP로 동의 정보를 갱신하고, 동의가 필요한 지역(EEA · 영국 · 스위스)에서만 동의 창을 띄운 뒤 광고를 요청할 수 있을 때만 SDK를 시작합니다. 결과는 `@Shared(.adConsent)` 하나에 저장해 모든 화면의 배너와 설정 화면이 같은 값을 읽습니다.
+* **화면별 광고 단위** : 홈 · 티켓팅 연습 · 설정 · 서버 시간에 광고 단위를 따로 두어 화면별 성과를 확인할 수 있게 했고, Debug 빌드는 Google 테스트 광고 단위로 고정해 개발 중 실제 광고 노출 · 클릭을 막았습니다.
+* **레이아웃 안정성** : `safeAreaInset`으로 화면 하단에 고정하고, 동의 확인 · 로딩 중에는 배너 높이만큼 자리를 비워 두며, 광고를 받지 못하면 자리를 접어 레이아웃이 흔들리지 않게 했습니다.
+* **배너 크기 선택** : SDK 13이 권장하는 large 배너(최대 150pt)는 시계 앱 화면에 너무 커서, 목업과 같은 높이(약 55pt)의 표준 적응형 배너를 선택했습니다.
+* **실수 클릭 방지** : 빠르게 연달아 누르는 연습 화면과 키보드가 떠 있는 동안에는 배너를 넣지 않고, 버튼 · 카드와 24pt 이상 간격을 두며, 광고 소재가 배너 영역 밖으로 넘치지 않도록 잘랐습니다.
+
 <br>
 
 ## 📸 App Previews
@@ -154,19 +162,19 @@
 |:---|:---|:---|
 | **v26.0.0** | 2026.10.10 | 첫 공식 배포 (Initial Release) |
 | **v26.1.0** | 2026.10.15 | 티켓팅 연습 기능 추가 (정각 클릭, 포도알 클릭) |
+| **v26.2.0** | 2026.10.20 | 애드몹(AdMob) 광고 배너 추가, 일본어 지원 |
 
 <br>
 
 ## 🌳 프로젝트 구조
 
 ```
-## 🌳 프로젝트 구조
 SomTime/
 ├── SomTime/                                # 앱 메인 타깃
 │   ├── SomTimeApp.swift                    # 앱 진입점
-│   ├── Info.plist                          # 앱 Info.plist (폰트, 백그라운드 오디오 모드)
+│   ├── Info.plist                          # 앱 Info.plist (폰트, 백그라운드 오디오 모드, AdMob 앱 ID · SKAdNetwork)
 │   ├── InfoPlist.xcstrings                 # 앱 이름 다국어 리소스 (섬타임 / SomTime)
-│   ├── Localizable.xcstrings               # 다국어 문자열 리소스
+│   ├── Localizable.xcstrings               # 다국어 문자열 리소스 (한국어 / 영어 / 일본어)
 │   ├── SomTime.entitlements                # App Group 권한 (앱↔위젯 데이터 공유)
 │   │
 │   ├── Features/                           # 기능별 화면 모듈 (View · Feature)
@@ -178,7 +186,7 @@ SomTime/
 │   │   │   ├── ServerTimeFeature.swift
 │   │   │   ├── ServerTimeView.swift
 │   │   │   └── ServerTimeModels.swift
-│   │   ├── Settings/                       # 설정 (디자인 · 색상 · 표시 옵션 · 문의하기)
+│   │   ├── Settings/                       # 설정 (디자인 · 색상 · 표시 옵션 · 문의하기 · 광고 개인정보 설정)
 │   │   │   ├── SettingsFeature.swift
 │   │   │   ├── SettingsView.swift
 │   │   │   └── MailComposeView.swift
@@ -197,13 +205,20 @@ SomTime/
 │   ├── Clients/                            # TCA Dependency Client
 │   │   ├── LiveActivityClient.swift        # Live Activity 시작 · 업데이트 · 종료 (ActivityKit)
 │   │   ├── PipClockClient.swift            # PiP 시계 시작 · 업데이트 · 종료
-│   │   └── ServerTimeClient.swift          # 서버 시각 측정 (HTTP Date 헤더)
+│   │   ├── ServerTimeClient.swift          # 서버 시각 측정 (HTTP Date 헤더)
+│   │   └── AdClient.swift                  # 광고 동의 확인 · SDK 시작 · 광고 개인정보 설정
+│   │
+│   ├── Ads/                                # AdMob 배너 광고
+│   │   ├── AdController.swift              # UMP 동의 처리 · Google Mobile Ads SDK 시작
+│   │   ├── AdPlacement.swift               # 화면별 광고 단위 ID (Debug는 테스트 광고)
+│   │   └── BannerAdView.swift              # SDK BannerView를 감싼 UIViewRepresentable
 │   │
 │   ├── PictureInPicture/                   # PiP 시계 구현
 │   │   ├── PipClockController.swift        # AVPictureInPictureController · 오디오 세션 관리
 │   │   └── PipClockFrameRenderer.swift     # SwiftUI 시계 → CMSampleBuffer 렌더링
 │   │
 │   ├── Components/                         # 공통 UI 컴포넌트
+│   │   ├── AdBannerSlot.swift              # 화면 하단 광고 배너 자리
 │   │   ├── Chip.swift
 │   │   ├── ColorSwatch.swift
 │   │   ├── DesignCard.swift
@@ -231,6 +246,7 @@ SomTime/
 │   │   └── WebView.swift
 │   │
 │   ├── Storage/                            # @Shared 저장 키
+│   │   ├── AdSharedKeys.swift              # 광고 동의 상태 (inMemory)
 │   │   ├── ClockSettingsSharedKeys.swift   # 시계 설정 (App Group UserDefaults)
 │   │   ├── ServerTimeSharedKeys.swift      # 서버 시간 입력값 · 측정 결과 · 실행 상태
 │   │   └── TicketingPracticeSharedKeys.swift  # 티켓팅 연습 기록 · 옵션 (앱 전용 저장소)
@@ -245,7 +261,7 @@ SomTime/
 │   │   ├── DeviceCapability.swift          # 다이나믹 아일랜드 · PiP 지원 여부 판별
 │   │   └── UINavigationController+SwipeBack.swift  # 스와이프 백 제스처
 │   │
-│   ├── Resources/                          # 개인정보 처리방침 HTML (ko / en)
+│   ├── Resources/                          # 개인정보 처리방침 HTML (ko / en / ja)
 │   └── Assets.xcassets/                    # 앱 아이콘
 │
 ├── Shared/                                 # 앱 · 위젯 확장 공유 코드
@@ -272,6 +288,5 @@ SomTime/
     ├── SomTimeWidgetExtension.entitlements #     위젯 App Group 권한
     └── Info.plist                          #     위젯 익스텐션 Info.plist
 ```
-
 ## License
 Copyright © 2026 Seongpil Heo. All rights reserved.

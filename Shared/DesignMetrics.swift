@@ -13,6 +13,7 @@ enum CornerRadius {
     static let input: CGFloat = 14 // 입력창, 보조 버튼, PiP 창, 아이콘 칸
     static let segmentOuter: CGFloat = 12 // 세그먼트 바깥
     static let segmentInner: CGFloat = 10 // 세그먼트 선택 칸
+    static let adBanner: CGFloat = 8 // 광고 배너 자리
 }
 
 /// 간격 (DESIGN.md 3. 디자인 토큰)

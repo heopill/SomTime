@@ -24,6 +24,8 @@ struct HomeFeature {
         @Shared(.serverClockSession) var serverClock
         /// 티켓팅 연습 타일을 눌러 본 적이 있는지 여부 (NEW 배지 숨김)
         @Shared(.hasOpenedTicketingPractice) var hasOpenedTicketingPractice
+        /// 광고 동의 상태 (앱 실행 때 채우고, 각 화면의 배너와 설정이 읽는다)
+        @Shared(.adConsent) var adConsent
         @Presents var destination: Destination.State?
         @Presents var alert: AlertState<Action.Alert>?
 
@@ -78,6 +80,7 @@ struct HomeFeature {
         case pipEventObservation
     }
 
+    @Dependency(\.adClient) var adClient
     @Dependency(\.liveActivityClient) var liveActivityClient
     @Dependency(\.pipClockClient) var pipClockClient
     @Dependency(\.openURL) var openURL
@@ -97,7 +100,12 @@ struct HomeFeature {
                             await send(.islandRestored(running.startedAt))
                         }
                     },
-                    observePipEvents()
+                    observePipEvents(),
+                    // 광고 동의를 받고(필요한 지역만 동의 창이 뜬다) 광고 SDK를 시작한다
+                    .run { [adConsent = state.$adConsent] _ in
+                        let consent = await adClient.start()
+                        adConsent.withLock { $0 = consent }
+                    }
                 )
 
             case .clockSettingsChanged:

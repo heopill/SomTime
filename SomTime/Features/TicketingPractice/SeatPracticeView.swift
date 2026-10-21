@@ -422,7 +422,8 @@ private struct SeatMapCard: View {
         .padding(.top, 16)
         .padding(.bottom, 18)
         .padding(.horizontal, Self.horizontalPadding)
-        .frame(maxWidth: .infinity)
+        // 좌석 격자가 넓어도 카드 폭은 화면이 준 폭을 따른다 (회전 뒤 넓은 폭이 다시 측정되어 고정되지 않도록)
+        .frame(minWidth: 0, maxWidth: .infinity)
         .background(Color(.island), in: RoundedRectangle(cornerRadius: CornerRadius.card))
         .overlay {
             RoundedRectangle(cornerRadius: CornerRadius.card)

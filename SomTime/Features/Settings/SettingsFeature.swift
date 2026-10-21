@@ -17,6 +17,8 @@ struct SettingsFeature {
         @Shared(.showsSeconds) var showsSeconds
         @Shared(.showsDayPeriod) var showsDayPeriod
         @Shared(.pipAspectRatio) var pipAspectRatio
+        /// 광고 동의 상태 (광고 개인정보 설정 항목 표시 여부)
+        @Shared(.adConsent) var adConsent
         /// 문의 메일 작성 창 표시 여부
         var isMailComposePresented = false
         /// 문의 정보 복사 완료 토스트 표시 여부
@@ -36,6 +38,7 @@ struct SettingsFeature {
         case languageRowTapped
         case privacyPolicyRowTapped
         case contactRowTapped
+        case adPrivacyOptionsRowTapped
         case mailComposeDismissed
         case contactInfoCopiedToastExpired
         case privacyPolicy(PresentationAction<PrivacyPolicyFeature.Action>)
@@ -50,6 +53,7 @@ struct SettingsFeature {
         case contactInfoCopiedToast
     }
 
+    @Dependency(\.adClient) var adClient
     @Dependency(\.dismiss) var dismiss
     @Dependency(\.openURL) var openURL
 
@@ -109,6 +113,13 @@ struct SettingsFeature {
                 }
 
                 return .none
+
+            case .adPrivacyOptionsRowTapped:
+                // Google 광고 동의 설정 창. 닫은 뒤 바뀐 동의 상태를 배너에 반영한다
+                return .run { [adConsent = state.$adConsent] _ in
+                    let consent = await adClient.presentPrivacyOptions()
+                    adConsent.withLock { $0 = consent }
+                }
 
             case .mailComposeDismissed:
                 state.isMailComposePresented = false
