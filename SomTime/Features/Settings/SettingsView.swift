@@ -9,6 +9,8 @@ import SwiftUI
 struct SettingsView: View {
     @Bindable var store: StoreOf<SettingsFeature>
 
+    @Environment(\.scenePhase) private var scenePhase
+
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: 22) {
@@ -62,6 +64,14 @@ struct SettingsView: View {
             .ignoresSafeArea()
         }
         .alert($store.scope(state: \.alert, action: \.alert))
+        .onAppear {
+            store.send(.onAppear)
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active {
+                store.send(.appBecameActive)
+            }
+        }
     }
 
     private var preview: some View {
@@ -236,6 +246,10 @@ struct SettingsView: View {
                     store.send(.languageRowTapped)
                 }
                 appRowDivider
+                navigationRow(title: "notifications", value: notificationStatusName) {
+                    store.send(.notificationRowTapped)
+                }
+                appRowDivider
                 navigationRow(title: "privacyPolicy") {
                     store.send(.privacyPolicyRowTapped)
                 }
@@ -292,6 +306,13 @@ struct SettingsView: View {
             .fill(Color(.divider))
             .frame(height: 1)
             .padding(.leading, Spacing.cardPadding)
+    }
+
+    /// 알림 행에 보여 줄 권한 상태 (허용: 켜짐, 거부 · 아직 묻지 않음: 꺼짐. 확인하기 전에는 비움)
+    private var notificationStatusName: String? {
+        guard let status = store.notificationStatus else { return nil }
+
+        return status == .authorized ? String(localized: "notificationsOn") : String(localized: "notificationsOff")
     }
 
     // 앱에 지금 적용된 언어 이름을 그 언어로 표시한다 (예: 한국어, English)

@@ -19,6 +19,8 @@ struct SettingsFeature {
         @Shared(.pipAspectRatio) var pipAspectRatio
         /// 광고 동의 상태 (광고 개인정보 설정 항목 표시 여부)
         @Shared(.adConsent) var adConsent
+        /// 알림 권한 상태 (확인하기 전에는 nil)
+        var notificationStatus: NotificationAuthorizationStatus?
         /// 문의 메일 작성 창 표시 여부
         var isMailComposePresented = false
         /// 문의 정보 복사 완료 토스트 표시 여부
@@ -28,6 +30,9 @@ struct SettingsFeature {
     }
 
     enum Action {
+        case onAppear
+        case appBecameActive
+        case notificationStatusLoaded(NotificationAuthorizationStatus)
         case backButtonTapped
         case designSelected(ClockDesign)
         case colorSelected(ClockColor)
@@ -36,6 +41,7 @@ struct SettingsFeature {
         case showsDayPeriodChanged(Bool)
         case pipAspectRatioChanged(PipAspectRatio)
         case languageRowTapped
+        case notificationRowTapped
         case privacyPolicyRowTapped
         case contactRowTapped
         case adPrivacyOptionsRowTapped
@@ -55,11 +61,21 @@ struct SettingsFeature {
 
     @Dependency(\.adClient) var adClient
     @Dependency(\.dismiss) var dismiss
+    @Dependency(\.notificationClient) var notificationClient
     @Dependency(\.openURL) var openURL
 
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
+            case .onAppear, .appBecameActive:
+                // 설정 앱에서 알림을 켜고 돌아왔을 때도 바뀐 상태를 보여 준다
+                return loadNotificationStatus()
+
+            case let .notificationStatusLoaded(status):
+                state.notificationStatus = status
+
+                return .none
+
             case .backButtonTapped:
                 return .run { _ in await dismiss() }
 
@@ -96,6 +112,18 @@ struct SettingsFeature {
             case .languageRowTapped:
                 // 시스템 설정 앱의 섬타임 페이지 (언어 항목에서 앱 언어를 바꿀 수 있음)
                 guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return .none }
+
+                return .run { _ in await openURL(settingsURL) }
+
+            case .notificationRowTapped:
+                // 아직 묻지 않았으면 권한을 묻고 (설정 앱에 알림 항목이 아직 없다), 정해졌으면 설정 앱의 섬타임 알림 페이지로 보낸다
+                guard state.notificationStatus != .notDetermined else {
+                    return .run { send in
+                        _ = await notificationClient.requestAuthorization()
+                        await send(.notificationStatusLoaded(notificationClient.authorizationStatus()))
+                    }
+                }
+                guard let settingsURL = URL(string: UIApplication.openNotificationSettingsURLString) else { return .none }
 
                 return .run { _ in await openURL(settingsURL) }
 
@@ -150,6 +178,13 @@ struct SettingsFeature {
             PrivacyPolicyFeature()
         }
         .ifLet(\.$alert, action: \.alert)
+    }
+
+    /// 지금 알림 권한 상태를 읽어 온다
+    private func loadNotificationStatus() -> Effect<Action> {
+        return .run { send in
+            await send(.notificationStatusLoaded(notificationClient.authorizationStatus()))
+        }
     }
 }
 
