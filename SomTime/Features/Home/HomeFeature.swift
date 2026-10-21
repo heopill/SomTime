@@ -26,6 +26,8 @@ struct HomeFeature {
         @Shared(.hasOpenedTicketingPractice) var hasOpenedTicketingPractice
         /// 광고 동의 상태 (앱 실행 때 채우고, 각 화면의 배너와 설정이 읽는다)
         @Shared(.adConsent) var adConsent
+        /// 업데이트 알림에서 "나중에"를 누른 앱스토어 버전
+        @Shared(.skippedUpdateVersion) var skippedUpdateVersion
         @Presents var destination: Destination.State?
         @Presents var alert: AlertState<Action.Alert>?
 
@@ -63,14 +65,17 @@ struct HomeFeature {
         case serverIslandStarted
         case serverIslandRestored(ServerTimeClock)
         case serverClockStartFailed(ServerTimeDisplayMode)
+        case appUpdateFound(AppUpdate)
         case settingsButtonTapped
         case serverTimeTileTapped
         case ticketingPracticeTileTapped
         case destination(PresentationAction<Destination.Action>)
         case alert(PresentationAction<Alert>)
 
-        enum Alert {
+        enum Alert: Equatable {
             case openSettingsTapped
+            case updateTapped(URL)
+            case updateLaterTapped(version: String)
         }
     }
 
@@ -81,6 +86,7 @@ struct HomeFeature {
     }
 
     @Dependency(\.adClient) var adClient
+    @Dependency(\.appUpdateClient) var appUpdateClient
     @Dependency(\.liveActivityClient) var liveActivityClient
     @Dependency(\.pipClockClient) var pipClockClient
     @Dependency(\.openURL) var openURL
@@ -101,11 +107,19 @@ struct HomeFeature {
                         }
                     },
                     observePipEvents(),
-                    // 광고 동의를 받고(필요한 지역만 동의 창이 뜬다) 광고 SDK를 시작한다
-                    .run { [adConsent = state.$adConsent] _ in
-                        let consent = await adClient.start()
-                        adConsent.withLock { $0 = consent }
-                    }
+                    .concatenate(
+                        // 광고 동의를 받고(필요한 지역만 동의 창이 뜬다) 광고 SDK를 시작한다
+                        .run { [adConsent = state.$adConsent] _ in
+                            let consent = await adClient.start()
+                            adConsent.withLock { $0 = consent }
+                        },
+                        // 동의 창과 겹치지 않도록 그다음에 앱스토어 새 버전을 확인한다
+                        .run { send in
+                            guard let update = await appUpdateClient.availableUpdate() else { return }
+
+                            await send(.appUpdateFound(update))
+                        }
+                    )
                 )
 
             case .clockSettingsChanged:
@@ -273,6 +287,16 @@ struct HomeFeature {
 
                 return .none
 
+            case let .appUpdateFound(update):
+                // "나중에"를 누른 버전이거나 다른 알림 · 화면이 떠 있으면 이번 실행에서는 알리지 않는다
+                guard update.version != state.skippedUpdateVersion,
+                      state.alert == nil,
+                      state.destination == nil else { return .none }
+
+                state.alert = .appUpdateAvailable(update)
+
+                return .none
+
             case .settingsButtonTapped:
                 state.destination = .settings(SettingsFeature.State())
 
@@ -293,6 +317,14 @@ struct HomeFeature {
                 guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return .none }
 
                 return .run { _ in await openURL(settingsURL) }
+
+            case let .alert(.presented(.updateTapped(storeURL))):
+                return .run { _ in await openURL(storeURL) }
+
+            case let .alert(.presented(.updateLaterTapped(version))):
+                state.$skippedUpdateVersion.withLock { $0 = version }
+
+                return .none
 
             case .destination, .alert:
                 return .none
@@ -476,5 +508,21 @@ extension AlertState where Action == HomeFeature.Action.Alert {
         }
     } message: {
         TextState("pipStartFailedMessage")
+    }
+
+    /// 앱스토어에 새 버전이 나왔다는 알림
+    static func appUpdateAvailable(_ update: AppUpdate) -> Self {
+        return AlertState {
+            TextState("appUpdateTitle")
+        } actions: {
+            ButtonState(role: .cancel, action: .updateLaterTapped(version: update.version)) {
+                TextState("appUpdateLater")
+            }
+            ButtonState(action: .updateTapped(update.storeURL)) {
+                TextState("appUpdateNow")
+            }
+        } message: {
+            TextState("appUpdateMessage")
+        }
     }
 }
