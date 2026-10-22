@@ -15,11 +15,28 @@ final class PipClockFrameRenderer {
     private var pixelBufferPool: CVPixelBufferPool?
     private var poolSize: (width: Int, height: Int) = (0, 0)
 
-    /// 지금 설정으로 시계 프레임 하나를 만든다
-    func sampleBuffer(time: String, milliseconds: String?, settings: ClockDisplaySettings, aspectRatio: PipAspectRatio) -> CMSampleBuffer? {
+    /// 지금 설정으로 시계 프레임 하나를 만든다 (countdown이 있으면 목표 시각까지 남은 시간도 그린다).
+    /// 목표 시각 직전 강조 중이면 시계와 남은 시간을 경고색으로 그린다
+    func sampleBuffer(
+        time: String,
+        milliseconds: String?,
+        countdown: String?,
+        emphasis: PipClockEmphasis,
+        settings: ClockDisplaySettings,
+        aspectRatio: PipAspectRatio
+    ) -> CMSampleBuffer? {
+        // 목표 시각 직전에는 시계 색과 상관없이 경고색(빨강)으로 그린다
+        let accent = emphasis == .none ? settings.color.color : Color(.warning)
         let renderer = ImageRenderer(
-            content: PipClockFrame(time: time, milliseconds: milliseconds, design: settings.design, aspectRatio: aspectRatio)
-                .environment(\.clockAccent, settings.color.color)
+            content: PipClockFrame(
+                time: time,
+                milliseconds: milliseconds,
+                countdown: countdown,
+                emphasis: emphasis,
+                design: settings.design,
+                aspectRatio: aspectRatio
+            )
+            .environment(\.clockAccent, accent)
         )
         renderer.scale = Self.renderScale
         guard let image = renderer.cgImage, let pixelBuffer = makePixelBuffer(from: image) else { return nil }

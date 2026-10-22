@@ -25,11 +25,19 @@ struct LiveClockText: View {
             .lineLimit(1)
     }
 
-    private var liveText: some View {
+    private var liveText: Text {
+        // 서버 시간은 서버 자정부터 흐른 시간을 스톱워치로 그려 오프셋의 소수까지 맞춘다 (자정 근처 등은 시간대 방식)
+        if let stopwatchStart = state.settings.serverStopwatchStart() {
+            return Text(
+                .currentDate,
+                format: SystemFormatStyle.Stopwatch(startingAt: stopwatchStart, showsHours: true, maxFieldCount: 3, maxPrecision: .seconds(1))
+            )
+        }
+
         return Text(
             .currentDate,
             format: ClockTimeFormatter.formatStyle(
-                isTwentyFourHour: state.settings.isTwentyFourHour,
+                isTwentyFourHour: state.settings.islandIsTwentyFourHour,
                 showsSeconds: state.settings.showsSeconds,
                 showsDayPeriod: state.settings.showsDayPeriod,
                 design: state.settings.design,
@@ -44,7 +52,7 @@ struct LiveClockText: View {
 
         return ClockTimeFormatter.string(
             from: sample,
-            isTwentyFourHour: state.settings.isTwentyFourHour,
+            isTwentyFourHour: state.settings.islandIsTwentyFourHour,
             showsSeconds: state.settings.showsSeconds,
             showsDayPeriod: state.settings.showsDayPeriod,
             design: state.settings.design
@@ -60,7 +68,7 @@ struct LiveClockComponentText: View {
     var body: some View {
         Text(
             .currentDate,
-            format: ClockTimeFormatter.componentStyle(component, isTwentyFourHour: settings.isTwentyFourHour, timeZone: settings.timeZone)
+            format: ClockTimeFormatter.componentStyle(component, isTwentyFourHour: settings.islandIsTwentyFourHour, timeZone: settings.timeZone)
         )
     }
 }

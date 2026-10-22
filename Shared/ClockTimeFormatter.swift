@@ -101,6 +101,17 @@ nonisolated enum ClockTimeFormatter {
         case second
     }
 
+    /// 목표 시각까지 남은 시간 문자열을 만든다 (예: 4:27, 1:04:27). 남은 초는 올림해서 목표 시각에 0:00이 된다
+    static func countdownString(_ remaining: TimeInterval) -> String {
+        let totalSeconds = max(0, Int(remaining.rounded(.up)))
+        let hours = totalSeconds / 3600
+        let minutes = totalSeconds / 60 % 60
+        let seconds = totalSeconds % 60
+        guard hours > 0 else { return String(format: "%d:%02d", minutes, seconds) }
+
+        return String(format: "%d:%02d:%02d", hours, minutes, seconds)
+    }
+
     /// 지정한 형식 그대로 그리는 FormatStyle을 만든다 (그레고리력, 기본은 기기 시간대)
     private static func verbatimStyle(_ format: Date.FormatString, locale: Locale, timeZone: TimeZone) -> Date.VerbatimFormatStyle {
         return Date.VerbatimFormatStyle(

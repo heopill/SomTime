@@ -7,7 +7,7 @@
   섬타임 (SomTime)
   <p align="center">
   <img src="https://img.shields.io/badge/프로젝트 기간-2026.10.05 ~ -FFB340?style=flat&logo=&logoColor=white" alt="프로젝트 기간" />
-  <img src="https://img.shields.io/badge/release-v26.2.0-4fc08d?style=flat&logo=apple&logoColor=white" alt="릴리즈 버전" />
+  <img src="https://img.shields.io/badge/release-v26.3.0-4fc08d?style=flat&logo=apple&logoColor=white" alt="릴리즈 버전" />
   </p>
   <p align="center">
     <a href="https://apps.apple.com/kr/app/%EC%84%AC%ED%83%80%EC%9E%84/id6820983446">
@@ -163,6 +163,7 @@
 | **v26.0.0** | 2026.10.10 | 첫 공식 배포 (Initial Release) |
 | **v26.1.0** | 2026.10.15 | 티켓팅 연습 기능 추가 (정각 클릭, 포도알 클릭) |
 | **v26.2.0** | 2026.10.20 | 애드몹(AdMob) 광고 배너 추가, 일본어 지원 |
+| **v26.3.0** | 2026.10.22 | 목표 시각 카운트다운 · 알림 · 진동 기능 추가, PiP 시계 깜빡임 추가 |
 
 <br>
 

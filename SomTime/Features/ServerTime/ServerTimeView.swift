@@ -10,6 +10,7 @@ struct ServerTimeView: View {
     @Bindable var store: StoreOf<ServerTimeFeature>
 
     @FocusState private var isURLFieldFocused: Bool
+    @Environment(\.clockAccent) private var accent
 
     var body: some View {
         VStack(alignment: .leading, spacing: 22) {
@@ -21,13 +22,15 @@ struct ServerTimeView: View {
                     urlSection
                     resultSection
                     displayModeSection
+                    targetSection
+                    // 하단에 고정하면 목표 시각을 못 보고 시작하기 쉬워서 옵션 맨 아래에 붙인다
+                    startButton
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background { keyboardDismissArea }
             }
             .scrollBounceBehavior(.basedOnSize)
             .scrollDismissesKeyboard(.interactively)
-            startButton
         }
         .padding(.horizontal, Spacing.screenHorizontal)
         .padding(.top, 8)
@@ -43,6 +46,9 @@ struct ServerTimeView: View {
         .background(Color(.background))
         .toolbar(.hidden, for: .navigationBar)
         .alert($store.scope(state: \.alert, action: \.alert))
+        .onAppear {
+            store.send(.onAppear)
+        }
     }
 
     private var urlSection: some View {
@@ -142,6 +148,109 @@ struct ServerTimeView: View {
             }
         }
         .animation(.easeInOut(duration: 0.2), value: store.displayMode)
+    }
+
+    /// 목표 시각: 카운트다운 · 알림 토글 + 켜면 시각 선택 행 · 3 · 2 · 1초 전 진동 토글
+    private var targetSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            sectionTitle("targetTimeSection")
+            VStack(spacing: 0) {
+                Toggle(
+                    isOn: Binding(
+                        get: { store.isTargetOn },
+                        set: { store.send(.targetToggled($0)) }
+                    )
+                ) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("targetCountdown")
+                            .fontStyle(.rowLabel)
+                            .foregroundStyle(Color(.textPrimary))
+                        // 두 줄로 넘어가는 설명이라 caption 기본 행간(6pt)보다 좁혀 한 덩어리로 읽히게 한다
+                        Text("targetCountdownDescription")
+                            .font(FontStyle.caption.font)
+                            .lineSpacing(2)
+                            .foregroundStyle(Color(.textSecondary))
+                    }
+                }
+                .toggleStyle(.accent)
+                .padding(.vertical, 10)
+                .frame(minHeight: 60)
+
+                if store.isTargetOn {
+                    VStack(spacing: 0) {
+                        targetDivider
+                        HStack(spacing: 8) {
+                            Text("targetTime")
+                                .fontStyle(.rowLabel)
+                                .foregroundStyle(Color(.textPrimary))
+                            Spacer(minLength: 12)
+                            if let targetDayKey {
+                                Text(targetDayKey)
+                                    .fontStyle(.rowLabel)
+                                    .foregroundStyle(Color(.textSecondary))
+                            }
+                            DatePicker(
+                                "targetTime",
+                                selection: Binding(
+                                    get: { store.targetDate },
+                                    set: { store.send(.targetTimeChanged($0)) }
+                                ),
+                                displayedComponents: .hourAndMinute
+                            )
+                            .labelsHidden()
+                            .tint(accent)
+                        }
+                        .frame(minHeight: 56)
+
+                        targetDivider
+                        Toggle(
+                            isOn: Binding(
+                                get: { store.vibratesBeforeTarget },
+                                set: { store.send(.targetVibrationToggled($0)) }
+                            )
+                        ) {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("targetVibration")
+                                    .fontStyle(.rowLabel)
+                                    .foregroundStyle(Color(.textPrimary))
+                                Text("targetVibrationDescription")
+                                    .font(FontStyle.caption.font)
+                                    .lineSpacing(2)
+                                    .foregroundStyle(Color(.textSecondary))
+                            }
+                        }
+                        .toggleStyle(.accent)
+                        .padding(.vertical, 10)
+                        .frame(minHeight: 60)
+                    }
+                    .transition(.opacity)
+                }
+            }
+            .padding(.leading, Spacing.cardPadding)
+            .padding(.trailing, 14)
+            .background(Color(.surface), in: RoundedRectangle(cornerRadius: CornerRadius.control))
+        }
+        .animation(.easeInOut(duration: 0.2), value: store.isTargetOn)
+    }
+
+    /// 목표 시각이 오늘인지 내일인지 (그 밖이면 표시하지 않는다)
+    private var targetDayKey: LocalizedStringKey? {
+        if Calendar.current.isDateInToday(store.targetDate) {
+            return "today"
+        }
+        if Calendar.current.isDateInTomorrow(store.targetDate) {
+            return "tomorrow"
+        }
+
+        return nil
+    }
+
+    /// 목표 시각 그룹의 행 구분선
+    private var targetDivider: some View {
+        Rectangle()
+            .fill(Color(.divider))
+            .frame(height: 1)
+            .padding(.trailing, -14)
     }
 
     private var startButton: some View {

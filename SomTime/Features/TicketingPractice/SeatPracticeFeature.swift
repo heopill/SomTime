@@ -14,6 +14,7 @@ struct SeatPracticeFeature {
         @Shared(.seatPracticeDifficulty) var difficulty
         @Shared(.seatPracticeSeatsVanish) var seatsVanish
         @Shared(.seatPracticeRecords) var records
+        @Shared(.reviewRequestRecord) var reviewRequestRecord
 
         enum Phase: Equatable {
             /// 난이도 선택
@@ -46,6 +47,7 @@ struct SeatPracticeFeature {
     @Dependency(\.continuousClock) var clock
     @Dependency(\.date.now) var now
     @Dependency(\.dismiss) var dismiss
+    @Dependency(\.reviewClient) var reviewClient
     @Dependency(\.withRandomNumberGenerator) var withRandomNumberGenerator
 
     var body: some Reducer<State, Action> {
@@ -157,7 +159,10 @@ struct SeatPracticeFeature {
                     )
                 )
 
-                return cancelRound()
+                return .merge(
+                    cancelRound(),
+                    reviewClient.recordSuccess(in: state.$reviewRequestRecord)
+                )
 
             case .timeLimitReached:
                 guard case let .playing(round) = state.phase else { return .none }
