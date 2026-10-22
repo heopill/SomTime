@@ -12,6 +12,7 @@ struct TicketingPracticeFeature {
     struct State: Equatable {
         @SharedReader(.timingPracticeRecords) var timingRecords
         @SharedReader(.seatPracticeRecords) var seatRecords
+        @SharedReader(.captchaPracticeRecords) var captchaRecords
         @SharedReader(.clockDesign) var clockDesign
         @SharedReader(.clockColor) var clockColor
         @SharedReader(.isTwentyFourHour) var isTwentyFourHour
@@ -34,6 +35,7 @@ struct TicketingPracticeFeature {
         case backButtonTapped
         case timingPracticeTapped
         case seatPracticeTapped
+        case captchaPracticeTapped
         case destination(PresentationAction<Destination.Action>)
     }
 
@@ -55,6 +57,11 @@ struct TicketingPracticeFeature {
 
                 return .none
 
+            case .captchaPracticeTapped:
+                state.destination = .captcha(CaptchaPracticeFeature.State())
+
+                return .none
+
             case .destination:
                 return .none
             }
@@ -68,6 +75,7 @@ extension TicketingPracticeFeature {
     enum Destination {
         case timing(TimingPracticeFeature)
         case seat(SeatPracticeFeature)
+        case captcha(CaptchaPracticeFeature)
     }
 }
 
