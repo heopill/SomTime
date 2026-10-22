@@ -97,8 +97,8 @@ struct SeatPracticeView: View {
 
                     DifficultyButton(
                         name: difficulty.nameKey,
-                        timeLimit: Text("secondsLimit \(Int(difficulty.timeLimit))"),
-                        seatRange: Text("availableSeatRange \(range.lowerBound) \(range.upperBound)"),
+                        value: Text("secondsLimit \(Int(difficulty.timeLimit))"),
+                        detail: Text("availableSeatRange \(range.lowerBound) \(range.upperBound)"),
                         isSelected: difficulty == store.difficulty
                     ) {
                         store.send(.difficultySelected(difficulty))

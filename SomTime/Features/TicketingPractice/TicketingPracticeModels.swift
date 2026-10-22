@@ -243,6 +243,105 @@ nonisolated struct SeatPracticeRecords: Codable, Equatable, Sendable {
     }
 }
 
+// MARK: - 보안 문자 입력 연습
+
+/// 보안 문자 입력 연습 규칙 (영문 대문자 6자리, 대소문자 구분 없이 입력)
+nonisolated enum CaptchaPractice {
+    /// 보안 문자 길이
+    static let length = 6
+    /// 보안 문자에 쓰는 글자
+    static let letters = Array("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+    /// 기울이거나 겹치면 헷갈리는 글자 (어려움에서 자주 나온다)
+    static let confusableLetters = Array("OQDCGVYWIJLEFPRMNUH")
+
+    /// 입력한 글자를 대문자로 바꾸고, 영문이 아닌 글자를 빼고, 6자리까지만 남긴다
+    static func sanitized(_ input: String) -> String {
+        return String(input.uppercased().filter { letters.contains($0) }.prefix(length))
+    }
+}
+
+/// 보안 문자 입력 연습 난이도 (글자를 비트는 정도)
+nonisolated enum CaptchaDifficulty: String, CaseIterable, Codable, Sendable {
+    case easy
+    case normal
+    case hard
+
+    /// 헷갈리는 글자를 고를 비율
+    var confusableRatio: Double {
+        switch self {
+        case .easy, .normal: return 0
+        case .hard: return 0.5
+        }
+    }
+}
+
+/// 화면에 띄운 보안 문자 하나 (seed가 같으면 같은 모양으로 그린다)
+nonisolated struct CaptchaChallenge: Equatable, Sendable {
+    var text: String
+    var seed: UInt64
+    var difficulty: CaptchaDifficulty
+
+    /// 난이도에 맞는 무작위 보안 문자를 만든다
+    static func random<Generator: RandomNumberGenerator>(
+        difficulty: CaptchaDifficulty,
+        using generator: inout Generator
+    ) -> CaptchaChallenge {
+        let letters = (0..<CaptchaPractice.length).map { _ in
+            let pool = Double.random(in: 0..<1, using: &generator) < difficulty.confusableRatio
+                ? CaptchaPractice.confusableLetters
+                : CaptchaPractice.letters
+
+            return pool.randomElement(using: &generator) ?? "A"
+        }
+
+        return CaptchaChallenge(text: String(letters), seed: generator.next(), difficulty: difficulty)
+    }
+}
+
+/// 진행 중인 보안 문자 연습 한 판
+nonisolated struct CaptchaPracticeRound: Equatable, Sendable {
+    var difficulty: CaptchaDifficulty
+    var challenge: CaptchaChallenge
+    /// 처음 보안 문자가 뜬 시각 (틀리거나 새로고침해도 이어서 잰다)
+    var startedAt: Date
+    var input = ""
+    var wrongCount = 0
+    var refreshCount = 0
+    /// 방금 틀려서 새 문자로 바뀌었다는 안내를 보여 줄지 여부 (다시 입력하기 시작하면 숨긴다)
+    var showsWrongAnswer = false
+}
+
+/// 보안 문자 연습 한 판의 결과
+nonisolated struct CaptchaPracticeResult: Equatable, Sendable {
+    var difficulty: CaptchaDifficulty
+    /// 처음 보안 문자가 뜬 순간부터 통과할 때까지 걸린 시간
+    var totalTime: TimeInterval
+    var wrongCount: Int
+    var refreshCount: Int
+    /// 이번 기록이 난이도 최고 기록인지 여부
+    var isNewBest = false
+}
+
+/// 보안 문자 연습 난이도별 최고 기록
+nonisolated struct CaptchaPracticeRecords: Codable, Equatable, Sendable {
+    private var bestTimes: [String: TimeInterval] = [:]
+
+    /// 난이도의 최고 기록 (통과까지 걸린 시간)
+    func bestTime(for difficulty: CaptchaDifficulty) -> TimeInterval? {
+        return bestTimes[difficulty.rawValue]
+    }
+
+    /// 기록이 최고 기록보다 빠르면 저장하고, 최고 기록인지 돌려준다
+    mutating func record(_ time: TimeInterval, for difficulty: CaptchaDifficulty) -> Bool {
+        if let best = bestTime(for: difficulty), best <= time {
+            return false
+        }
+        bestTimes[difficulty.rawValue] = time
+
+        return true
+    }
+}
+
 // MARK: - 표시 형식
 
 /// 연습 기록 숫자 형식
