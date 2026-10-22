@@ -32,6 +32,13 @@ extension SharedKey where Self == AppStorageKey<SeatDifficulty>.Default {
     }
 }
 
+extension SharedKey where Self == AppStorageKey<CaptchaDifficulty>.Default {
+    /// 보안 문자 입력 연습에서 마지막으로 고른 난이도
+    static var captchaPracticeDifficulty: Self {
+        Self[.appStorage("captchaPracticeDifficulty"), default: .normal]
+    }
+}
+
 extension SharedKey where Self == FileStorageKey<TimingPracticeRecords>.Default {
     /// 정각 클릭 연습 기록
     static var timingPracticeRecords: Self {
@@ -43,5 +50,12 @@ extension SharedKey where Self == FileStorageKey<SeatPracticeRecords>.Default {
     /// 포도알 클릭 연습 난이도별 최고 기록
     static var seatPracticeRecords: Self {
         Self[.fileStorage(.applicationSupportDirectory.appending(component: "seatPracticeRecords.json")), default: SeatPracticeRecords()]
+    }
+}
+
+extension SharedKey where Self == FileStorageKey<CaptchaPracticeRecords>.Default {
+    /// 보안 문자 입력 연습 난이도별 최고 기록
+    static var captchaPracticeRecords: Self {
+        Self[.fileStorage(.applicationSupportDirectory.appending(component: "captchaPracticeRecords.json")), default: CaptchaPracticeRecords()]
     }
 }
