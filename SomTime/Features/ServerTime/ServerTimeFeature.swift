@@ -141,18 +141,11 @@ struct ServerTimeFeature {
                 )
                 state.$savedMeasurement.withLock { $0 = measurement }
                 let reviewRequest: Effect<Action> = reviewClient.recordSuccess(in: state.$reviewRequestRecord)
-                // 목표 시각 알림도 다시 맞춘 오프셋으로 다시 예약한다
-                let rescheduleAlerts: Effect<Action> = state.isTargetOn
-                    ? scheduleTargetAlerts(state, requestsAuthorization: false)
-                    : .none
 
-                // 같은 사이트의 서버 시간 시계가 실행 중이면 다시 맞춘 오프셋을 바로 반영한다
-                guard let session = state.session, session.clock.host == host else {
-                    return .merge(rescheduleAlerts, reviewRequest)
-                }
+                // 같은 사이트의 서버 시간 시계가 실행 중이면 다시 맞춘 오프셋을 바로 반영한다 (목표 시각 알림도 홈이 다시 예약한다)
+                guard let session = state.session, session.clock.host == host else { return reviewRequest }
 
                 return .merge(
-                    rescheduleAlerts,
                     reviewRequest,
                     .send(.delegate(.startRequested(makeSession(state, mode: session.mode))))
                 )
@@ -192,8 +185,15 @@ struct ServerTimeFeature {
                 let targetDate = ServerTimeTarget.nextDate(matching: state.targetDate, after: now.addingTimeInterval(state.offset))
                 state.$targetDate.withLock { $0 = targetDate }
 
+                // 알림은 서버 시간 시계가 켜져 있는 동안에만 홈이 예약하므로, 여기서는 권한만 미리 묻는다.
+                // 거부되어 있으면 설정으로 안내한다 (남은 시간 표시는 그대로 쓸 수 있다)
                 return .merge(
-                    scheduleTargetAlerts(state, requestsAuthorization: true),
+                    .run { send in
+                        let isAuthorized = await notificationClient.requestAuthorization()
+                        if !isAuthorized {
+                            await send(.notificationAuthorizationDenied)
+                        }
+                    },
                     updateRunningTarget(state)
                 )
 
@@ -202,10 +202,7 @@ struct ServerTimeFeature {
                 state.$targetDate.withLock { $0 = targetDate }
                 guard state.isTargetOn else { return .none }
 
-                return .merge(
-                    scheduleTargetAlerts(state, requestsAuthorization: false),
-                    updateRunningTarget(state)
-                )
+                return updateRunningTarget(state)
 
             case let .targetVibrationToggled(isOn):
                 state.$vibratesBeforeTarget.withLock { $0 = isOn }
@@ -271,32 +268,6 @@ struct ServerTimeFeature {
         session.clock.vibratesBeforeTarget = state.vibratesBeforeTarget
 
         return .send(.delegate(.startRequested(session)))
-    }
-
-    /// 목표 시각 5 · 3 · 1분 전 알림을 다시 예약한다.
-    /// requestsAuthorization이면 먼저 알림 권한을 묻고, 거부되어 있으면 설정으로 안내한다 (남은 시간 표시는 그대로 쓸 수 있다)
-    private func scheduleTargetAlerts(_ state: State, requestsAuthorization: Bool) -> Effect<Action> {
-        let alert = ServerTimeTargetAlert(
-            fireDate: state.targetDate.addingTimeInterval(-state.offset),
-            targetText: ClockTimeFormatter.string(
-                from: state.targetDate,
-                isTwentyFourHour: state.isTwentyFourHour,
-                showsSeconds: false,
-                showsDayPeriod: state.showsDayPeriod
-            ),
-            host: state.measurement?.host
-        )
-
-        return .run { send in
-            if requestsAuthorization {
-                guard await notificationClient.requestAuthorization() else {
-                    await send(.notificationAuthorizationDenied)
-
-                    return
-                }
-            }
-            await notificationClient.scheduleTargetAlerts(alert)
-        }
     }
 }
 
