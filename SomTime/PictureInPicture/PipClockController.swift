@@ -40,8 +40,8 @@ final class PipClockController: NSObject {
     private static let warningLeadTime: TimeInterval = 10
     /// 목표 시각 몇 초 전부터 0.5초 간격으로 깜빡일지
     private static let blinkLeadTime: TimeInterval = 3
-    /// 목표 시각 몇 초 전부터 1초마다 진동할지 (3 · 2 · 1초 전)
-    private static let vibrationLeadSeconds = 3
+    /// 목표 시각 몇 초 전부터 1초마다 진동할지 (5 · 4 · 3 · 2 · 1초 전)
+    private static let vibrationLeadSeconds = 5
     /// 직접 끈 PiP 창이 닫힐 때까지 기다리는 최대 시간
     private static let stopTimeout: Duration = .seconds(2)
     /// 오디오 세션을 켜고 끄는 순서를 지키기 위한 직렬 큐 (메인 스레드에서 처리하면 화면이 멈출 수 있다)
@@ -367,7 +367,7 @@ final class PipClockController: NSObject {
         return remaining <= Self.blinkLeadTime + 1
     }
 
-    /// 목표 시각 3 · 2 · 1초 전(남은 시간 표시가 0:03 · 0:02 · 0:01로 바뀌는 순간)에 한 번씩 진동한다
+    /// 목표 시각 5 · 4 · 3 · 2 · 1초 전(남은 시간 표시가 0:05 ~ 0:01로 바뀌는 순간)에 한 번씩 진동한다
     private func vibrateIfNeeded(at date: Date, settings: ClockDisplaySettings) {
         guard settings.serverTime?.vibratesBeforeTarget == true,
               let targetDate = settings.serverTime?.targetDate,
