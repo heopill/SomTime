@@ -4187,19 +4187,19 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vibrate at 3, 2, 1 Sec"
+            "value" : "Vibrate in Last 5 Sec"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "3・2・1秒前に振動"
+            "value" : "5秒前から振動"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "3 · 2 · 1초 전 진동"
+            "value" : "5초 전부터 진동"
           }
         }
       }
@@ -4209,19 +4209,19 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vibrates every second for the last 3 seconds while the PiP clock is on"
+            "value" : "Vibrates every second for the last 5 seconds while the PiP clock is on"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "PiP時計の表示中、最後の3秒間は1秒ごとに振動します"
+            "value" : "PiP時計の表示中、最後の5秒間は1秒ごとに振動します"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "PiP 시계로 볼 때 마지막 3초 동안 1초마다 진동해요"
+            "value" : "PiP 시계로 볼 때 마지막 5초 동안 1초마다 진동해요"
           }
         }
       }
