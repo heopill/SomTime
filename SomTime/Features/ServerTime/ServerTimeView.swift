@@ -150,7 +150,7 @@ struct ServerTimeView: View {
         .animation(.easeInOut(duration: 0.2), value: store.displayMode)
     }
 
-    /// 목표 시각: 카운트다운 · 알림 토글 + 켜면 시각 선택 행 · 3 · 2 · 1초 전 진동 토글
+    /// 목표 시각: 카운트다운 · 알림 토글 + 켜면 시각 선택 행 · 5초 전부터 진동 토글 · 카드 아래 자동 종료 안내
     private var targetSection: some View {
         VStack(alignment: .leading, spacing: 10) {
             sectionTitle("targetTimeSection")
@@ -229,6 +229,14 @@ struct ServerTimeView: View {
             .padding(.leading, Spacing.cardPadding)
             .padding(.trailing, 14)
             .background(Color(.surface), in: RoundedRectangle(cornerRadius: CornerRadius.control))
+
+            if store.isTargetOn {
+                Text("targetAutoStopNotice")
+                    .fontStyle(.caption)
+                    .foregroundStyle(Color(.textSecondary))
+                    .padding(.horizontal, 4)
+                    .transition(.opacity)
+            }
         }
         .animation(.easeInOut(duration: 0.2), value: store.isTargetOn)
     }

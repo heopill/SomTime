@@ -15,7 +15,7 @@ nonisolated struct ServerTimeClock: Codable, Hashable {
     var showsMilliseconds = false
     /// 목표 시각 (서버 시계 기준. 있으면 남은 시간을 함께 표시한다)
     var targetDate: Date?
-    /// 목표 시각 3 · 2 · 1초 전에 진동할지 여부 (PiP 전용)
+    /// 목표 시각 5초 전부터 1초마다 진동할지 여부 (PiP 전용)
     var vibratesBeforeTarget = false
 
     private enum CodingKeys: String, CodingKey {
