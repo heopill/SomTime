@@ -66,6 +66,7 @@ struct HomeFeature {
         case serverIslandStarted
         case serverIslandRestored(ServerTimeClock)
         case serverClockStartFailed(ServerTimeDisplayMode)
+        case serverClockTargetPassed
         case appUpdateFound(AppUpdate)
         case settingsButtonTapped
         case serverTimeTileTapped
@@ -84,6 +85,7 @@ struct HomeFeature {
         case islandEndObservation
         case pipStart
         case pipEventObservation
+        case targetAutoStop
     }
 
     @Dependency(\.adClient) var adClient
@@ -92,6 +94,8 @@ struct HomeFeature {
     @Dependency(\.notificationClient) var notificationClient
     @Dependency(\.pipClockClient) var pipClockClient
     @Dependency(\.openURL) var openURL
+    @Dependency(\.continuousClock) var clock
+    @Dependency(\.date.now) var now
 
     var body: some Reducer<State, Action> {
         Reduce { state, action in
@@ -286,7 +290,8 @@ struct HomeFeature {
                 return .merge(
                     updateIsland(state.serverSettings(session)),
                     observeIslandEnd(),
-                    syncTargetAlerts(state, session: session)
+                    syncTargetAlerts(state, session: session),
+                    scheduleTargetAutoStop(session)
                 )
 
             case let .serverClockStartFailed(mode):
@@ -294,6 +299,10 @@ struct HomeFeature {
                 guard state.serverClock?.mode == mode else { return .none }
 
                 return clearServerClock(&state)
+
+            case .serverClockTargetPassed:
+                // 남은 시간이 0:00에서 멈춘 시계를 계속 띄워 두지 않도록 끈다
+                return stopServerClock(&state)
 
             case let .appUpdateFound(update):
                 // "나중에"를 누른 버전이거나 다른 알림 · 화면이 떠 있으면 이번 실행에서는 알리지 않는다
@@ -419,7 +428,11 @@ struct HomeFeature {
             )
         }
 
-        return .concatenate(effects)
+        // 자동 종료 예약은 목표 시각까지 기다리므로 시작 효과들과 따로 실행한다
+        return .merge(
+            .concatenate(effects),
+            scheduleTargetAutoStop(session)
+        )
     }
 
     /// 실행 중인 서버 시간 시계를 끈다 (없으면 아무것도 하지 않는다)
@@ -432,11 +445,31 @@ struct HomeFeature {
         )
     }
 
-    /// 서버 시간 시계를 꺼진 상태로 바꾸고, 그 시계의 목표 시각 알림을 지운다
+    /// 서버 시간 시계를 꺼진 상태로 바꾸고, 그 시계의 목표 시각 알림과 자동 종료 예약을 지운다
     private func clearServerClock(_ state: inout State) -> Effect<Action> {
         state.$serverClock.withLock { $0 = nil }
 
-        return .run { _ in await notificationClient.removeTargetAlerts() }
+        return .merge(
+            .cancel(id: CancelID.targetAutoStop),
+            .run { _ in await notificationClient.removeTargetAlerts() }
+        )
+    }
+
+    /// 목표 시각이 지나고 10초 뒤에 서버 시간 시계를 끄도록 예약한다 (목표 시각이 없으면 예약을 지운다).
+    /// 아일랜드는 앱이 백그라운드에서 멈춰 있으면 그 시각에 끄지 못하고, 앱이 다시 실행되는 순간 끈다
+    private func scheduleTargetAutoStop(_ session: ServerClockSession) -> Effect<Action> {
+        guard let targetDate = session.clock.targetDate else {
+            return .cancel(id: CancelID.targetAutoStop)
+        }
+
+        let stopDate = targetDate.addingTimeInterval(-session.clock.offset + ServerTimeTarget.autoStopDelay)
+        let delay = max(stopDate.timeIntervalSince(now), 0)
+
+        return .run { send in
+            try await clock.sleep(for: .seconds(delay))
+            await send(.serverClockTargetPassed)
+        }
+        .cancellable(id: CancelID.targetAutoStop, cancelInFlight: true)
     }
 
     /// 서버 시간 시계의 목표 시각에 맞춰 5 · 3 · 1분 전 알림을 예약한다 (목표 시각이 없으면 지운다)

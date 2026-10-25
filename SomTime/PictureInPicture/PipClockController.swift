@@ -162,16 +162,29 @@ final class PipClockController: NSObject {
     /// 떠 있는 PiP 창을 닫고 모두 정리한다
     private func stopPictureInPictureAndTearDown() async {
         if let pipController, pipController.isPictureInPictureActive {
-            await withCheckedContinuation { continuation in
-                stopContinuation = continuation
-                pipController.stopPictureInPicture()
-                Task { [weak self] in
-                    try? await Task.sleep(for: Self.stopTimeout)
-                    self?.resumeStop()
+            if isSceneForegroundActive {
+                await withCheckedContinuation { continuation in
+                    stopContinuation = continuation
+                    pipController.stopPictureInPicture()
+                    Task { [weak self] in
+                        try? await Task.sleep(for: Self.stopTimeout)
+                        self?.resumeStop()
+                    }
                 }
+            } else {
+                // 앱이 화면에 없으면(목표 시각 뒤 자동 종료 등) stopPictureInPicture()가 무시되므로 컨트롤러를 놓아 창을 닫는다.
+                // 컨트롤러가 해제되면서 앱 화면으로 돌아오지 않고 PiP를 끝내며, 다음에 켤 때 새로 만든다
+                Self.logger.notice("stop: releasing controller while not foreground active")
+                pipController.delegate = nil
+                self.pipController = nil
             }
         }
         tearDown()
+    }
+
+    /// 레이어가 붙은 화면이 앞에서 활성 상태인지 여부 (이때만 stopPictureInPicture()가 동작한다)
+    private var isSceneForegroundActive: Bool {
+        return displayView?.window?.windowScene?.activationState == .foregroundActive
     }
 
     /// 기다리고 있는 종료 요청을 끝낸다 (이미 끝났으면 무시)
@@ -199,6 +212,7 @@ final class PipClockController: NSObject {
     /// 프레임을 그릴 레이어와 PiP 컨트롤러를 준비하고 매초 그리기를 시작한다
     private func prepare() async throws -> AVPictureInPictureController {
         // 컨트롤러를 끌 때마다 새로 만들면 PiP 시스템 서비스와의 연결이 끊겨 시작 요청이 무시되므로 한 번 만들어 재사용한다
+        // (앱이 화면에 없을 때 끈 경우만 컨트롤러를 놓았으므로 새로 만든다)
         if pipController == nil || displayView?.window == nil {
             try makePictureInPictureController()
         }
