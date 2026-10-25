@@ -4094,6 +4094,28 @@
         }
       }
     },
+    "targetAutoStopNotice" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The clock turns off automatically 10 seconds after the target time."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目標時刻の10秒後に時計は自動で終了します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "목표 시각 10초 뒤에는 시계가 자동으로 꺼져요."
+          }
+        }
+      }
+    },
     "targetCountdown" : {
       "localizations" : {
         "en" : {
