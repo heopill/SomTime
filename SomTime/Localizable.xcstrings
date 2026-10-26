@@ -375,6 +375,468 @@
         }
       }
     },
+    "captchaFocusEasy" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Typing speed"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "入力の速さ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "입력 속도"
+          }
+        }
+      }
+    },
+    "captchaFocusHard" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reading"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "読み取り"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "판독 연습"
+          }
+        }
+      }
+    },
+    "captchaFocusNormal" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lines & dots"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "線・点あり"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "곡선 · 잔점"
+          }
+        }
+      }
+    },
+    "captchaImageAccessibility %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Code %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "認証文字 %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보안 문자 %@"
+          }
+        }
+      }
+    },
+    "captchaInputDescription" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type the characters in the image to continue"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不正予約防止のため、画像の文字を入力してください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "부정 예매 방지를 위해 그림 속 문자를 입력해 주세요"
+          }
+        }
+      }
+    },
+    "captchaInputPlaceholder" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not case-sensitive"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大文字・小文字の区別なし"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "대소문자 구분 없이 입력"
+          }
+        }
+      }
+    },
+    "captchaInputTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter the Code"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "認証文字を入力"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보안 문자 입력"
+          }
+        }
+      }
+    },
+    "captchaPassed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passed!"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "入力成功"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "입력 성공"
+          }
+        }
+      }
+    },
+    "captchaPassedIn %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passed in %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@で通過しました"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 만에 통과했어요"
+          }
+        }
+      }
+    },
+    "captchaPractice" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Captcha Practice"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "認証文字入力練習"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보안 문자 입력 연습"
+          }
+        }
+      }
+    },
+    "captchaPracticeGuide %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type the %@ in the image and tap Submit. Case doesn't matter."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "画像の%@を入力して「入力完了」をタップします。大文字・小文字は区別しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "그림 속 %@를 입력하고 입력 완료를 눌러요. 대소문자는 구분하지 않아요"
+          }
+        }
+      }
+    },
+    "captchaPracticeSubtitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type 6 random letters fast"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ランダムな英字6文字をすばやく入力"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "무작위 영문 6자리 빠르게 입력하기"
+          }
+        }
+      }
+    },
+    "captchaRefresh" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New code"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新しい文字"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새 문자"
+          }
+        }
+      }
+    },
+    "captchaRefreshCount" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Refreshes"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更新回数"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새로고침 횟수"
+          }
+        }
+      }
+    },
+    "captchaSixLetters" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "6 letters"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "英字6文字"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "영문 6자리"
+          }
+        }
+      }
+    },
+    "captchaStyleEasy" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clean"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "まっすぐ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "반듯하게"
+          }
+        }
+      }
+    },
+    "captchaStyleHard" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tangled"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重なり"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "겹치게"
+          }
+        }
+      }
+    },
+    "captchaStyleNormal" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Realistic"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本番並み"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "실전처럼"
+          }
+        }
+      }
+    },
+    "captchaSubmit" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Submit"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "入力完了"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "입력 완료"
+          }
+        }
+      }
+    },
+    "captchaWrongAnswer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That didn't match. Enter the new code."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文字が一致しません。新しい文字を入力してください"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "문자가 맞지 않아요. 새 문자를 입력해 주세요"
+          }
+        }
+      }
+    },
+    "captchaWrongCount" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wrong attempts"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "間違えた回数"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "틀린 횟수"
+          }
+        }
+      }
+    },
     "changeDifficulty" : {
       "localizations" : {
         "en" : {
@@ -3632,6 +4094,28 @@
         }
       }
     },
+    "targetAutoStopNotice" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The clock turns off automatically 10 seconds after the target time."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目標時刻の10秒後に時計は自動で終了します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "목표 시각 10초 뒤에는 시계가 자동으로 꺼져요."
+          }
+        }
+      }
+    },
     "targetCountdown" : {
       "localizations" : {
         "en" : {
@@ -3725,19 +4209,19 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vibrate at 3, 2, 1 Sec"
+            "value" : "Vibrate in Last 5 Sec"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "3・2・1秒前に振動"
+            "value" : "5秒前から振動"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "3 · 2 · 1초 전 진동"
+            "value" : "5초 전부터 진동"
           }
         }
       }
@@ -3747,19 +4231,19 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vibrates every second for the last 3 seconds while the PiP clock is on"
+            "value" : "Vibrates every second for the last 5 seconds while the PiP clock is on"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "PiP時計の表示中、最後の3秒間は1秒ごとに振動します"
+            "value" : "PiP時計の表示中、最後の5秒間は1秒ごとに振動します"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "PiP 시계로 볼 때 마지막 3초 동안 1초마다 진동해요"
+            "value" : "PiP 시계로 볼 때 마지막 5초 동안 1초마다 진동해요"
           }
         }
       }
@@ -3791,19 +4275,19 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Warm up before the real booking. There are two ways to practice."
+            "value" : "Warm up before the real booking. There are three ways to practice."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "本番の予約の前に、指を慣らしておきましょう。2種類の練習ができます。"
+            "value" : "本番の予約の前に、指を慣らしておきましょう。3種類の練習ができます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "실제 예매 전에 손을 풀어 보세요. 두 가지 연습을 할 수 있어요."
+            "value" : "실제 예매 전에 손을 풀어 보세요. 세 가지 연습을 할 수 있어요."
           }
         }
       }
@@ -3813,19 +4297,19 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "On-time tap · Seat pick"
+            "value" : "Tap · Seats · Captcha"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "定刻タップ · 座席選択"
+            "value" : "定刻 · 座席 · 認証文字"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "정각 클릭 · 포도알"
+            "value" : "정각 · 포도알 · 보안 문자"
           }
         }
       }

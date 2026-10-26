@@ -31,6 +31,9 @@ nonisolated struct ServerClockSession: Equatable, Sendable {
 
 /// 서버 시간 목표 시각 계산 (서버 시계 기준. 시 · 분만 고르고 초는 00)
 nonisolated enum ServerTimeTarget {
+    /// 목표 시각이 지나고 몇 초 뒤에 서버 시간 시계를 자동으로 끌지
+    static let autoStopDelay: TimeInterval = 10
+
     /// 처음 보여 줄 목표 시각 (오늘 20:00)
     static var defaultDate: Date {
         return Calendar.current.date(bySettingHour: 20, minute: 0, second: 0, of: Date()) ?? Date()

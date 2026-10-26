@@ -33,7 +33,7 @@ extension SharedKey where Self == AppStorageKey<Bool>.Default {
         Self[.appStorage("isServerTimeTargetOn", store: ClockSettingsStorage.userDefaults), default: false]
     }
 
-    /// 목표 시각 3 · 2 · 1초 전 진동 여부 (PiP 시계로 볼 때만)
+    /// 목표 시각 5초 전부터 1초마다 진동할지 여부 (PiP 시계로 볼 때만)
     static var vibratesBeforeServerTimeTarget: Self {
         Self[.appStorage("vibratesBeforeServerTimeTarget", store: ClockSettingsStorage.userDefaults), default: true]
     }

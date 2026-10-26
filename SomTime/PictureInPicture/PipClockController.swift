@@ -40,8 +40,8 @@ final class PipClockController: NSObject {
     private static let warningLeadTime: TimeInterval = 10
     /// 목표 시각 몇 초 전부터 0.5초 간격으로 깜빡일지
     private static let blinkLeadTime: TimeInterval = 3
-    /// 목표 시각 몇 초 전부터 1초마다 진동할지 (3 · 2 · 1초 전)
-    private static let vibrationLeadSeconds = 3
+    /// 목표 시각 몇 초 전부터 1초마다 진동할지 (5 · 4 · 3 · 2 · 1초 전)
+    private static let vibrationLeadSeconds = 5
     /// 직접 끈 PiP 창이 닫힐 때까지 기다리는 최대 시간
     private static let stopTimeout: Duration = .seconds(2)
     /// 오디오 세션을 켜고 끄는 순서를 지키기 위한 직렬 큐 (메인 스레드에서 처리하면 화면이 멈출 수 있다)
@@ -162,16 +162,29 @@ final class PipClockController: NSObject {
     /// 떠 있는 PiP 창을 닫고 모두 정리한다
     private func stopPictureInPictureAndTearDown() async {
         if let pipController, pipController.isPictureInPictureActive {
-            await withCheckedContinuation { continuation in
-                stopContinuation = continuation
-                pipController.stopPictureInPicture()
-                Task { [weak self] in
-                    try? await Task.sleep(for: Self.stopTimeout)
-                    self?.resumeStop()
+            if isSceneForegroundActive {
+                await withCheckedContinuation { continuation in
+                    stopContinuation = continuation
+                    pipController.stopPictureInPicture()
+                    Task { [weak self] in
+                        try? await Task.sleep(for: Self.stopTimeout)
+                        self?.resumeStop()
+                    }
                 }
+            } else {
+                // 앱이 화면에 없으면(목표 시각 뒤 자동 종료 등) stopPictureInPicture()가 무시되므로 컨트롤러를 놓아 창을 닫는다.
+                // 컨트롤러가 해제되면서 앱 화면으로 돌아오지 않고 PiP를 끝내며, 다음에 켤 때 새로 만든다
+                Self.logger.notice("stop: releasing controller while not foreground active")
+                pipController.delegate = nil
+                self.pipController = nil
             }
         }
         tearDown()
+    }
+
+    /// 레이어가 붙은 화면이 앞에서 활성 상태인지 여부 (이때만 stopPictureInPicture()가 동작한다)
+    private var isSceneForegroundActive: Bool {
+        return displayView?.window?.windowScene?.activationState == .foregroundActive
     }
 
     /// 기다리고 있는 종료 요청을 끝낸다 (이미 끝났으면 무시)
@@ -199,6 +212,7 @@ final class PipClockController: NSObject {
     /// 프레임을 그릴 레이어와 PiP 컨트롤러를 준비하고 매초 그리기를 시작한다
     private func prepare() async throws -> AVPictureInPictureController {
         // 컨트롤러를 끌 때마다 새로 만들면 PiP 시스템 서비스와의 연결이 끊겨 시작 요청이 무시되므로 한 번 만들어 재사용한다
+        // (앱이 화면에 없을 때 끈 경우만 컨트롤러를 놓았으므로 새로 만든다)
         if pipController == nil || displayView?.window == nil {
             try makePictureInPictureController()
         }
@@ -353,7 +367,7 @@ final class PipClockController: NSObject {
         return remaining <= Self.blinkLeadTime + 1
     }
 
-    /// 목표 시각 3 · 2 · 1초 전(남은 시간 표시가 0:03 · 0:02 · 0:01로 바뀌는 순간)에 한 번씩 진동한다
+    /// 목표 시각 5 · 4 · 3 · 2 · 1초 전(남은 시간 표시가 0:05 ~ 0:01로 바뀌는 순간)에 한 번씩 진동한다
     private func vibrateIfNeeded(at date: Date, settings: ClockDisplaySettings) {
         guard settings.serverTime?.vibratesBeforeTarget == true,
               let targetDate = settings.serverTime?.targetDate,

@@ -5,11 +5,11 @@
 
 import SwiftUI
 
-/// 포도알 연습 난이도 버튼 (높이 112, 3열). 이름 · 제한 시간 · 빈 좌석 수, 선택 시 강조색 2pt 테두리
+/// 연습 난이도 버튼 (높이 112, 3열). 이름 · 큰 값(포도알은 제한 시간) · 설명(포도알은 빈 좌석 수), 선택 시 강조색 2pt 테두리
 struct DifficultyButton: View {
     let name: LocalizedStringKey
-    let timeLimit: Text
-    let seatRange: Text
+    let value: Text
+    let detail: Text
     let isSelected: Bool
     let action: () -> Void
 
@@ -21,10 +21,10 @@ struct DifficultyButton: View {
                 Text(name)
                     .fontStyle(.secondaryButton)
                     .foregroundStyle(Color(.textSecondary))
-                timeLimit
+                value
                     .fontStyle(.practiceTimeLimit)
                     .foregroundStyle(Color(.textPrimary))
-                seatRange
+                detail
                     .fontStyle(.caption)
                     .foregroundStyle(Color(.textSecondary))
             }
@@ -48,9 +48,9 @@ struct DifficultyButton: View {
 
 #Preview {
     HStack(spacing: 10) {
-        DifficultyButton(name: "seatDifficultyEasy", timeLimit: Text("secondsLimit \(10)"), seatRange: Text("availableSeatRange \(10) \(15)"), isSelected: false) {}
-        DifficultyButton(name: "seatDifficultyNormal", timeLimit: Text("secondsLimit \(6)"), seatRange: Text("availableSeatRange \(4) \(8)"), isSelected: true) {}
-        DifficultyButton(name: "seatDifficultyHard", timeLimit: Text("secondsLimit \(4)"), seatRange: Text("availableSeatRange \(1) \(3)"), isSelected: false) {}
+        DifficultyButton(name: "seatDifficultyEasy", value: Text("secondsLimit \(10)"), detail: Text("availableSeatRange \(10) \(15)"), isSelected: false) {}
+        DifficultyButton(name: "seatDifficultyNormal", value: Text("secondsLimit \(6)"), detail: Text("availableSeatRange \(4) \(8)"), isSelected: true) {}
+        DifficultyButton(name: "seatDifficultyHard", value: Text("secondsLimit \(4)"), detail: Text("availableSeatRange \(1) \(3)"), isSelected: false) {}
     }
     .padding(Spacing.screenHorizontal)
     .background(Color(.background))

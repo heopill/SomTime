@@ -21,6 +21,7 @@ struct TicketingPracticeView: View {
                         .foregroundStyle(Color(.textSecondary))
                     timingCard
                     seatCard
+                    captchaCard
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
@@ -48,6 +49,11 @@ struct TicketingPracticeView: View {
             item: $store.scope(state: \.destination?.seat, action: \.destination.seat)
         ) { seatStore in
             SeatPracticeView(store: seatStore)
+        }
+        .navigationDestination(
+            item: $store.scope(state: \.destination?.captcha, action: \.destination.captcha)
+        ) { captchaStore in
+            CaptchaPracticeView(store: captchaStore)
         }
     }
 
@@ -115,6 +121,31 @@ struct TicketingPracticeView: View {
                         RecordSeparator()
                     }
                     recordItem(difficulty.nameKey, value: store.seatRecords.bestTime(for: difficulty).map {
+                        Text("durationSeconds \(PracticeNumberFormat.seconds($0, fractionLength: 2))")
+                    })
+                }
+            }
+        }
+    }
+
+    /// 보안 문자 입력 연습 카드 (보안 문자 예시 + 난이도별 최고 기록)
+    private var captchaCard: some View {
+        PracticeModeCard(
+            systemImage: "character.textbox",
+            title: "captchaPractice",
+            subtitle: "captchaPracticeSubtitle"
+        ) {
+            store.send(.captchaPracticeTapped)
+        } preview: {
+            CaptchaImage(challenge: CaptchaChallenge(text: "XQHFNW", seed: 23, difficulty: .normal))
+                .frame(height: 52)
+        } records: {
+            HStack(spacing: 8) {
+                ForEach(Array(CaptchaDifficulty.allCases.enumerated()), id: \.element) { index, difficulty in
+                    if index > 0 {
+                        RecordSeparator()
+                    }
+                    recordItem(difficulty.nameKey, value: store.captchaRecords.bestTime(for: difficulty).map {
                         Text("durationSeconds \(PracticeNumberFormat.seconds($0, fractionLength: 2))")
                     })
                 }

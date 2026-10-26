@@ -66,6 +66,7 @@ struct HomeFeature {
         case serverIslandStarted
         case serverIslandRestored(ServerTimeClock)
         case serverClockStartFailed(ServerTimeDisplayMode)
+        case serverClockTargetPassed
         case appUpdateFound(AppUpdate)
         case settingsButtonTapped
         case serverTimeTileTapped
@@ -84,13 +85,17 @@ struct HomeFeature {
         case islandEndObservation
         case pipStart
         case pipEventObservation
+        case targetAutoStop
     }
 
     @Dependency(\.adClient) var adClient
     @Dependency(\.appUpdateClient) var appUpdateClient
     @Dependency(\.liveActivityClient) var liveActivityClient
+    @Dependency(\.notificationClient) var notificationClient
     @Dependency(\.pipClockClient) var pipClockClient
     @Dependency(\.openURL) var openURL
+    @Dependency(\.continuousClock) var clock
+    @Dependency(\.date.now) var now
 
     var body: some Reducer<State, Action> {
         Reduce { state, action in
@@ -98,7 +103,12 @@ struct HomeFeature {
             case .onAppear:
                 // 앱을 다시 실행했을 때 이미 켜져 있는 Live Activity 상태를 복원한다 (서버 시간 시계인지 구분)
                 return .merge(
-                    .run { send in
+                    .run { [hasServerClock = state.serverClock != nil] send in
+                        // 실행 중인 서버 시간 시계가 없으면 남은 목표 시각 알림을 지운다
+                        // (시계 없이 예약했던 이전 버전의 알림, 시계가 켜진 채 앱이 종료되어 남은 알림). 아일랜드가 복원되면 다시 예약한다
+                        if !hasServerClock {
+                            await notificationClient.removeTargetAlerts()
+                        }
                         guard let running = await liveActivityClient.running() else { return }
 
                         if let serverTime = running.state.settings.serverTime {
@@ -212,11 +222,9 @@ struct HomeFeature {
             case .islandEnded:
                 state.isIslandOn = false
                 state.islandStartedAt = nil
-                if state.serverClock?.mode == .island {
-                    state.$serverClock.withLock { $0 = nil }
-                }
+                guard state.serverClock?.mode == .island else { return .none }
 
-                return .none
+                return clearServerClock(&state)
 
             case let .pipToggled(isOn):
                 guard isOn else {
@@ -262,11 +270,9 @@ struct HomeFeature {
 
             case .pipClosed:
                 state.isPipOn = false
-                if state.serverClock?.mode == .pip {
-                    state.$serverClock.withLock { $0 = nil }
-                }
+                guard state.serverClock?.mode == .pip else { return .none }
 
-                return .none
+                return clearServerClock(&state)
 
             case let .destination(.presented(.serverTime(.delegate(.startRequested(session))))):
                 return startServerClock(&state, session: session)
@@ -283,16 +289,20 @@ struct HomeFeature {
 
                 return .merge(
                     updateIsland(state.serverSettings(session)),
-                    observeIslandEnd()
+                    observeIslandEnd(),
+                    syncTargetAlerts(state, session: session),
+                    scheduleTargetAutoStop(session)
                 )
 
             case let .serverClockStartFailed(mode):
-                if state.serverClock?.mode == mode {
-                    state.$serverClock.withLock { $0 = nil }
-                }
                 state.alert = mode == .island ? .liveActivitiesDisabled : .pipStartFailed
+                guard state.serverClock?.mode == mode else { return .none }
 
-                return .none
+                return clearServerClock(&state)
+
+            case .serverClockTargetPassed:
+                // 남은 시간이 0:00에서 멈춘 시계를 계속 띄워 두지 않도록 끈다
+                return stopServerClock(&state)
 
             case let .appUpdateFound(update):
                 // "나중에"를 누른 버전이거나 다른 알림 · 화면이 떠 있으면 이번 실행에서는 알리지 않는다
@@ -381,6 +391,8 @@ struct HomeFeature {
         }
 
         state.$serverClock.withLock { $0 = session }
+        // 목표 시각 알림은 서버 시간 시계가 켜져 있는 동안에만 둔다 (켤 때 · 목표 시각 · 오프셋이 바뀔 때 다시 맞춘다)
+        effects.append(syncTargetAlerts(state, session: session))
         let settings = state.serverSettings(session)
         let aspectRatio = state.pipAspectRatio
 
@@ -416,16 +428,68 @@ struct HomeFeature {
             )
         }
 
-        return .concatenate(effects)
+        // 자동 종료 예약은 목표 시각까지 기다리므로 시작 효과들과 따로 실행한다
+        return .merge(
+            .concatenate(effects),
+            scheduleTargetAutoStop(session)
+        )
     }
 
     /// 실행 중인 서버 시간 시계를 끈다 (없으면 아무것도 하지 않는다)
     private func stopServerClock(_ state: inout State) -> Effect<Action> {
         guard let session = state.serverClock else { return .none }
 
+        return .merge(
+            clearServerClock(&state),
+            stopEffect(for: session.mode)
+        )
+    }
+
+    /// 서버 시간 시계를 꺼진 상태로 바꾸고, 그 시계의 목표 시각 알림과 자동 종료 예약을 지운다
+    private func clearServerClock(_ state: inout State) -> Effect<Action> {
         state.$serverClock.withLock { $0 = nil }
 
-        return stopEffect(for: session.mode)
+        return .merge(
+            .cancel(id: CancelID.targetAutoStop),
+            .run { _ in await notificationClient.removeTargetAlerts() }
+        )
+    }
+
+    /// 목표 시각이 지나고 10초 뒤에 서버 시간 시계를 끄도록 예약한다 (목표 시각이 없으면 예약을 지운다).
+    /// 아일랜드는 앱이 백그라운드에서 멈춰 있으면 그 시각에 끄지 못하고, 앱이 다시 실행되는 순간 끈다
+    private func scheduleTargetAutoStop(_ session: ServerClockSession) -> Effect<Action> {
+        guard let targetDate = session.clock.targetDate else {
+            return .cancel(id: CancelID.targetAutoStop)
+        }
+
+        let stopDate = targetDate.addingTimeInterval(-session.clock.offset + ServerTimeTarget.autoStopDelay)
+        let delay = max(stopDate.timeIntervalSince(now), 0)
+
+        return .run { send in
+            try await clock.sleep(for: .seconds(delay))
+            await send(.serverClockTargetPassed)
+        }
+        .cancellable(id: CancelID.targetAutoStop, cancelInFlight: true)
+    }
+
+    /// 서버 시간 시계의 목표 시각에 맞춰 5 · 3 · 1분 전 알림을 예약한다 (목표 시각이 없으면 지운다)
+    private func syncTargetAlerts(_ state: State, session: ServerClockSession) -> Effect<Action> {
+        guard let targetDate = session.clock.targetDate else {
+            return .run { _ in await notificationClient.removeTargetAlerts() }
+        }
+
+        let alert = ServerTimeTargetAlert(
+            fireDate: targetDate.addingTimeInterval(-session.clock.offset),
+            targetText: ClockTimeFormatter.string(
+                from: targetDate,
+                isTwentyFourHour: state.isTwentyFourHour,
+                showsSeconds: false,
+                showsDayPeriod: state.showsDayPeriod
+            ),
+            host: session.clock.host
+        )
+
+        return .run { _ in await notificationClient.scheduleTargetAlerts(alert) }
     }
 
     /// 해당 자리의 시계를 끄는 효과
