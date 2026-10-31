@@ -20,6 +20,9 @@ struct HomeFeature {
         @SharedReader(.showsSeconds) var showsSeconds
         @SharedReader(.showsDayPeriod) var showsDayPeriod
         @SharedReader(.pipAspectRatio) var pipAspectRatio
+        @SharedReader(.pipPacer) var pipPacer
+        /// 페이서 포인트 지갑 (페이서 버튼의 출석 표시에 읽고, 운영을 끝낸 페이서의 포인트를 돌려줄 때만 바꾼다)
+        @Shared(.pacerWallet) var pacerWallet
         /// 서버 시간 화면에서 켠 시계. 켜져 있는 동안 일반 시계 토글은 꺼져 있다 (시계는 한 번에 하나만)
         @Shared(.serverClockSession) var serverClock
         /// 티켓팅 연습 타일을 눌러 본 적이 있는지 여부 (NEW 배지 숨김)
@@ -54,7 +57,7 @@ struct HomeFeature {
         case onAppear
         case appBecameActive
         case clockSettingsChanged
-        case pipAspectRatioChanged
+        case pipStyleChanged
         case islandToggled(Bool)
         case islandStarted(Date)
         case islandStartFailed
@@ -69,6 +72,7 @@ struct HomeFeature {
         case serverClockTargetPassed
         case appUpdateFound(AppUpdate)
         case settingsButtonTapped
+        case pacerButtonTapped
         case serverTimeTileTapped
         case ticketingPracticeTileTapped
         case destination(PresentationAction<Destination.Action>)
@@ -101,6 +105,7 @@ struct HomeFeature {
         Reduce { state, action in
             switch action {
             case .onAppear:
+                refundRetiredPacers(&state)
                 // 앱을 다시 실행했을 때 이미 켜져 있는 Live Activity 상태를 복원한다 (서버 시간 시계인지 구분)
                 return .merge(
                     .run { [hasServerClock = state.serverClock != nil] send in
@@ -146,25 +151,25 @@ struct HomeFeature {
                     effects.append(updateIsland(state.displaySettings))
                 }
                 if state.isPipOn {
-                    effects.append(updatePip(state.displaySettings, state.pipAspectRatio))
+                    effects.append(updatePip(state.displaySettings, state.pipAspectRatio, state.pipPacer))
                 }
                 if let session = state.serverClock {
                     let settings = state.serverSettings(session)
                     switch session.mode {
                     case .island: effects.append(updateIsland(settings))
-                    case .pip: effects.append(updatePip(settings, state.pipAspectRatio))
+                    case .pip: effects.append(updatePip(settings, state.pipAspectRatio, state.pipPacer))
                     }
                 }
 
                 return .merge(effects)
 
-            case .pipAspectRatioChanged:
-                // 떠 있는 PiP 시계에 바뀐 창 비율을 반영한다
+            case .pipStyleChanged:
+                // 떠 있는 PiP 시계에 바뀐 창 비율 · 페이서를 반영한다
                 if state.isPipOn {
-                    return updatePip(state.displaySettings, state.pipAspectRatio)
+                    return updatePip(state.displaySettings, state.pipAspectRatio, state.pipPacer)
                 }
                 if let session = state.serverClock, session.mode == .pip {
-                    return updatePip(state.serverSettings(session), state.pipAspectRatio)
+                    return updatePip(state.serverSettings(session), state.pipAspectRatio, state.pipPacer)
                 }
 
                 return .none
@@ -247,12 +252,13 @@ struct HomeFeature {
                 let stopServerClock = stopServerClock(&state)
                 let settings = state.displaySettings
                 let aspectRatio = state.pipAspectRatio
+                let pacer = state.pipPacer
 
                 return .concatenate(
                     stopServerClock,
                     .run { send in
                         do {
-                            try await pipClockClient.start(settings, aspectRatio)
+                            try await pipClockClient.start(settings, aspectRatio, pacer)
                         } catch is CancellationError {
                             // 시작을 기다리는 중에 토글을 끈 경우
                         } catch {
@@ -316,6 +322,11 @@ struct HomeFeature {
 
             case .settingsButtonTapped:
                 state.destination = .settings(SettingsFeature.State())
+
+                return .none
+
+            case .pacerButtonTapped:
+                state.destination = .pacer(PacerFeature.State())
 
                 return .none
 
@@ -395,6 +406,7 @@ struct HomeFeature {
         effects.append(syncTargetAlerts(state, session: session))
         let settings = state.serverSettings(session)
         let aspectRatio = state.pipAspectRatio
+        let pacer = state.pipPacer
 
         switch session.mode {
         case .island where previous?.mode == .island:
@@ -417,7 +429,7 @@ struct HomeFeature {
             effects.append(
                 .run { send in
                     do {
-                        try await pipClockClient.start(settings, aspectRatio)
+                        try await pipClockClient.start(settings, aspectRatio, pacer)
                     } catch is CancellationError {
                         // 시작을 기다리는 중에 끈 경우
                     } catch {
@@ -517,9 +529,25 @@ struct HomeFeature {
         .cancellable(id: CancelID.islandEndObservation, cancelInFlight: true)
     }
 
-    /// 떠 있는 PiP 시계에 표시 설정과 창 비율을 반영한다
-    private func updatePip(_ settings: ClockDisplaySettings, _ aspectRatio: PipAspectRatio) -> Effect<Action> {
-        return .run { _ in await pipClockClient.update(settings, aspectRatio) }
+    /// 운영을 끝낸 페이서를 해제했던 만큼 포인트로 돌려주고 안내한다.
+    /// 돌려줄 것이 없으면 지갑을 건드리지 않는다 (iCloud 동기화 전에 빈 지갑을 저장하지 않도록)
+    private func refundRetiredPacers(_ state: inout State) {
+        let wallet = state.pacerWallet
+        let pending = PacerRetirement.retiredPacerIDs.filter {
+            wallet.unlockedPacers[$0] != nil && !wallet.refundedPacerIDs.contains($0)
+        }
+        guard !pending.isEmpty else { return }
+
+        var refunded = 0
+        state.$pacerWallet.withLock { refunded = $0.applyRetirements() }
+        if refunded > 0 {
+            state.alert = .pacersRefunded(points: refunded)
+        }
+    }
+
+    /// 떠 있는 PiP 시계에 표시 설정, 창 비율, 페이서를 반영한다
+    private func updatePip(_ settings: ClockDisplaySettings, _ aspectRatio: PipAspectRatio, _ pacer: PipPacer) -> Effect<Action> {
+        return .run { _ in await pipClockClient.update(settings, aspectRatio, pacer) }
     }
 
     /// 사용자나 시스템이 PiP 창을 닫는지 지켜본다
@@ -540,6 +568,7 @@ extension HomeFeature {
     @Reducer
     enum Destination {
         case settings(SettingsFeature)
+        case pacer(PacerFeature)
         case serverTime(ServerTimeFeature)
         case ticketingPractice(TicketingPracticeFeature)
     }
@@ -579,6 +608,19 @@ extension AlertState where Action == HomeFeature.Action.Alert {
         }
     } message: {
         TextState("pipStartFailedMessage")
+    }
+
+    /// 운영을 끝낸 페이서의 포인트를 돌려줬다는 알림
+    static func pacersRefunded(points: Int) -> Self {
+        return AlertState {
+            TextState("pacerRefundedTitle")
+        } actions: {
+            ButtonState(role: .cancel) {
+                TextState("ok")
+            }
+        } message: {
+            TextState("pacerRefundedMessage \(points)")
+        }
     }
 
     /// 앱스토어에 새 버전이 나왔다는 알림
