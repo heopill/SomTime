@@ -45,7 +45,7 @@ final class PipClockFrameRenderer {
         guard let clock = clockImage(for: key) else { return nil }
 
         let sprite = pacerSprite(pacer, frame: pacerFrame, isWarning: emphasis != .none, color: settings.color)
-        // 창형은 남은 시간이 있으면 페이서가 그 왼쪽, 없으면 가운데로 간다
+        // 창형은 남은 시간이 있으면 페이서가 시계 아래 줄의 남은 시간 왼쪽, 없으면 시계 왼쪽으로 간다
         let slot = aspectRatio.pacerSlotRect(hasCountdown: countdown != nil)
         let pixelBuffer = makePixelBuffer(width: clock.width, height: clock.height) { context in
             context.draw(clock, in: CGRect(x: 0, y: 0, width: clock.width, height: clock.height))
