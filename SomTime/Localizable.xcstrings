@@ -2708,6 +2708,50 @@
         }
       }
     },
+    "pacerInternetTimeUnavailableMessage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check-in and ad rewards are checked against the time from the internet. Connect to the internet and try again."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "出席チェックと広告報酬はインターネットの時刻で確認します。インターネットに接続してからもう一度お試しください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "출석 체크와 광고 보상은 인터넷 시각으로 확인해요. 인터넷에 연결한 뒤 다시 시도해 주세요."
+          }
+        }
+      }
+    },
+    "pacerInternetTimeUnavailableTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't Check the Time"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "インターネットの時刻を確認できませんでした"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "인터넷 시각을 확인하지 못했어요"
+          }
+        }
+      }
+    },
     "pacerJoggerName" : {
       "localizations" : {
         "en" : {
