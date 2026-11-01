@@ -85,6 +85,7 @@
   </p>
   <ul>
     <li>Your clock design, color, time format (12-hour/24-hour), seconds display, and PiP aspect ratio settings</li>
+    <li>Your PiP clock pacer selection</li>
     <li>The website address you entered on the Server Time screen</li>
     <li>Your most recent server time measurement (the difference from your device's time and its margin of error)</li>
     <li>Your server time display mode and milliseconds display settings</li>
@@ -93,10 +94,16 @@
     This information may be shared with the App's extension (widget) on the same device to show the clock in the Dynamic Island and on the Lock Screen,
     and it is deleted from your device when you delete the App.
   </p>
+  <p>
+    However, your PiP pacer point information (your points, the pacers you unlocked and the points you spent on them, pacers whose points were refunded, your last check-in time, and the number and time of ad rewards received that day)
+    is <strong>stored in your own iCloud (Apple)</strong> so you can keep using it on devices signed in with the same Apple ID.
+    This information is kept in Apple's iCloud and cannot be viewed by the developer. If you don't use iCloud, it is stored only on your device.
+  </p>
 
-  <h2><span class="num">2.</span>Network Requests for Server Time Measurement</h2>
+  <h2><span class="num">2.</span>Network Requests for Checking the Time</h2>
   <p>
     When you use the Server Time feature, the App sends requests <strong>directly</strong> from your device to the website you entered and reads only the time information included in the response.
+    When you claim a check-in or ad reward on the PiP Pacer screen, the App also sends a request in the same way to Apple's website (www.apple.com) to check the actual time, so that rewards cannot be claimed repeatedly by changing the device clock.
     These requests do not pass through any server operated by the developer, and no information is sent to the developer.
   </p>
   <ul>
@@ -126,7 +133,7 @@
 
   <h2><span class="num">5.</span>Advertising and Third-Party Sharing</h2>
   <p>
-    The App uses <strong>Google AdMob</strong>, Google's advertising service, to show banner ads at the bottom of the Home, Settings, Server Time, and Ticketing Practice screens.
+    The App uses <strong>Google AdMob</strong>, Google's advertising service, to show banner ads at the bottom of the Home, Settings, Server Time, and Ticketing Practice screens, and rewarded ads that you choose to watch on the PiP Pacer screen (you receive points when you watch to the end).
     To show ads and measure their performance, Google may collect and process the following information.
   </p>
   <ul>
@@ -148,11 +155,13 @@
   <p>
     Information stored on your device is deleted when you delete the App. Emails received for inquiries are retained and deleted in accordance with applicable laws after the inquiry has been resolved.
     Information that Google processes for ads is retained according to the Google Privacy Policy.
+    Your PiP pacer point information stored in iCloud remains in iCloud even if you delete the App, so you can keep using it when you reinstall the App with the same Apple ID.
+    Its retention follows Apple's iCloud terms and privacy policy.
   </p>
 
   <h2><span class="num">7.</span>Your Rights</h2>
   <p>
-    You can delete the App's data stored on your device at any time by deleting the App.
+    You can delete the App's data stored on your device at any time by deleting the App (for pacer point information stored in iCloud, see Section 6).
     If you would like to access or delete information you sent us through an inquiry, please contact us at the address below.
   </p>
 
@@ -171,7 +180,7 @@
     <p>Privacy inquiries: <a href="mailto:somtime.support@gmail.com">somtime.support@gmail.com</a></p>
   </div>
 
-  <p class="updated">Effective date: October 16, 2026</p>
+  <p class="updated">Effective date: November 1, 2026</p>
 
 </body>
 </html>

@@ -5,11 +5,15 @@
 
 import ComposableArchitecture
 import SwiftUI
+import TipKit
 
 struct HomeView: View {
     @Bindable var store: StoreOf<HomeFeature>
 
     @Environment(\.scenePhase) private var scenePhase
+
+    /// 페이서 버튼을 처음 한 번 알려 주는 말풍선
+    private let pacerTip = PacerTip()
 
     var body: some View {
         NavigationStack {
@@ -34,6 +38,11 @@ struct HomeView: View {
                 SettingsView(store: settingsStore)
             }
             .navigationDestination(
+                item: $store.scope(state: \.destination?.pacer, action: \.destination.pacer)
+            ) { pacerStore in
+                PacerView(store: pacerStore)
+            }
+            .navigationDestination(
                 item: $store.scope(state: \.destination?.serverTime, action: \.destination.serverTime)
             ) { serverTimeStore in
                 ServerTimeView(store: serverTimeStore)
@@ -55,7 +64,10 @@ struct HomeView: View {
             store.send(.clockSettingsChanged)
         }
         .onChange(of: store.pipAspectRatio) {
-            store.send(.pipAspectRatioChanged)
+            store.send(.pipStyleChanged)
+        }
+        .onChange(of: store.pipPacer) {
+            store.send(.pipStyleChanged)
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {
@@ -67,7 +79,7 @@ struct HomeView: View {
     /// 홈 화면 본문 (헤더, 미리보기, 기능 카드, 서버 시간 · 티켓팅 연습 타일)
     private func content(now: Date) -> some View {
         VStack(spacing: Spacing.section) {
-            header
+            header(now: now)
             HomePreviewArea(
                 time: ClockTimeFormatter.string(
                     from: now,
@@ -79,7 +91,8 @@ struct HomeView: View {
                 design: store.clockDesign,
                 isIslandOn: store.isIslandOn,
                 isPipOn: store.isPipOn,
-                pipAspectRatio: store.pipAspectRatio
+                pipAspectRatio: store.pipAspectRatio,
+                pipPacer: store.pipPacer
             )
             VStack(spacing: Spacing.card) {
                 FeatureCard(
@@ -116,7 +129,8 @@ struct HomeView: View {
         .padding(.bottom, 12)
     }
 
-    private var header: some View {
+    /// 홈 화면 헤더 (제목, 페이서 · 설정 버튼)
+    private func header(now: Date) -> some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
                 Text("homeSubtitle")
@@ -128,10 +142,34 @@ struct HomeView: View {
                     .accessibilityAddTraits(.isHeader)
             }
             Spacer()
-            IconButton(systemImage: "gearshape", accessibilityLabel: "settings") {
-                store.send(.settingsButtonTapped)
+            HStack(spacing: 10) {
+                pacerButton(canAttend: store.pacerWallet.canAttend(at: now))
+                IconButton(systemImage: "gearshape", accessibilityLabel: "settings") {
+                    store.send(.settingsButtonTapped)
+                }
             }
         }
+    }
+
+    /// 페이서 화면으로 들어가는 버튼. 오늘 출석하지 않았으면 오른쪽 위에 점을 띄우고, 처음 한 번은 안내 말풍선을 띄운다
+    private func pacerButton(canAttend: Bool) -> some View {
+        IconButton(systemImage: "figure.run", accessibilityLabel: "pipPacer") {
+            pacerTip.invalidate(reason: .actionPerformed)
+            store.send(.pacerButtonTapped)
+        }
+        .overlay(alignment: .topTrailing) {
+            if canAttend {
+                Circle()
+                    .fill(store.clockColor.color)
+                    .frame(width: 8, height: 8)
+                    .padding(2)
+                    .background(Color(.background), in: Circle())
+                    .allowsHitTesting(false)
+            }
+        }
+        .accessibilityValue(canAttend ? Text("pacerAttendanceAvailable") : Text(verbatim: ""))
+        // 알림창이 떠 있거나 다른 화면으로 들어가 있을 때는 말풍선을 미뤄서 겹쳐 뜨지 않게 한다
+        .popoverTip(store.alert == nil && store.destination == nil ? pacerTip : nil, arrowEdge: .top)
     }
 
     /// 다이나믹 아일랜드 카드의 상태 문구를 만든다 (켜짐이면 자동 종료까지 남은 시간, PiP와 함께 켜면 숨김 안내)

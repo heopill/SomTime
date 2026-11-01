@@ -21,6 +21,10 @@ nonisolated struct AdClient {
     var start: @Sendable () async -> AdConsent = { AdConsent() }
     /// 광고 개인정보 설정 창을 띄우고, 사용자가 닫은 뒤의 동의 상태를 돌려준다
     var presentPrivacyOptions: @Sendable () async -> AdConsent = { AdConsent() }
+    /// 보상형 광고를 미리 불러온다 (광고 동의가 없으면 불러오지 않는다)
+    var loadRewardedAd: @Sendable () async -> Void
+    /// 보상형 광고를 띄우고 닫힐 때까지 기다린다. 끝까지 봐서 보상을 받았으면 true
+    var showRewardedAd: @Sendable () async throws -> Bool
 }
 
 extension AdClient: DependencyKey {
@@ -30,6 +34,12 @@ extension AdClient: DependencyKey {
         },
         presentPrivacyOptions: {
             return await AdController.shared.presentPrivacyOptions()
+        },
+        loadRewardedAd: {
+            await RewardedAdController.shared.load()
+        },
+        showRewardedAd: {
+            return try await RewardedAdController.shared.show()
         }
     )
 
