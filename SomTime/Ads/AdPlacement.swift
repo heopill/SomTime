@@ -12,10 +12,10 @@ enum AdPlacement {
     case settings
     case serverTime
 
-    /// 이 화면의 광고 단위 ID. 디버그 빌드는 Google 테스트 광고만 받는다 (개발 중 실제 광고 노출 · 클릭 방지)
+    /// 이 화면의 광고 단위 ID. 디버그 빌드는 Google 테스트 광고(고정 크기 배너)만 받는다 (개발 중 실제 광고 노출 · 클릭 방지)
     var adUnitID: String {
         #if DEBUG
-        return "ca-app-pub-3940256099942544/2435281174"
+        return "ca-app-pub-3940256099942544/2934735716"
         #else
         switch self {
         case .home:
