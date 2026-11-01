@@ -105,3 +105,6 @@ iOSInjectionProject/
 
 # Local-only design references
 files/
+
+# Claude Code local settings
+.claude/
