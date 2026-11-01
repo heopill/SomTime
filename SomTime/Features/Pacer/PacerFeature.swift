@@ -24,7 +24,11 @@ struct PacerFeature {
         var canAttend = false
         /// 오늘 받은 광고 보상 횟수 (출석과 같은 때 다시 확인한다)
         var todayAdRewardCount = 0
-        /// 보상형 광고를 띄우는 중인지 여부 (버튼을 여러 번 누르지 않도록)
+        /// 인터넷 시각 - 기기 시각 (초). 출석 · 광고 보상을 받을 때 확인하고, 앱을 떠났다 돌아오면 지운다 (그 사이 기기 시간을 바꿨을 수 있다)
+        var internetTimeOffset: TimeInterval?
+        /// 출석 보상을 받기 전에 인터넷 시각을 확인하는 중인지 여부 (버튼을 여러 번 누르지 않도록)
+        var isCheckingAttendance = false
+        /// 보상형 광고를 띄우는 중인지 여부 (인터넷 시각 확인부터 광고를 닫을 때까지. 버튼을 여러 번 누르지 않도록)
         var isShowingAd = false
         var toast: PacerToast?
         @Presents var alert: AlertState<Action.Alert>?
@@ -46,7 +50,9 @@ struct PacerFeature {
         case backButtonTapped
         case pacerTapped(PipPacer)
         case attendanceButtonTapped
+        case attendanceTimeChecked(offset: TimeInterval?)
         case watchAdButtonTapped
+        case adTimeChecked(offset: TimeInterval?)
         case adFinished(earnedReward: Bool)
         case adUnavailable
         case toastExpired
@@ -65,6 +71,7 @@ struct PacerFeature {
     @Dependency(\.continuousClock) var clock
     @Dependency(\.date.now) var now
     @Dependency(\.dismiss) var dismiss
+    @Dependency(\.serverTimeClient) var serverTimeClient
 
     var body: some Reducer<State, Action> {
         Reduce { state, action in
@@ -76,6 +83,10 @@ struct PacerFeature {
                 return .run { _ in await adClient.loadRewardedAd() }
 
             case .appBecameActive:
+                // 앱을 떠난 사이 기기 시간을 바꿨을 수 있으므로 확인한 인터넷 시각을 버린다 (광고를 보는 중이면 보상에 써야 하므로 남긴다)
+                if !state.isShowingAd {
+                    state.internetTimeOffset = nil
+                }
                 // 화면을 켜 둔 채 오전 9시가 지났으면 다시 출석 · 광고 보상을 받을 수 있게 한다
                 refreshDailyRewards(&state)
 
@@ -110,9 +121,26 @@ struct PacerFeature {
                 return .none
 
             case .attendanceButtonTapped:
+                guard state.canAttend, !state.isCheckingAttendance else { return .none }
+
+                // 기기 시간을 앞당겨 다음 날 출석을 미리 받지 않도록 인터넷 시각으로 판정한다
+                state.isCheckingAttendance = true
+
+                return checkInternetTime { .attendanceTimeChecked(offset: $0) }
+
+            case let .attendanceTimeChecked(offset):
+                state.isCheckingAttendance = false
+                guard let offset else {
+                    state.alert = .internetTimeUnavailable
+
+                    return .none
+                }
+
+                state.internetTimeOffset = offset
+                let date = rewardNow(state)
                 var didAttend = false
-                state.$wallet.withLock { didAttend = $0.attend(at: now) }
-                state.canAttend = false
+                state.$wallet.withLock { didAttend = $0.attend(at: date) }
+                refreshDailyRewards(&state)
                 guard didAttend else { return .none }
 
                 return showToast(&state, .attendance)
@@ -122,7 +150,26 @@ struct PacerFeature {
                 refreshDailyRewards(&state)
                 guard state.canWatchAd else { return .none }
 
+                // 기기 시간을 앞당겨 하루 횟수를 초기화하지 않도록 인터넷 시각으로 오늘 횟수를 다시 확인한다
                 state.isShowingAd = true
+
+                return checkInternetTime { .adTimeChecked(offset: $0) }
+
+            case let .adTimeChecked(offset):
+                guard let offset else {
+                    state.isShowingAd = false
+                    state.alert = .internetTimeUnavailable
+
+                    return .none
+                }
+
+                state.internetTimeOffset = offset
+                refreshDailyRewards(&state)
+                guard state.hasAdRewardsLeft else {
+                    state.isShowingAd = false
+
+                    return .none
+                }
 
                 return .run { send in
                     do {
@@ -139,9 +186,10 @@ struct PacerFeature {
                 guard earnedReward else { return .none }
 
                 // 다른 기기에서 오늘 횟수를 다 썼으면 적립하지 않는다
+                let date = rewardNow(state)
                 var didEarn = false
-                state.$wallet.withLock { didEarn = $0.earnAdReward(at: now) }
-                state.todayAdRewardCount = state.wallet.todayAdRewardCount(at: now)
+                state.$wallet.withLock { didEarn = $0.earnAdReward(at: date) }
+                refreshDailyRewards(&state)
                 guard didEarn else { return .none }
 
                 return showToast(&state, .adReward)
@@ -166,8 +214,24 @@ struct PacerFeature {
 
     /// 오늘 출석 · 광고 보상을 받을 수 있는지 지금 시각 기준으로 다시 확인한다
     private func refreshDailyRewards(_ state: inout State) {
-        state.canAttend = state.wallet.canAttend(at: now)
-        state.todayAdRewardCount = state.wallet.todayAdRewardCount(at: now)
+        let date = rewardNow(state)
+        state.canAttend = state.wallet.canAttend(at: date)
+        state.todayAdRewardCount = state.wallet.todayAdRewardCount(at: date)
+    }
+
+    /// 보상 판정에 쓸 지금 시각 (확인한 인터넷 시각이 있으면 그 기준, 없으면 기기 시각)
+    private func rewardNow(_ state: State) -> Date {
+        guard let offset = state.internetTimeOffset else { return now }
+
+        return now.addingTimeInterval(offset)
+    }
+
+    /// 인터넷 시각을 확인해 결과(인터넷 시각 - 기기 시각, 확인하지 못하면 nil)를 보낸다
+    private func checkInternetTime(_ action: @escaping @Sendable (TimeInterval?) -> Action) -> Effect<Action> {
+        return .run { send in
+            let offset = try? await serverTimeClient.internetTimeOffset()
+            await send(action(offset))
+        }
     }
 
     /// 안내 토스트를 잠시 띄운다 (이미 떠 있으면 새 문구로 바꾸고 시간을 다시 잰다)
@@ -204,6 +268,16 @@ extension AlertState where Action == PacerFeature.Action.Alert {
         } message: {
             TextState("pacerUnlockConfirmMessage \(pacer.price) \(points) \(points - pacer.price)")
         }
+    }
+
+    static let internetTimeUnavailable = AlertState {
+        TextState("pacerInternetTimeUnavailableTitle")
+    } actions: {
+        ButtonState(role: .cancel) {
+            TextState("ok")
+        }
+    } message: {
+        TextState("pacerInternetTimeUnavailableMessage")
     }
 
     static let adUnavailable = AlertState {

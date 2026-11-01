@@ -12,6 +12,9 @@ import OSLog
 nonisolated struct ServerTimeClient {
     /// 사이트에 반복 요청해 서버 시각 오프셋과 오차를 측정한다 (수 초 걸림)
     var measure: @Sendable (_ url: URL) async throws -> ServerTimeOffsetResult
+    /// Apple 웹사이트에 요청해 인터넷 시각 - 폰 시각(초)을 빠르게 구한다.
+    /// 오차가 1초 안팎이라 출석 · 광고 보상처럼 날짜만 가리면 될 때 쓴다 (기기 시간을 바꿔 보상을 여러 번 받지 않도록)
+    var internetTimeOffset: @Sendable () async throws -> TimeInterval
 }
 
 /// 서버 시각 측정 결과
@@ -33,8 +36,14 @@ extension ServerTimeClient: DependencyKey {
     nonisolated static let liveValue = ServerTimeClient(
         measure: { url in
             return try await ServerTimeMeasurer(url: url).measure()
+        },
+        internetTimeOffset: {
+            return try await ServerTimeMeasurer(url: internetTimeURL).measureOnce()
         }
     )
+
+    /// 인터넷 시각을 받아 올 사이트 (응답 Date 헤더가 정확하고 어느 나라에서나 접속되는 곳)
+    private nonisolated static let internetTimeURL = URL(string: "https://www.apple.com")!
 
     nonisolated static let testValue = ServerTimeClient()
 }
@@ -109,6 +118,16 @@ private nonisolated struct ServerTimeMeasurer {
         Self.logger.notice("measured offset \(result.offset, privacy: .public)s ±\(result.accuracy, privacy: .public)s with \(samples.count, privacy: .public) samples")
 
         return result
+    }
+
+    /// 연결을 준비한 뒤 요청 한 번으로 서버 시각 오프셋을 대략 구한다 (서버 초 [S, S+1)의 가운데가 왕복의 가운데에 왔다고 본다)
+    func measureOnce() async throws -> TimeInterval {
+        let session = URLSession(configuration: Self.sessionConfiguration)
+        defer { session.invalidateAndCancel() }
+
+        let sample = try await request(session: session, method: probeMethod(session: session))
+
+        return sample.serverSecond + 0.5 - sample.midpoint
     }
 
     /// HEAD 요청으로 서버 시각을 받을 수 있는지 확인하고, 안 되면 GET을 쓴다

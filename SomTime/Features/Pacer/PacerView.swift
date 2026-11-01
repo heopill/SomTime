@@ -93,7 +93,7 @@ struct PacerView: View {
                 ) {
                     store.send(.attendanceButtonTapped)
                 }
-                .disabled(!store.canAttend)
+                .disabled(!store.canAttend || store.isCheckingAttendance)
                 PrimaryButton(title: watchAdButtonTitle, style: .neutral) {
                     store.send(.watchAdButtonTapped)
                 }
