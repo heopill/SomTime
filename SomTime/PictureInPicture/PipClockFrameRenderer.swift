@@ -44,8 +44,9 @@ final class PipClockFrameRenderer {
         )
         guard let clock = clockImage(for: key) else { return nil }
 
-        let sprite = pacerSprite(pacer, frame: pacerFrame, isWarning: emphasis != .none, color: settings.color, aspectRatio: aspectRatio)
-        let slot = aspectRatio.pacerSlotRect
+        let sprite = pacerSprite(pacer, frame: pacerFrame, isWarning: emphasis != .none, color: settings.color)
+        // 창형은 남은 시간이 있으면 페이서가 그 왼쪽, 없으면 가운데로 간다
+        let slot = aspectRatio.pacerSlotRect(hasCountdown: countdown != nil)
         let pixelBuffer = makePixelBuffer(width: clock.width, height: clock.height) { context in
             context.draw(clock, in: CGRect(x: 0, y: 0, width: clock.width, height: clock.height))
             guard let sprite else { return }
@@ -93,14 +94,14 @@ final class PipClockFrameRenderer {
         return image
     }
 
-    /// 강조색으로 칠한 페이서 프레임 (페이서 · 색 · 비율이 바뀔 때만 8장을 다시 만든다. 페이서 없음이면 nil)
-    private func pacerSprite(_ pacer: PipPacer, frame: Int, isWarning: Bool, color: ClockColor, aspectRatio: PipAspectRatio) -> CGImage? {
+    /// 강조색으로 칠한 페이서 프레임 (페이서 · 색이 바뀔 때만 8장을 다시 만든다. 페이서 없음이면 nil)
+    private func pacerSprite(_ pacer: PipPacer, frame: Int, isWarning: Bool, color: ClockColor) -> CGImage? {
         guard pacer != .off else { return nil }
 
-        let key = PacerSpriteKey(pacer: pacer, color: color, isWarning: isWarning, aspectRatio: aspectRatio)
+        let key = PacerSpriteKey(pacer: pacer, color: color, isWarning: isWarning)
         if pacerSprites?.key != key {
             let tint = UIColor(isWarning ? Color(.warning) : color.color)
-            let slot = aspectRatio.pacerSlotRect
+            let slot = PipAspectRatio.pacerSlotSize
             let size = CGSize(width: slot.width * Self.renderScale, height: slot.height * Self.renderScale)
             let format = UIGraphicsImageRendererFormat()
             format.scale = 1
@@ -225,5 +226,4 @@ private struct PacerSpriteKey: Equatable {
     let pacer: PipPacer
     let color: ClockColor
     let isWarning: Bool
-    let aspectRatio: PipAspectRatio
 }
