@@ -100,9 +100,10 @@
     This information is kept in Apple's iCloud and cannot be viewed by the developer. If you don't use iCloud, it is stored only on your device.
   </p>
 
-  <h2><span class="num">2.</span>Network Requests for Server Time Measurement</h2>
+  <h2><span class="num">2.</span>Network Requests for Checking the Time</h2>
   <p>
     When you use the Server Time feature, the App sends requests <strong>directly</strong> from your device to the website you entered and reads only the time information included in the response.
+    When you claim a check-in or ad reward on the PiP Pacer screen, the App also sends a request in the same way to Apple's website (www.apple.com) to check the actual time, so that rewards cannot be claimed repeatedly by changing the device clock.
     These requests do not pass through any server operated by the developer, and no information is sent to the developer.
   </p>
   <ul>
