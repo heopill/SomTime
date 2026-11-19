@@ -53,6 +53,10 @@ final class PipClockController: NSObject {
     private var renderTask: Task<Void, Never>?
     private var settings: ClockDisplaySettings?
     private var aspectRatio = ClockSettingsStorage.DefaultValue.pipAspectRatio
+    private var pacer: PipPacer = .off
+    /// 페이서가 지금까지 달린 프레임 수 (경과 시간 × 속도를 누적한다. 시계 때문에 중간에 그려도 걸음이 튀지 않도록)
+    private var pacerPhase: Double = 0
+    private var lastPacerTick: ContinuousClock.Instant?
     private var startContinuation: CheckedContinuation<Void, Error>?
     private var stopContinuation: CheckedContinuation<Void, Never>?
     /// 진행 중인 종료 작업 (끄자마자 다시 켜면 이전 창이 닫힌 뒤에 시작하도록)
@@ -67,11 +71,12 @@ final class PipClockController: NSObject {
     private var eventContinuations: [UUID: AsyncStream<PipClockEvent>.Continuation] = [:]
 
     /// PiP 시계를 켜고 창이 뜰 때까지 기다린다 (이미 떠 있으면 설정만 바꾼다)
-    func start(_ settings: ClockDisplaySettings, aspectRatio: PipAspectRatio) async throws {
+    func start(_ settings: ClockDisplaySettings, aspectRatio: PipAspectRatio, pacer: PipPacer) async throws {
         guard DeviceCapability.supportsPictureInPicture else { throw PipClockError.unsupported }
 
         await stopTask?.value
         self.settings = settings
+        self.pacer = pacer
         setAspectRatio(aspectRatio)
         if pipController?.isPictureInPictureActive == true {
             // 이미 떠 있는 창은 그대로 두고 새 설정으로 다시 그린다 (일반 시계 ↔ 서버 시간 전환)
@@ -115,12 +120,13 @@ final class PipClockController: NSObject {
     }
 
     /// 떠 있는 PiP 시계에 바뀐 설정을 바로 반영한다
-    func update(_ settings: ClockDisplaySettings, aspectRatio: PipAspectRatio) {
+    func update(_ settings: ClockDisplaySettings, aspectRatio: PipAspectRatio, pacer: PipPacer) {
         guard self.settings != nil else { return }
 
         self.settings = settings
+        self.pacer = pacer
         setAspectRatio(aspectRatio)
-        // 밀리초 표시가 바뀌면 그리는 간격도 바뀌므로 다시 시작한다
+        // 밀리초 표시 · 페이서가 바뀌면 그리는 간격도 바뀌므로 다시 시작한다
         if renderTask != nil {
             startRendering()
         } else {
@@ -269,7 +275,7 @@ final class PipClockController: NSObject {
         }
     }
 
-    /// 시계 프레임을 계속 그린다 (보통은 표시하는 초가 바뀌는 순간마다, 밀리초를 표시하면 초당 30번)
+    /// 시계 프레임을 계속 그린다 (보통은 표시하는 초가 바뀌는 순간마다, 밀리초를 표시하면 초당 30번, 페이서가 있으면 페이서 속도에 맞춰)
     private func startRendering() {
         renderTask?.cancel()
         renderTask = Task { [weak self] in
@@ -281,13 +287,24 @@ final class PipClockController: NSObject {
         }
     }
 
-    /// 프레임 하나를 그리고 다음 프레임까지 기다릴 시간을 돌려준다
+    /// 프레임 하나를 그리고 다음 프레임까지 기다릴 시간을 돌려준다 (시계가 바뀌는 순간과 페이서 다음 걸음 중 빠른 쪽)
     private func renderFrameAndNextDelay() -> Duration {
+        advancePacer()
         renderFrame()
         guard let settings else { return .seconds(1) }
 
         let date = settings.clockDate()
         vibrateIfNeeded(at: date, settings: settings)
+        let clockDelay = clockFrameDelay(at: date, settings: settings)
+        guard pacer != .off else { return clockDelay }
+
+        let pacerDelay = Duration.seconds(1 / pacerFramesPerSecond(at: date, settings: settings))
+
+        return min(clockDelay, pacerDelay)
+    }
+
+    /// 시계 표시가 다음에 바뀔 때까지 기다릴 시간
+    private func clockFrameDelay(at date: Date, settings: ClockDisplaySettings) -> Duration {
         if settings.serverTime?.showsMilliseconds == true {
             return Self.millisecondsFrameInterval
         }
@@ -299,6 +316,22 @@ final class PipClockController: NSObject {
         }
 
         return .seconds(now.rounded(.down) + 1 - now + 0.01)
+    }
+
+    /// 목표 시각까지 남은 시간에 맞는 페이서 속도 (초당 프레임 수)
+    private func pacerFramesPerSecond(at date: Date, settings: ClockDisplaySettings) -> Double {
+        return PipPacerSpeed.framesPerSecond(remaining: remainingTime(at: date, settings: settings))
+    }
+
+    /// 지난번 그린 뒤 흐른 시간만큼 페이서를 앞으로 보낸다
+    private func advancePacer() {
+        let now = ContinuousClock.now
+        defer { lastPacerTick = now }
+        guard pacer != .off, let settings, let lastPacerTick else { return }
+
+        let elapsed = (now - lastPacerTick) / .seconds(1)
+        let speed = pacerFramesPerSecond(at: settings.clockDate(), settings: settings)
+        pacerPhase = (pacerPhase + elapsed * speed).truncatingRemainder(dividingBy: Double(PipPacer.frameCount))
     }
 
     /// 지금 시각으로 프레임 하나를 그려 레이어에 넣는다
@@ -327,7 +360,9 @@ final class PipClockController: NSObject {
             countdown: countdown(at: date, settings: settings),
             emphasis: emphasis(at: date, settings: settings),
             settings: settings,
-            aspectRatio: aspectRatio
+            aspectRatio: aspectRatio,
+            pacer: pacer,
+            pacerFrame: Int(pacerPhase)
         ) else { return }
 
         renderer.enqueue(sampleBuffer)
@@ -419,6 +454,8 @@ final class PipClockController: NSObject {
         pipController?.canStartPictureInPictureAutomaticallyFromInline = false
         displayView?.displayLayer.sampleBufferRenderer.flush(removingDisplayedImage: true, completionHandler: nil)
         settings = nil
+        pacerPhase = 0
+        lastPacerTick = nil
         lastVibration = nil
         isRestoringUserInterface = false
         isPictureInPictureStarting = false

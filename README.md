@@ -7,7 +7,7 @@
   섬타임 (SomTime)
   <p align="center">
   <img src="https://img.shields.io/badge/프로젝트 기간-2026.10.05 ~ -FFB340?style=flat&logo=&logoColor=white" alt="프로젝트 기간" />
-  <img src="https://img.shields.io/badge/release-v26.3.1-4fc08d?style=flat&logo=apple&logoColor=white" alt="릴리즈 버전" />
+  <img src="https://img.shields.io/badge/release-v26.4.0-4fc08d?style=flat&logo=apple&logoColor=white" alt="릴리즈 버전" />
   </p>
   <p align="center">
     <a href="https://apps.apple.com/kr/app/%EC%84%AC%ED%83%80%EC%9E%84/id6820983446">
@@ -62,6 +62,7 @@
 * **6가지 색상** : 화이트 · 앰버 · 민트 · 스카이 · 라벤더 · 코랄 중에서 고르며, 선택한 색상은 시계뿐 아니라 앱 전체의 **강조색**으로도 쓰입니다.
 * **표시 옵션** : 24시간 / 12시간 형식, 초 표시, 오전/오후 표시를 원하는 대로 설정할 수 있습니다.
 * **실시간 반영** : 설정 화면의 미리보기는 물론, 이미 켜져 있는 다이나믹 아일랜드 · PiP 시계에도 바뀐 설정이 즉시 적용됩니다.
+* **페이서** : 10가지 디자인의 페이서를 PiP 시계에서 표시할 수 있습니다.
 
 ### ⚙️ 설정
 * **앱 언어** : 시스템 설정의 섬타임 페이지로 바로 이동해 앱 언어를 바꿀 수 있습니다.
@@ -166,6 +167,7 @@
 | **v26.2.0** | 2026.10.20 | 애드몹(AdMob) 광고 배너 추가, 일본어 지원 |
 | **v26.3.0** | 2026.10.22 | 목표 시각 카운트다운 · 알림 · 진동 기능 추가, PiP 시계 깜빡임 추가 |
 | **v26.3.1** | 2026.10.26 | 보안 문자 연습 기능 추가, 목표 시간 10초 후 서버 시계 자동 꺼짐 기능 추가 |
+| **v26.4.0** | 2026.11.02 | 페이서 기능 추가 |
 
 <br>
 
